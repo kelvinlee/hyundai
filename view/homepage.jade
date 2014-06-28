@@ -1,0 +1,480 @@
+extends layout 
+block content_here
+	div.header
+		div.logo
+			img(src="/img/logo.jpg")
+	form.body(action="/regs",name="register")
+		div.homepage
+			div.container 
+				div.col-sm-6.hidden-xs
+					div.banner
+						//- img(src="/img/hero.png")
+						div.time
+							p 线上报名时间：<span>2014年7月1日~7月15日</span>
+							p 免检活动实施时间：<span>2014年7月16日~8月31日</span>
+
+					h4 活动内容:
+					p 尊敬的北京现代车主，您好：
+					p 即日起北京现代为老客户推出感恩回馈活动，<br/>在活动期间，您只要登录活动网站页面并完成个人注册，<br/>即可免费享受价值<span>598元的32项全车免费检测</span>，<br/>先到车主可获得超值汽车用品并享受<br/>保养配件<em>9</em>折优惠！
+					h3 数量有限，赶快抢注吧！
+				div.col-sm-6.visible-xs
+					div.backcode
+						a(href="")
+							img(src="/img/backcode.jpg")
+					div.m-title
+						img(src="/img/m-title-1.jpg")
+				div.col-sm-6
+					div.backcode.clearfix.hidden-xs
+						a(href="")
+							img(src="/img/backcode.jpg")
+					h2.show-title.hidden-xs
+						span 礼包内容：
+					ul.show-list.hidden-xs
+						li.l1
+							span 免费检测：
+							|凡是登陆活动页面完成注册的客户，即可免费享受价值598元的32项全车免费检测 。
+						li.l2
+							span 免费赠送汽车物品：
+							|优先在活动网站上完成注册的客户，免费获得为您提供的汽车用品之一：汽车消毒液，汽油清净剂，雨刮片，空调滤芯等4种中任选一种 。
+						li.l3
+							span 保养配件打折：
+							|优先在官网完成注册的客户，保养配件9折优惠大礼包 <br/>(机油（5W-20/30SM），机油滤芯，空气滤清器等3种） 。
+					div.cartype
+						select(name="cartype")
+							option(value="请选择车型") 请选择车型
+					div(name="step1").nextstep 确认
+					p.note *确认提交后不能修改
+				div.col-sm-6.visible-xs
+					div.m-btn 活动内容
+					div.m-content.hidden
+						h3 亲爱的车主：
+						p 即日起北京现代推出感恩回馈活动，登录活动网站并完成注册，即可免费享受价值598元的32项全车免费检测！先注册车主更可获赠超值汽车用品并享受保养配件9折优惠！
+					div.m-btn 大礼包内容
+					div.m-content.hidden
+						ul.show-list
+							li.l1
+								span 免费检测：
+								|凡是登陆活动页面完成注册的客户，即可免费享受价值598元的32项全车免费检测 。
+							li.l2
+								span 免费赠送汽车物品：
+								|优先在活动网站上完成注册的客户，免费获得为您提供的汽车用品之一：汽车消毒液，汽油清净剂，雨刮片，空调滤芯等4种中任选一种 。
+							li.l3
+								span 保养配件打折：
+								|优先在官网完成注册的客户，保养配件9折优惠大礼包 <br/>(机油（5W-20/30SM），机油滤芯，空气滤清器等3种） 。
+		div.form-list
+			div.container
+				div.row
+					div.col-sm-12.title-1
+						img(src="/img/title-1.png")
+				div.row
+					div.col-sm-4.mobilestep1
+						div.box.clearfix
+							div.clearfix
+								label
+									input(type="checkbox",name="thirtytwo",value="all",checked)
+								h1 32项检测项目
+							div.thirlist.clearfix
+								ul.select32.clearfix
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[0]",value="0",checked)
+											|1.	发动机/变速箱机油是否正常
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[1]",value="1",checked)
+											|2.	发动机冷却液是否正常
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[2]",value="2",checked)
+											|3.	制动油/离合器油是否正常
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[3]",value="3",checked)
+											|4.	动力转向油是否正常
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[4]",value="4",checked)
+											|5.	空气滤清器状态是否正常
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[5]",value="5",checked)
+											|6.	驱动皮带状态
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[6]",value="6",checked)
+											|7.	蓄电池工作状态及桩头紧固检查
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[7]",value="7",checked)
+											|8.	玻璃水是否正常
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[8]",value="8",checked)
+											|9.	发动机舱内进气管是否有涉水痕迹
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[9]",value="9",checked)
+											|10.	线路（插头）连接及工作状态是否正常
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[10]",value="10",checked)
+											|11.	检查车辆各种灯光是否齐全
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[11]",value="11",checked)
+											|12.	检查灯内是否有水迹
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[12]",value="12",checked)
+											|13.	检查雨刮喷水效果及胶片性能
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[13]",value="13",checked)
+											|14.	检查雨刮胶片性能是否正常
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[14]",value="14",checked)
+											|15.	车窗密封胶条是否变形
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[15]",value="15",checked)
+											|16.	冷凝器及散热器清洁及工作状况检查
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[16]",value="16",checked)
+											|17.	显示工作状态是否正常
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[17]",value="17",checked)
+											|18.	空调&暖风工作状态
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[18]",value="18",checked)
+											|19.	空调空气滤清器更换或清洁
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[19]",value="19",checked)
+											|20.	驻车制动器工作状态
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[20]",value="20",checked)
+											|21.	制动踏板/离合器踏板工作状态
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[21]",value="21",checked)
+											|22.	天窗槽是否积水
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[22]",value="22",checked)
+											|23.	室内地毯、顶棚是否有水迹
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[23]",value="23",checked)
+											|24.	电脑检测（故障代码）
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[24]",value="24",checked)
+											|25.	转向系统工作性能检查
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[25]",value="25",checked)
+											|26.	转向机防尘套是否破碎，是否有涉水
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[26]",value="26",checked)
+											|27.	刹车系统工作情况是否正常
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[27]",value="27",checked)
+											|28.	制动片&盘生锈及磨损情况
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[28]",value="28",checked)
+											|29.	传动轴防尘套是否损坏，是否涉水
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[29]",value="29",checked)
+											|30.	减震器工作状态
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[30]",value="30",checked)
+											|31.	底盘螺栓紧固检查
+									li.clearfix 
+										label
+											input(type="checkbox",name="thir[31]",value="31",checked)
+											|32.	轮胎胎压及磨损情况
+					div.col-sm-4.mobilestep1
+						div.box.clearfix
+							h1 免费赠送汽车用品  
+								span (单选)
+							div.lot.clearfix
+								-for (var i=0;i<count.length;i++)
+									-var readonly = false;
+									-for (var j=0;j<list.length;j++)
+										-if (list[j].lot+"" == count[i]._id+"" && !list[j].can) {readonly = "readonly"}
+									div.lot-item.clearfix
+										-if (readonly)
+											label(class="readonly",data-toggle="tooltip",data-placement="top",title="#{count[i].description}")
+												div.radio-parent.readonly
+												| #{count[i].lotname}
+										-else
+											label(data-toggle="tooltip",data-placement="top",title="#{count[i].description}")
+												input(type="radio",name="lot",value="#{count[i]._id}")
+												| #{count[i].lotname}
+						div.box.clearfix
+							label.h2
+								input(type="checkbox",name="tenoff")
+							h2 原厂保养配件9折优惠
+								br
+								span (机油（5W-20/30SM），
+								br
+								span 机油滤芯，空气滤清器3种
+						div.box.clearfix
+							h1 近一年内是否有购买或换车意向
+							div.lot
+								div.lot-item
+									label
+										input(type="radio",name="changed",value="yes",checked="checked")
+										| 是
+								div.lot-item
+									label
+										input(type="radio",name="changed",value="no")
+										| 否
+						div.nextstep.visible-xs(name="mobilestep") 下一步
+					div.col-sm-4.mobilestep2
+						div.box-b
+							h1 请填写您的联系方式
+							div.form
+								div.input-group
+									i.icon.icon1
+									label(for="cartypetemp") 车型
+									input(type="text",name="cartypetemp",value="",readonly)
+								div.input-group
+									i.icon.icon2
+									label(for="username") 姓名
+									input#username(type="text",name="username")
+								div.input-group
+									i.icon.icon3
+									label(for="mobile") 电话
+									input#mobile(type="text",name="mobile")
+								p.note *请准确填写手机,以方便获取验证码
+							h1 您要前往的4S店
+							div.form
+								div.select-group
+									select#province(name="province")
+									select#city(name="city")
+								select#county(name="county")
+								select#dealer(name="dealer")
+						div.nextstep(name="step2") 确认
+		div.confirm
+			div.container
+				div.row
+					div.col-sm-12.title-1
+						img(src="/img/title-2.png")
+				div.row
+					div.col-sm-4
+						div#thirthy-show.box
+							div.clearfix
+								label
+									div#thirthytwo-show
+									//- input(type="checkbox",name="thirthytwo",value="all",checked)
+								h1 32项检测项目
+							div.thirlist.clearfix
+								ul.select321.clearfix
+									li.clearfix 
+										label
+											div
+											|1.	发动机/变速箱机油是否正常
+									li.clearfix 
+										label
+											div
+											|2.	发动机冷却液是否正常
+									li.clearfix 
+										label
+											div
+											|3.	制动油/离合器油是否正常
+									li.clearfix 
+										label
+											div
+											|4.	动力转向油是否正常
+									li.clearfix 
+										label
+											div
+											|5.	空气滤清器状态是否正常
+									li.clearfix 
+										label
+											div
+											|6.	驱动皮带状态
+									li.clearfix 
+										label
+											div
+											|7.	蓄电池工作状态及桩头紧固检查
+									li.clearfix 
+										label
+											div
+											|8.	玻璃水是否正常
+									li.clearfix 
+										label
+											div
+											|9.	发动机舱内进气管是否有涉水痕迹
+									li.clearfix 
+										label
+											div
+											|10.	线路（插头）连接及工作状态是否正常
+									li.clearfix 
+										label
+											div
+											|11.	检查车辆各种灯光是否齐全
+									li.clearfix 
+										label
+											div
+											|12.	检查灯内是否有水迹
+									li.clearfix 
+										label
+											div
+											|13.	检查雨刮喷水效果及胶片性能
+									li.clearfix 
+										label
+											div
+											|14.	检查雨刮胶片性能是否正常
+									li.clearfix 
+										label
+											div
+											|15.	车窗密封胶条是否变形
+									li.clearfix 
+										label
+											div
+											|16.	冷凝器及散热器清洁及工作状况检查
+									li.clearfix 
+										label
+											div
+											|17.	显示工作状态是否正常
+									li.clearfix 
+										label
+											div
+											|18.	空调&暖风工作状态
+									li.clearfix 
+										label
+											div
+											|19.	空调空气滤清器更换或清洁
+									li.clearfix 
+										label
+											div
+											|20.	驻车制动器工作状态
+									li.clearfix 
+										label
+											div
+											|21.	制动踏板/离合器踏板工作状态
+									li.clearfix 
+										label
+											div
+											|22.	天窗槽是否积水
+									li.clearfix 
+										label
+											div
+											|23.	室内地毯、顶棚是否有水迹
+									li.clearfix 
+										label
+											div
+											|24.	电脑检测（故障代码）
+									li.clearfix 
+										label
+											div
+											|25.	转向系统工作性能检查
+									li.clearfix 
+										label
+											div
+											|26.	转向机防尘套是否破碎，是否有涉水
+									li.clearfix 
+										label
+											div
+											|27.	刹车系统工作情况是否正常
+									li.clearfix 
+										label
+											div
+											|28.	制动片&盘生锈及磨损情况
+									li.clearfix 
+										label
+											div
+											|29.	传动轴防尘套是否损坏，是否涉水
+									li.clearfix 
+										label
+											div
+											|30.	减震器工作状态
+									li.clearfix 
+										label
+											div
+											|31.	底盘螺栓紧固检查
+									li.clearfix 
+										label
+											div
+											|32.	轮胎胎压及磨损情况
+
+					div.col-sm-4
+						div.box
+							h1 免费赠送汽车用品
+							div#lot-show.lot.clearfix
+								
+						div.box.clearfix
+							label.h2
+								div.tenoff
+							h2 原厂保养配件9折优惠
+								br
+								span (机油（5W-20/30SM），
+								br
+								span 机油滤芯，空气滤清器3种
+						div.box.clearfix
+							h1 近一年内是否有购买或换车意向
+							div#changed-show.lot
+								
+					div.col-sm-4
+
+						div.box-b
+							h1 请填写您的联系方式
+							div.form
+								div.input-group
+									i.icon.icon1
+									label 车型
+									span#cartype-show
+								div.input-group
+									i.icon.icon2
+									label 姓名
+									span#username-show
+									//- input(type="text",name="username")
+								div.input-group
+									i.icon.icon3
+									label 电话
+									span#mobile-show
+									//- input(type="text",name="mobile")
+								p.note *请准确填写手机,以方便获取验证码
+							h1 您要前往的4S店
+							div.form
+								div.select-group
+									div#province-show
+									div#city-show
+								div#county-show
+								div#dealer-show
+						div.btns
+							div.nextstep.goback 返回修改
+							div.nextstep.last.submit(name="submit") 提交
+							p.note *确认提交后不能修改
+						//- div.nextstep(name="step2") 确认
+
+
+
+
+
+
+
+
+
+
+block js_here
+	-var json = JSON.stringify(list);
+	script.
+		var lots = !{json};
+		$(document).ready(function(){
+			if (!gico.mobilecheck()) {
+				$("[data-toggle=tooltip]").tooltip();
+			}
+		});

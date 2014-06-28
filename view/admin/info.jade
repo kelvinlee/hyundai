@@ -1,0 +1,170 @@
+extends layout 
+block content_here
+	div#head-nav.navbar.navbar-default.navbar-fixed-top
+		div.container-fluid
+			div.navbar-header
+				button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+					span.fa.fa-gear
+				a.navbar-brand(href='tables-datatables.html#')
+					span Hy
+			div.navbar-collapse.collapse
+				ul.nav.navbar-nav
+					li
+						a(href='/admin/dealer') 客户查询
+					li.active
+						a(href='/admin/dealer/active') 活动实施 
+	div#cl-wrapper
+		-if (user == null)
+			div#pcont.container-fluid(style="margin:0px;")
+				div.page-head
+					h2 没有查到此用户.
+		-else
+			div#pcont.container-fluid(style="margin:0px;")
+				div.page-head
+					h2 客户查询
+					ol.breadcrumb
+						li
+							a(href='/admin/dealer') 经销商管理
+						li.active 客户列表
+				div.cl-mcont
+					div.row
+						div.col-sm-4.col-print-4
+							div.block-flat
+								div.header
+									h3 32项检测项目
+								div.content
+									ul(style="list-style:none;margin:0px;padding:0px;")
+										-var thirlist = ["1.	发动机/变速箱机油是否正常","2.	发动机冷却液是否正常","3.	制动油/离合器油是否正常","4.	动力转向油是否正常","5.	空气滤清器状态是否正常","6.	驱动皮带状态","7.	蓄电池工作状态及桩头紧固检查","8.	玻璃水是否正常","9.	发动机舱内进气管是否有涉水痕迹","10.	线路（插头）连接及工作状态是否正常","11.	检查车辆各种灯光是否齐全","12.	检查灯内是否有水迹","13.	检查雨刮喷水效果及胶片性能","14.	检查雨刮胶片性能是否正常","15.	车窗密封胶条是否变形","16.	冷凝器及散热器清洁及工作状况检查","17.	显示工作状态是否正常","18.	空调&暖风工作状态","19.	空调空气滤清器更换或清洁","20.	驻车制动器工作状态","21.	制动踏板/离合器踏板工作状态","22.	天窗槽是否积水","23.	室内地毯、顶棚是否有水迹","24.	电脑检测（故障代码）","25.	转向系统工作性能检查","26.	转向机防尘套是否破碎，是否有涉水","27.	刹车系统工作情况是否正常","28.	制动片&盘生锈及磨损情况","29.	传动轴防尘套是否损坏，是否涉水","30.	减震器工作状态","31.	底盘螺栓紧固检查","32.	轮胎胎压及磨损情况"];
+										-for (var i=0;i<user.thir.length;i++)
+											li #{thirlist[parseInt(user.thir[i])]}
+						div.col-sm-4.col-print-4
+							-if (user.lot)
+								div.block-flat
+									div.header
+										h3 免费赠送礼品
+									div.content #{lot.lotname}
+							-if (user.tenoff)
+								div.block-flat
+									div.header
+										h3 保养配件9折优惠
+											span (机油，机油滤芯，空气滤清器等3种）
+									div.content 已选
+							-if (user.changed)
+								div.block-flat
+									div.header
+										h3 近一年内是否有购买或换车意向
+									div.content 已选
+							div.block-flat
+								div.header
+									h3 注册信息
+								div.content
+									table.no-border
+										tbody.no-border-y
+											tr
+												td 姓名
+												td #{user.username}
+											tr
+												td 手机
+												td #{user.mobile}
+											tr
+												td 预约时间
+												td #{user.reser_at}
+											tr
+												td 省份
+												td #{user.province}
+											tr
+												td 城市
+												td #{user.city}
+											tr
+												td 经销商
+												td #{user.dealer}
+
+
+						div.col-sm-4.col-print-4
+							div.block-flat
+								div.header
+									h3 实际到店用户信息
+								-if (user.othername)
+									div.content
+										table.no-border
+											tbody.no-border-y
+												tr
+													td 姓名
+													td #{user.othername}
+												tr
+													td 手机号
+													td #{user.othermobile}
+												tr
+													td 车架号
+													td #{user.vin}
+												tr
+													td 行驶里程
+													td #{user.mileage}
+												tr
+													td 客服代表
+													td #{user.customer}
+												tr
+													td 车型
+													td #{user.cartype}
+												tr
+													td 实施时间
+													td #{user.imp_at}
+										div
+											button.btn.btn-default.print-btn(type="button") 打印
+								-else
+									div.content
+										form.form-horizontal.group-border-dashed(name="register",action="/admin/dealer/infopost",method="POST")
+											input(type="hidden",name="code",value="#{code}")
+											input(type="hidden",name="dealer",value="#{user.dealer}")
+											div.form-group
+												label.col-sm-3.control-label 姓名
+												div.col-sm-9
+													input.form-control(type="text",name="othername",value="#{user.username}",placeholder="到店用户姓名")
+											div.form-group
+												label.col-sm-3.control-label 手机号码
+												div.col-sm-9
+													input.form-control(type="text",name="othermobile",value="#{user.mobile}",placeholder="到店用户手机号码")
+											div.form-group
+												label.col-sm-3.control-label 车架号
+												div.col-sm-9
+													input.form-control(type="text",name="vin",placeholder="VIN码")
+											div.form-group
+												label.col-sm-3.control-label 行驶里程
+												div.col-sm-9
+													input.form-control(type="text",name="mileage",placeholder="行驶里程")
+											div.form-group
+												label.col-sm-3.control-label 客服代表
+												div.col-sm-9
+													input.form-control(type="text",name="customer",placeholder="客服代表姓名")
+											div.form-group
+												label.col-sm-3.control-label 车型
+												div.col-sm-9
+													input.form-control(type="text",name="cartyperead",value="#{user.cartype}",readonly)
+											button.btn.btn-primary.submit(type="button") 提交
+							
+
+
+								
+
+
+block js_here
+	script.
+		$(document).ready(function(){
+			$(".print-btn").click(function(){window.print()});
+			$(".submit").click(function(){
+				$.ajax({
+					url:$('[name=register]').attr("action"),
+					type: 'POST',
+					data: $('[name=register]').serializeArray(),
+					dataType: 'json',
+					context: $('body'), 
+					success: function(msg){
+						if (msg.recode == 200){
+							window.location.reload();
+						}else{
+							alert(msg.reason);
+						}
+					}
+				});
+			});
+		});

@@ -1,0 +1,143 @@
+extends layout 
+block content_here
+	div#head-nav.navbar.navbar-default.navbar-fixed-top
+		div.container-fluid
+			div.navbar-header
+				button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+					span.fa.fa-gear
+				a.navbar-brand(href='tables-datatables.html#')
+					span Hy
+			div.navbar-collapse.collapse
+				ul.nav.navbar-nav
+					li.active
+						a(href='/admin/dealer') 客户查询
+					li
+						a(href='/admin/dealer/active') 活动实施 
+	div#cl-wrapper
+		div#pcont.container-fluid(style="margin:0px;")
+			div.page-head
+				h2 客户查询
+				ol.breadcrumb
+					li
+						a(href='/admin/dealer') 经销商管理
+					li.active 客户列表
+			div.cl-mcont
+				div.row
+					div.col-md-12
+						div.block-flat
+							div.header
+								h3 客户列表
+							div.content
+								div.table-responsive
+									div.table-ctrl
+										select.form-control(name="type",style="width:140px;display:inline-block;")
+											option(value="1") 注册时间
+											option(value="2") 预约时间
+											option(value="3") 实施时间
+										layout   从  
+										input.form-control.datetime(type="text",size="16",name="startime",style="width:140px;display:inline-block;")
+										layout   到  
+										input.form-control.datetime(type="text",size="16",name="endtime",style="width:140px;display:inline-block;")
+										button.btn.btn-primary(type="button",onclick="searchdate()") 查询
+										a.btn.btn-default(href="/admin/dealer") 重置
+
+									table#datatable.table.table-bordered
+										thead
+											tr
+												th 时间
+												th 姓名
+												th 手机
+												th 车型
+												th 预约时间
+												th 实施时间
+												th 是否置换
+												th 操作
+										tbody
+											-for (var i=0;i<list.length;i++)
+												tr.odd.gradeX
+													-var a = new Date(list[i].create_at);
+													td #{a.getFullYear()}-#{a.getMonth()+1}-#{a.getDate()} #{a.getHours()}:#{a.getMinutes()}
+													td #{list[i].username}
+													td #{list[i].mobile}
+													td #{list[i].cartype}
+													-if (list[i].reser_at == null)
+														td 
+															input.form-control.datetime(type="text",size="16",name="reser",style="width:140px")
+													-else
+														-var b = new Date(list[i].reser_at);
+														td #{b.getFullYear()}-#{b.getMonth()+1}-#{b.getDate()} #{b.getHours()}:#{b.getMinutes()}
+													-if (list[i].imp_at == null)
+														td
+													-else
+														-var b = new Date(list[i].imp_at);
+														td #{b.getFullYear()}-#{b.getMonth()+1}-#{b.getDate()} #{b.getHours()}:#{b.getMinutes()}
+													-if (list[i].changed){var changed = "是"}else{var changed = "否"}
+													td #{changed}
+													td
+														-if (list[i].reser_at == null)
+															a(href="/admin/dealer/reser/#{list[i]._id}",onclick="return setTimepost(this)") 修改
+block css_here
+	link(rel="stylesheet",type="text/css",href="/js/jquery.nanoscroller/nanoscroller.css" )
+	link(rel="stylesheet",type="text/css",href="/js/jquery.easypiechart/jquery.easy-pie-chart.css" )
+	link(rel="stylesheet",type="text/css",href="/js/bootstrap.switch/bootstrap-switch.css" )
+	link(rel="stylesheet",type="text/css",href="/js/bootstrap.datetimepicker/css/bootstrap-datetimepicker.min.css" )
+	link(rel="stylesheet",type="text/css",href="/js/jquery.select2/select2.css" )
+	link(rel="stylesheet",type="text/css",href="/js/bootstrap.slider/css/slider.css" )
+	link(rel="stylesheet",type="text/css",href="/js/jquery.datatables/bootstrap-adapter/css/datatables.css" )
+block js_here
+	script(type="text/javascript",src="/js/jquery.nanoscroller/jquery.nanoscroller.js")
+	script(type="text/javascript",src="/js/jquery.sparkline/jquery.sparkline.min.js")
+	script(type="text/javascript",src="/js/jquery.easypiechart/jquery.easy-pie-chart.js")
+	script(type="text/javascript",src="/js/behaviour/general.js")
+	script(src="/js/jquery.ui/jquery-ui.js",type="text/javascript")
+	script(type="text/javascript",src="/js/jquery.nestable/jquery.nestable.js")
+	script(type="text/javascript",src="/js/bootstrap.switch/bootstrap-switch.min.js")
+	script(type="text/javascript",src="/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js")
+	script(src="/js/jquery.select2/select2.min.js",type="text/javascript")
+	script(src="/js/bootstrap.slider/js/bootstrap-slider.js",type="text/javascript")
+	script(type="text/javascript",src="/js/jquery.gritter/js/jquery.gritter.min.js")
+	script(type="text/javascript",src="/js/jquery.datatables/jquery.datatables.min.js")
+	script(type="text/javascript",src="/js/jquery.datatables/bootstrap-adapter/js/datatables.js")
+	script(type="text/javascript",src="/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js")
+	script.
+		$(document).ready(function(){
+		//initialize the javascript
+			App.init();
+			App.dataTables();
+		}); 
+		function searchdate() {
+			if ($("[name=startime]").val() !="" && $("[name=endtime]").val() !="") {
+				window.location.href = "/admin/dealer?startime="+(new Date($("[name=startime]").val()).getTime())+"&endtime="+(new Date($("[name=endtime]").val()).getTime())+"&type="+$("[name=type]").val();
+			}else {
+				alert("请选择时间范围后查询.");
+			}
+		}
+		function setTimepost(o) {
+			var val = $(o).parents("tr").find("[name=reser]").val();
+			console.log(val);
+			if (val == "") {
+				alert("请选择预约时间");
+				return false;
+			}
+			$.ajax({
+				url:$(o).attr("href"),
+				type: 'POST',
+				data: [{name:"timer",value:val}],
+				dataType: 'json',
+				context: $('body'), 
+				success: function(msg){
+					if (msg.recode == 200){
+						window.location.reload();
+					}else{
+						alert(msg.reason);
+					}
+				}
+			});
+			return false;
+		}
+    
+	script(src="/js/bootstrap/dist//js/bootstrap.min.js")
+	script(type="text/javascript",src="/js/jquery.flot/jquery.flot.js")
+	script(type="text/javascript",src="/js/jquery.flot/jquery.flot.pie.js")
+	script(type="text/javascript",src="/js/jquery.flot/jquery.flot.resize.js")
+	script(type="text/javascript",src="/js/jquery.flot/jquery.flot.labels.js")
