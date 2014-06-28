@@ -3,7 +3,8 @@ fs = require 'fs'
 path = require 'path'
 crypto = require 'crypto'
 helper = require '../lib/helper'
-
+URL = require 'url'
+http = require 'http'
 
 # 扩展类库
 EventProxy = require 'eventproxy'
@@ -46,6 +47,8 @@ getList = (count,used)->
 
 exports.index = (req,res,next)->
 	
+	# sendMSG "Code:test,这是一条测试短信,试试中文好使么?",18610508726
+
 	code = getCode()
 
 	setDefaultLots()
@@ -194,6 +197,8 @@ exports.post = (req,res,next)->
 			if re.recode is 200
 				User.newReg code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir,(err,results)->
 					console.log err,results
+					content = "【活动验证码#{code}】（请妥善保存）亲爱的车主，恭喜您已经在活动网站注册成功！请您于7月16日-8月31日期间到您选择的经销商处参加此次活动。在您到店参加活动时，请出示活动验证码，以便经销商进行活动验证。感谢您的积极参与！"
+					sendMSG content,mobile
 				re.reason = code
 				res.send re
 			else
@@ -208,4 +213,38 @@ exports.post = (req,res,next)->
 	else
 		res.send re
 
-	
+
+# http://116.213.72.20/SMSHttpService/send.aspx
+# 短信发送
+# http://116.213.72.20/SMSHttpService/send.aspx?username=#{username}&password=#{password}&mobile=#{mobile}&content=#{content}&Extcode=&senddate=&batchID=
+# username={username}&password={password}&mobile={mobile}&content={content}&Extcode=106&senddate=
+msgurl = "http://116.213.72.20/SMSHttpService/send.aspx?"
+
+sendMSG = (content,mobile)->
+	u = URL.parse msgurl
+	 # p = if u['port'] then u['port'] else 80
+	pa = "username={username}&password={password}&mobile={mobile}&content={content}&Extcode=106" #
+	pa = pa.replace "{username}",config.msguser
+	pa = pa.replace "{password}",config.msgpass
+	pa = pa.replace "{mobile}",mobile
+	pa = pa.replace "{content}",encodeURIComponent content
+
+	post_data = 
+		success:"test"
+	op = 
+		hostname: u['host']
+		port: 80
+		path: u['path']+pa
+		method: 'POST'
+	console.log op,pa
+	request = http.request op, (res)->
+		console.log "statusCode: ",res.statusCode
+		console.log "headers: ",res.headers
+
+		res.on 'data', (chunk)->
+			obj = JSON.parse chunk
+			console.log obj
+	console.log JSON.stringify post_data
+	request.write JSON.stringify(post_data)+'\n'
+	request.end()
+
