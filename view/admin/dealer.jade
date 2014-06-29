@@ -90,7 +90,7 @@ block content_here
 													-if (list[i].changed){var changed = "是"}else{var changed = "否"}
 													td #{changed}
 													td
-														-if (list[i].reser_at == null)
+														-if (list[i].imp_at == null && list[i].reser_at == null)
 															a(href="/admin/dealer/reser/#{list[i]._id}",onclick="return setTimepost(this)") 确定
 block css_here
 	link(rel="stylesheet",type="text/css",href="/js/jquery.nanoscroller/nanoscroller.css" )
