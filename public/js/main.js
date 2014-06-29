@@ -154,7 +154,7 @@ Giccoo = (function() {
     url = url.replace("{url}", backUrl);
     return window.open(url, '_blank');
   };
-/*
+
   Giccoo.prototype.fBindRadio = function(e) {
     var $e;
     $e = this;
@@ -182,11 +182,11 @@ Giccoo = (function() {
       });
     });
   };
-*/
-  Giccoo.prototype.fBindRadio = function(e) {
+
+  Giccoo.prototype.fBindRadio_New = function(e) {
     var $e;
-    var tempradio= null; 
     $e = this;
+    
     return e.each(function(i) {
       var $div, $i;
       $div = $('<div>').addClass('radio-parent ' + $(this).attr('class'));
@@ -200,16 +200,13 @@ Giccoo = (function() {
       return $(this).change(function() {
         var $o;
         $o = $(this);
+        var tempradio= null;
         $('[name=' + $o.attr('name') + ']').parent().removeClass('on');
         return setTimeout(function() {
-          if(tempradio== $o){  
-            tempradio.checked=false;  
-            tempradio=null;  
-            return $o.parent().removeClass('on');
-          }else{  
-            
-            tempradio= $o;
+          if ($o.is(':checked')) {
             return $o.parent().addClass('on');
+          } else {
+            return $o.parent().removeClass('on');
           }
         }, 10);
       });
@@ -385,6 +382,12 @@ $(document).ready(function() {
   if (gico.mobilecheck()) {
     $(".mobilestep1").show();
     $(".mobilestep2").hide();
+    $(".change_title").hide();
+    $(".confirm").css({
+      "padding-top":0
+    })
+  }else{
+    $(".header,.show_msg").hide();
   }
   if (myK("province")) {
     $("#province").html(fGetHTMLP());
@@ -418,10 +421,81 @@ $(document).ready(function() {
   }
   gico.fBindSelect($('select'));
   gico.fBindCheckBox($('input[type=checkbox]'));
-  gico.fBindRadio($('input[type=radio]'));
+  gico.fBindRadio_New($('input[type=radio]'));
+
+  $(".newcheckbox").bind("click",function(){
+    var _data = $(this).data("lot_id");
+    if($(this).hasClass('on')){
+      $(this).removeClass("on");
+      $("#lot_id").val("");
+    }else{
+      $("#lot_id").val(_data);
+      $(".newcheckbox").removeClass("on");
+      $(this).addClass("on");
+    }
+  });
+
+  $(".newradio").bind("click",function(){
+    var _data = $(this).data("changed_id");
+    if($(this).hasClass('on')){
+      $(this).removeClass("on");
+      $("#changed_id").val("");
+    }else{
+      $("#changed_id").val(_data);
+      $(".newradio").removeClass("on");
+      $(this).addClass("on");
+    }
+  })
+
+  //全选
+  $("[name=thirtytwo]:checked").click(function(){
+
+    if ($("[name=thirtytwo]:checked").val() !== "all") {  
+        $(".select32 input").each(function() { 
+            $(this).parent().removeClass('on');
+            $(this).attr("checked", false);  
+        });  
+    }else{
+        // alert("s")
+        $(".select32 input").each(function() {
+          console.log($(this).parent());
+           $(this).parent().addClass('on');
+           $(this).attr("checked", true);  
+           // $(this).click();
+        });  
+    }
+    // alert($("[name=thirtytwo]:checked").val())
+  });
+  $(".select32 input").click(function(){
+    // alert();
+    if ($(".select32 input:checked").length == 32) {
+      $("[name=thirtytwo]").attr("checked","checked");
+      $("[name=thirtytwo]").parent().addClass('on');
+    }else {
+      $("[name=thirtytwo]").removeAttr("checked");
+      $("[name=thirtytwo]").parent().removeClass('on');
+    }
+  });
+
+
+  /*
   return $(".m-btn").click(function() {
     $(".m-content").addClass("hidden");
     return $(this).next().removeClass("hidden");
+  });
+*/
+  
+  $(".m-btn").each(function(index, val) {
+     $(this).bind("click",function(){
+      
+      if($(".m-content").eq(index).hasClass('hidden')){
+        $(".m-content").addClass("hidden");
+        $(".m-content").eq(index).removeClass("hidden");
+      }else{
+        $(".m-content").addClass("hidden");
+        $(".m-content").eq(index).addClass("hidden");
+      }
+     });
   });
 });
 
@@ -507,9 +581,9 @@ checklots = function() {
 bindstepbystep = function() {
   $(".thirzk").click(function() {
     if ($(".thirlist").is(".autohight")) {
-      return $(".thirlist").removeClass("autohight");
+      return $(".thirlist").removeClass("autohight").addClass("zeroheight");
     } else {
-      return $(".thirlist").addClass("autohight");
+      return $(".thirlist").removeClass("zeroheight").addClass("autohight");
     }
   });
   $("[name=mobilestep]").click(function() {
@@ -522,11 +596,18 @@ bindstepbystep = function() {
       $("#cartype-show").text(_car_type[parseInt($("[name=cartype]").val()) - 1].name);
       $(".homepage").hide();
       $(".form-list").show();
+      if (gico.mobilecheck()) {
+        $(".header").hide();
+        $(".form-list").css({"padding-top":0})
+      }
       checklots();
       return window.scrollTo(0, 1);
+    }else{
+      alert("请选择车型");
     }
   });
   $("[name=step2]").click(function() {
+
     if ($("[name=username]").val() === "") {
       return alert("用户名不能为空");
     }
@@ -550,18 +631,23 @@ bindstepbystep = function() {
       return $(".select321 li").eq(i).find("div").attr("class", $(this).parent().attr("class"));
     });
     $(".tenoff div").removeClass("checkbox-parent undefined on").attr("class", $("[name=tenoff]").parent().attr("class"));
+    if( !$(".tenoff div").hasClass('on')){
+      $(".tenoff div").parent().parent().remove();
+    }
     if ($("#freelot .on").parent().length >= 0) {
-      $("#lot-show").html($("#freelot .on").parent().clone());
+      $("#lot-show").html($("#freelot .on").parent().clone().text());
       $("#lot-show input").remove();
+    }else{
+      $("#lot-show").html("无");
     }
     if ($("[name=changed]:checked").length <= 0) {
-      $("#changed-show").html($("[name=changed][value=" + $("[name=changed]").val() + "]").parents(".lot-item").clone());
+      $("#changed-show").parent().remove()
     } else {
       $("#changed-show").html($("[name=changed]:checked").parents(".lot-item").clone());
     }
     $("#changed-show input").remove();
-    $("#username-show").text($("[name=username]").val());
-    $("#mobile-show").text($("[name=mobile]").val());
+    $("#username-show,em.name").text($("[name=username]").val());
+    $("#mobile-show,em.mobile").text($("[name=mobile]").val());
     $("#province-show").html($("[name=province]").parents(".select-parent").html());
     $("#province-show").attr("class", $("[name=province]").parents(".select-parent").attr("class"));
     $("#province-show select").remove();
@@ -588,3 +674,4 @@ bindstepbystep = function() {
     return window.scrollTo(0, 1);
   });
 };
+

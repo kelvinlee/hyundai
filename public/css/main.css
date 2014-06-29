@@ -1164,4 +1164,5 @@ img {
   }
 }
 
-.small-text{font-size: 12px}
+.show-list li span.small-text{font-size: 12px;color:#956947;}
+.zeroheight{height:0;padding:0;border:0;}

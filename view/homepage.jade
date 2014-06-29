@@ -1,6 +1,6 @@
 extends layout 
 block content_here
-	//- div.header
+	div.header
 		div.logo
 			img(src="/img/logo.jpg")
 	form.body(action="/regs",name="register")
@@ -48,8 +48,7 @@ block content_here
 				div.col-sm-6.visible-xs
 					div.m-btn 活动内容
 					div.m-content.hidden
-						h3 亲爱的车主：
-						p 即日起北京现代推出感恩回馈活动，登录活动网站并完成注册，即可免费享受价值598元的32项全车免费检测！先注册车主更可获赠超值汽车用品并享受保养配件9折优惠！
+						p 即日起北京现代推出感恩回馈活动，登录活动网站并完成注册，即可免费享受价值598元的32项全车免费检测！先注册车主更可获赠超值汽车用品并享受保养配件9折优惠大礼包！
 
 
 					div.m-btn 大礼包内容
@@ -63,7 +62,7 @@ block content_here
 								|优先在活动网站上完成注册的客户，免费获得为您提供的汽车用品之一：汽车消毒液，汽油清净剂，雨刮片，空调滤芯4种中任选一种 。
 							li.l3
 								span 保养配件打折：
-								|优先在活动网站完成注册的客户，原厂保养配件9折优惠大礼包(机油（5W-20/30SM），机油滤芯，空气滤清器3种） 。
+								|优先在活动网站完成注册的客户，原厂保养配件9折优惠大礼包 *机油（<span class="small-text">5W-20/30SM</span>），机油滤芯，空气滤清器3种。
 		div.form-list
 			div.container
 				div.row
@@ -75,7 +74,7 @@ block content_here
 						div.box.clearfix
 							div.clearfix
 								label
-									input(type="checkbox",name="thirtytwo",value="all",checked)
+									input(type="checkbox",name="thirtytwo",value="all",checked id="thirtytwo")
 								h1 32项检测项目
 								span.visible-xs.thirzk
 							div.thirlist.clearfix
@@ -213,6 +212,7 @@ block content_here
 							h1 免费赠送汽车用品  
 								span (单选)
 							div#freelot.lot.clearfix
+								input(type="hidden",name="lot",value="",id="lot_id")
 								-for (var i=0;i<count.length;i++)
 									-var readonly = false;
 									-for (var j=0;j<list.length;j++)
@@ -224,7 +224,8 @@ block content_here
 												| #{count[i].lotname}
 										-else
 											label(data-toggle="tooltip",data-placement="top",title="#{count[i].description}")
-												input(type="radio",name="lot",value="#{count[i]._id}")
+												//- input(type="checkbox",name="lot",value="#{count[i]._id}")
+												div.checkbox-parent.undefined.newcheckbox(data-lot_id="#{count[i]._id}")
 												| #{count[i].lotname}
 						div.box.clearfix
 							label.h2
@@ -237,13 +238,16 @@ block content_here
 						div.box.clearfix
 							h1 近一年内是否有购买或换车意向
 							div.lot
+								input(type="hidden",name="changed",value="",id="changed_id")
 								div.lot-item
 									label
-										input(type="radio",name="changed",value="yes")
+										//- input(type="radio",name="changed",value="yes")
+										div.radio-parent.undefined.newradio(data-changed_id="yes")
 										| 是
 								div.lot-item
 									label
-										input(type="radio",name="changed",value="no")
+										div.radio-parent.undefined.newradio(data-changed_id="no")
+										//- input(type="radio",name="changed",value="no")
 										| 否
 						div.nextstep.visible-xs(name="mobilestep") 下一步
 					div.col-sm-4.mobilestep2
@@ -270,12 +274,18 @@ block content_here
 									select#city(name="city")
 								select#county(name="county")
 								select#dealer(name="dealer")
-						div.nextstep(name="step2") 确认
+						div.btns
+							div.nextstep(name="step1").goback 返回修改
+							div.nextstep(name="step2").last.submit 确认
 		div.confirm
 			div.container
 				div.row
-					div.col-sm-12.title-1
+					div.col-sm-12.title-1.change_title
 						img(src="/img/title-2.png")
+					div.show_msg
+						div.col-sm-4.box
+							<h1><em class="name"></em>先生/女士 (<em class="mobile"></em>)</h2>
+							<h2>你本次活动项目如下</h2>
 				div.row
 					div.col-sm-4
 						div#thirthy-show.box
@@ -283,8 +293,9 @@ block content_here
 								label
 									//- div#thirthytwo-show
 									//- input(type="checkbox",name="thirthytwo",value="all",checked)
-								h1 32项检测项目
-							div.thirlist.clearfix
+								h1 免费检测项目（）项
+								span.visible-xs.thirzk
+							div.thirlist.clearfix.zeroheight
 								ul.select321.clearfix
 									li.clearfix 
 										label
@@ -313,7 +324,7 @@ block content_here
 									li.clearfix 
 										label
 											div
-											|7.	蓄电池工作状态及桩头紧固检查
+											|7.	蓄电池工作状态及桩头紧固检<span style="padding-left:20px">查</span>
 									li.clearfix 
 										label
 											div
@@ -417,7 +428,7 @@ block content_here
 
 					div.col-sm-4
 						div.box
-							h1 免费赠送汽车用品
+							h1 赠品
 							div#lot-show.lot.clearfix
 								
 						div.box.clearfix
@@ -434,7 +445,7 @@ block content_here
 								
 					div.col-sm-4
 
-						div.box-b
+						//- div.box-b
 							h1 您的联系方式
 							div.form
 								div.input-group
