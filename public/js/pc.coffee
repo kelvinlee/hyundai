@@ -1717,6 +1717,8 @@ fGetCity = (p)->
 	aList.push p for p,c of _pc[p]
 	aList
 fGetCounty = (p,c)->
+	return [] if p is "" or c is ""
+		
 	aList = []
 	aList.push k for k,v of _pc[p][c]
 	aList

@@ -8,7 +8,7 @@ if typeof window.addEventListener isnt "undefined"
 
 $(document).ready ->
 
-	alert _pc["广东"]["茂名市"]["茂南区"][0].name
+	# alert _pc["广东"]["茂名市"]["茂南区"][0].name
 
 	setCartype()
 	bindstepbystep()
