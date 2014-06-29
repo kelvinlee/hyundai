@@ -358,7 +358,6 @@ $(document).ready(function() {
     $("#city").html(fGetHTMLC(myK("province").value));
     $("#county").html(fGetHTMLT(myK("province").value, myK("city").value));
     $("#dealer").html(fGetHTMLS(myK("province").value, myK("city").value, myK("county").value));
-    console.log(myK("county").value);
     myK("province").onchange = function() {
       return setTimeout(function() {
         $("#city").html(fGetHTMLC(myK("province").value));
@@ -424,7 +423,6 @@ fBindFormBtn = function() {
       dataType: 'json',
       context: $('body'),
       success: function(msg) {
-        console.log(msg);
         if (msg.recode === 200) {
           return window.location.href = "/success?code=" + msg.reason;
         } else {
@@ -511,7 +509,6 @@ bindstepbystep = function() {
       return $(".select321 li").eq(i).find("div").attr("class", $(this).parent().attr("class"));
     });
     $(".tenoff div").removeClass("checkbox-parent undefined on").attr("class", $("[name=tenoff]").parent().attr("class"));
-    console.log($("[name=tenoff]").parent().attr("class"));
     if ($("#freelot .on").parent().length >= 0) {
       $("#lot-show").html($("#freelot .on").parent().clone());
       $("#lot-show input").remove();

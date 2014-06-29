@@ -29,7 +29,7 @@ $(document).ready ->
 		# console.log myK("county").value
 		# myK("dealer").innerHTML = fGetHTMLS myK("province").value,myK("city").value,myK("county").value
 		$("#dealer").html fGetHTMLS myK("province").value,myK("city").value,myK("county").value
-		console.log myK("county").value
+		# console.log myK("county").value
 		myK("province").onchange = ->
 			setTimeout ->
 				$("#city").html fGetHTMLC myK("province").value
@@ -112,7 +112,7 @@ fBindFormBtn = ->
 			dataType: 'json',
 			context: $('body'), 
 			success: (msg)->
-				console.log msg
+				# console.log msg
 				if msg.recode is 200 
 					# alert '预约成功'
 					# $(".resertform").html '<img src="img/success-text.png" class="formsuccess" />'
@@ -169,7 +169,7 @@ bindstepbystep = ->
 		# alert $("[name=tenoff]").parent().attr "class"
 
 		$(".tenoff div").removeClass("checkbox-parent undefined on").attr "class",$("[name=tenoff]").parent().attr "class"
-		console.log $("[name=tenoff]").parent().attr "class"
+		# console.log $("[name=tenoff]").parent().attr "class"
 		if $("#freelot .on").parent().length>=0
 			$("#lot-show").html $("#freelot .on").parent().clone()
 			$("#lot-show input").remove()
