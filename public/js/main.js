@@ -385,7 +385,8 @@ $(document).ready(function() {
     $(".change_title").hide();
     $(".confirm").css({
       "padding-top":0
-    })
+    });
+    $(".headerpc").hide();
   }else{
     $(".header,.show_msg").hide();
   }
