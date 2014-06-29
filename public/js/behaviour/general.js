@@ -1254,7 +1254,14 @@ var App = function () {
       
       /*DateTime Picker*/
       if(config.dateTime){
-        $(".datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+        $(".datepicker").datepicker({
+            format: "yyyy-mm-dd",
+            startDate: "2014-07-01",
+            endDate: "2014-08-31",
+            language: "zh-CN",
+            autoclose: true
+        });
+        $(".datetime").datetimepicker({format: 'yyyy-mm-dd',autoclose:true,startDate:"2014-07-01",endDate:"2014-08-31"});
       }
       
       /*Select2*/

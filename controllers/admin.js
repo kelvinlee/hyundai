@@ -30,6 +30,10 @@ exports["in"] = function(req, res, next) {
   return res.render("admin/in");
 };
 
+exports.index = function(req, res, next) {
+  return res.render("admin/index");
+};
+
 exports.inpost = function(req, res, next) {
   var password, re, type, username;
   re = new helper.recode();
@@ -78,10 +82,15 @@ exports.inpost = function(req, res, next) {
   }
 };
 
+exports.out = function(req, res, next) {
+  console.log("out");
+  return res.render("admin/out");
+};
+
 exports.next = function(req, res, next) {
   console.log(req.cookies.usertype);
   if (req.cookies.usertype === "1") {
-    res.redirect("/admin/dealer");
+    res.redirect("/admin/index");
   }
   if (req.cookies.usertype === "2") {
     res.redirect("/admin/serv");
@@ -135,9 +144,78 @@ exports.dealeractive = function(req, res, next) {
   return res.render("admin/active");
 };
 
+exports.nine = function(req, res, next) {
+  return res.render("admin/nine");
+};
+
+exports.ninepost = function(req, res, next) {
+  var cartype, code, customer, dealer, mileage, othermobile, othername, re, thir, vin;
+  re = new helper.recode();
+  othername = req.body.othername;
+  othermobile = req.body.othermobile;
+  thir = req.body.thir;
+  cartype = req.body.cartype;
+  vin = req.body.vin;
+  mileage = req.body.mileage;
+  customer = req.body.customer;
+  dealer = req.cookies.user;
+  code = "9999999";
+  if ((customer == null) || customer === "") {
+    re.recode = 201;
+    re.reason = "客户代表必须填写";
+  }
+  if ((vin == null) || vin === "" || vin.length !== 6) {
+    re.recode = 201;
+    re.reason = "VIN码格式不正确";
+  }
+  if ((othermobile == null) || othermobile === "" || othermobile.length !== 11) {
+    re.recode = 201;
+    re.reason = "手机号码格式不正确";
+  }
+  if ((othername == null) || othername === "") {
+    re.recode = 201;
+    re.reason = "用户名不能为空";
+  }
+  if (re.recode !== 200) {
+    res.send(re);
+    return false;
+  }
+  return User.getUserByCarType(cartype, vin, function(err, uvin) {
+    console.log("vin", uvin);
+    if (uvin != null) {
+      re.recode = 201;
+      re.reason = "此VIN码在此车型下已经存在";
+      return res.send(re);
+    } else {
+      return User.newUserNice(code, dealer, thir, cartype, othername, othermobile, vin, mileage, customer, function(err, user) {
+        console.log(err, user);
+        re.reason = user._id;
+        return res.send(re);
+      });
+    }
+  });
+};
+
+exports.nineid = function(req, res, next) {
+  var id;
+  id = req.params.id;
+  return User.getUserById(id, function(err, user) {
+    if (user != null) {
+      return res.render("admin/nine", {
+        user: user,
+        dealer: req.cookies.dealer,
+        dealer_id: req.cookies.user
+      });
+    }
+  });
+};
+
 exports.dealerinfo = function(req, res, next) {
   console.log(req.query.code);
-  return User.getUserByCode(req.query.code, function(err, user) {
+  if (req.query.code === "9999999") {
+    return res.redirect("/admin/dealer/nine");
+  }
+  return User.getUserByCode(req.query.code, req.cookies.user, function(err, user) {
     if (user != null) {
       return Lots.getById(user.lot, function(err, lot) {
         return res.render("admin/info", {
@@ -189,7 +267,13 @@ exports.dealerinfopost = function(req, res, next) {
         re.reason = "此VIN码在此车型下已经存在,请确认.";
         return res.send(re);
       } else {
-        return User.updateInfo(code, othername, othermobile, vin, mileage, customer, function(err, resutls) {
+        return User.updateInfo(code, req.cookies.user, othername, othermobile, vin, mileage, customer, function(err, resutls) {
+          if (resutls != null) {
+
+          } else {
+            re.recode = 201;
+            re.reason = "随机码非本经销商所有.";
+          }
           return res.send(re);
         });
       }

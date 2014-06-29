@@ -105,6 +105,9 @@ fBindFormBtn = ->
 		# return alert '请选择车型' if $('[name=cartype]').val() is "选择车型"
 		# return alert '请选择欲购车时间' if $('[name=buytime]').val() is "欲购车时间"
 		# console.log $('[name=register]').serializeArray()
+		# alert $("[name=lot]").val()
+		# return false
+
 		$.ajax
 			url:$('[name=register]').attr "action"
 			type: 'POST'
@@ -127,12 +130,19 @@ setCartype = ->
 checklots = ->
 	$(".lot-item").show()
 	$(".lot-item input").removeAttr "checked"
+	console.log lots
+	_cartype = $("[name=cartype]").val()
+
 	for a in lots
 		if a.cartype?
-			if a.cartype is $("[name=cartype]").val() and not a.can
+			if a.cartype is _cartype and not a.can
 				$("[value=#{a.lot}]").parents(".lot-item").hide()
 		else
 			$("[value=#{a.lot}]").parents(".lot-item").hide() if not a.can
+	for a in lotscounts
+		if a.nums[parseInt(_cartype)-1] <= 0
+			$("[value=#{a._id}]").parents(".lot-item").hide()
+
 	return ""
 bindstepbystep = ->
 	$(".thirzk").click ->
@@ -157,8 +167,8 @@ bindstepbystep = ->
 
 	$("[name=step2]").click ->
 		return alert "用户名不能为空" if $("[name=username]").val() is ""
-		return alert "手机号码不能为空" if $("[name=mobile]").val() is ""
-		return alert "手机号码不能为空" if $("[name=mobile]").val() is ""
+		return alert '手机号码不能为空' if $('[name=mobile]').val().length <=0
+		return alert '手机号码必须是11位数字' if $('[name=mobile]').val().length isnt 11 
 		return alert "请选择省份" if $("[name=province]").val() is "" or $("[name=province]").val() is "省份"
 		return alert "请选择城市" if $("[name=city]").val() is "" or $("[name=city]").val() is "城市"
 		return alert "请选择经销商" if $("[name=dealer]").val() is "" or $("[name=dealer]").val() is "经销商"

@@ -51,9 +51,10 @@ exports.GetUserByTime = function(dealer, startime, endtime, type, callback) {
   }
 };
 
-getUserByCode = function(code, callback) {
+getUserByCode = function(code, dealer, callback) {
   return User.findOne({
-    code: code
+    code: code,
+    dealer: dealer
   }, callback);
 };
 
@@ -65,8 +66,8 @@ getUserById = function(id, callback) {
 
 exports.getUserById = getUserById;
 
-updateInfo = function(code, othername, othermobile, vin, mileage, customer, callback) {
-  return getUserByCode(code, function(err, user) {
+updateInfo = function(code, dealer_id, othername, othermobile, vin, mileage, customer, callback) {
+  return getUserByCode(code, dealer_id, function(err, user) {
     if (user != null) {
       user.othername = othername;
       user.othermobile = othermobile;
@@ -89,6 +90,22 @@ exports.reged = function(mobile, callback) {
   }, callback);
 };
 
+exports.newUserNice = function(code, dealer, thir, cartype, othername, othermobile, vin, mileage, customer, callback) {
+  var user;
+  user = new User();
+  user.code = code;
+  user.dealer = dealer;
+  user.othername = othername;
+  user.othermobile = othermobile;
+  user.vin = vin;
+  user.mileage = mileage;
+  user.customer = customer;
+  user.thir = thir;
+  user.cartype = cartype;
+  user.imp_at = new Date();
+  return user.save(callback);
+};
+
 exports.newReg = function(code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir, callback) {
   var user;
   user = new User();
@@ -99,6 +116,7 @@ exports.newReg = function(code, username, mobile, changed, cartype, lot, tenoff,
   user.changed = changed;
   user.cartype = cartype;
   if ((lot != null) && lot !== "") {
+    console.log("选择了奖品:", lot);
     user.lot = lot;
   }
   user.tenoff = tenoff;

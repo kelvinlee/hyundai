@@ -5,14 +5,20 @@ block content_here
 			div.navbar-header
 				button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
 					span.fa.fa-gear
-				a.navbar-brand(href='tables-datatables.html#')
+				//- a.navbar-brand(href='tables-datatables.html#')
 					span Hy
 			div.navbar-collapse.collapse
 				ul.nav.navbar-nav
+					li
+						a(href="/admin/index") 返回
 					li.active
 						a(href='/admin/dealer') 客户查询
 					li
 						a(href='/admin/dealer/active') 活动实施 
+					li
+						a(href="/admin/password") 修改密码
+					li
+						a(href="/admin/out") 退出
 	div#cl-wrapper
 		div#pcont.container-fluid(style="margin:0px;")
 			div.page-head
@@ -35,12 +41,13 @@ block content_here
 											option(value="2") 预约时间
 											option(value="3") 实施时间
 										layout   从  
-										input.form-control.datetime(type="text",size="16",name="startime",style="width:140px;display:inline-block;")
+										input.form-control.datepicker(type="text",size="16",name="startime",style="width:140px;display:inline-block;")
 										layout   到  
-										input.form-control.datetime(type="text",size="16",name="endtime",style="width:140px;display:inline-block;")
+										input.form-control.datepicker(type="text",size="16",name="endtime",style="width:140px;display:inline-block;")
 										button.btn.btn-primary(type="button",onclick="searchdate()") 查询
 										a.btn.btn-default(href="/admin/dealer") 重置
-
+									div
+										p 使用shift+点击,可以使用多项排序.
 									table#datatable.table.table-bordered
 										thead
 											tr
@@ -62,15 +69,15 @@ block content_here
 													td #{list[i].cartype}
 													-if (list[i].reser_at == null)
 														td 
-															input.form-control.datetime(type="text",size="16",name="reser",style="width:140px")
+															input.form-control.datepicker(type="text",size="16",data-format="yy-mm-dd",name="reser",style="width:140px",readonly)
 													-else
 														-var b = new Date(list[i].reser_at);
-														td #{b.getFullYear()}-#{b.getMonth()+1}-#{b.getDate()} #{b.getHours()}:#{b.getMinutes()}
+														td #{b.getFullYear()}-#{b.getMonth()+1}-#{b.getDate()}
 													-if (list[i].imp_at == null)
 														td
 													-else
 														-var b = new Date(list[i].imp_at);
-														td #{b.getFullYear()}-#{b.getMonth()+1}-#{b.getDate()} #{b.getHours()}:#{b.getMinutes()}
+														td #{b.getFullYear()}-#{b.getMonth()+1}-#{b.getDate()}
 													-if (list[i].changed){var changed = "是"}else{var changed = "否"}
 													td #{changed}
 													td
@@ -81,9 +88,11 @@ block css_here
 	link(rel="stylesheet",type="text/css",href="/js/jquery.easypiechart/jquery.easy-pie-chart.css" )
 	link(rel="stylesheet",type="text/css",href="/js/bootstrap.switch/bootstrap-switch.css" )
 	link(rel="stylesheet",type="text/css",href="/js/bootstrap.datetimepicker/css/bootstrap-datetimepicker.min.css" )
+	link(rel="stylesheet",type="text/css",href="/js/bootstrap.datetimepicker/datepicker.css" )
 	link(rel="stylesheet",type="text/css",href="/js/jquery.select2/select2.css" )
 	link(rel="stylesheet",type="text/css",href="/js/bootstrap.slider/css/slider.css" )
 	link(rel="stylesheet",type="text/css",href="/js/jquery.datatables/bootstrap-adapter/css/datatables.css" )
+
 block js_here
 	script(type="text/javascript",src="/js/jquery.nanoscroller/jquery.nanoscroller.js")
 	script(type="text/javascript",src="/js/jquery.sparkline/jquery.sparkline.min.js")
@@ -98,7 +107,7 @@ block js_here
 	script(type="text/javascript",src="/js/jquery.gritter/js/jquery.gritter.min.js")
 	script(type="text/javascript",src="/js/jquery.datatables/jquery.datatables.min.js")
 	script(type="text/javascript",src="/js/jquery.datatables/bootstrap-adapter/js/datatables.js")
-	script(type="text/javascript",src="/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js")
+	//- script(type="text/javascript",src="/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js")
 	script.
 		$(document).ready(function(){
 		//initialize the javascript
@@ -136,8 +145,15 @@ block js_here
 			return false;
 		}
     
-	script(src="/js/bootstrap/dist//js/bootstrap.min.js")
+	script(src="/js/bootstrap/dist/js/bootstrap.min.js")
 	script(type="text/javascript",src="/js/jquery.flot/jquery.flot.js")
 	script(type="text/javascript",src="/js/jquery.flot/jquery.flot.pie.js")
 	script(type="text/javascript",src="/js/jquery.flot/jquery.flot.resize.js")
 	script(type="text/javascript",src="/js/jquery.flot/jquery.flot.labels.js")
+	script(type="text/javascript",src="/js/bootstrap.datetimepicker/bootstrap-datepicker.js")
+	script(type="text/javascript",src="/js/bootstrap.datetimepicker/bootstrap-datepicker.zh-CN.js")
+
+
+
+
+		

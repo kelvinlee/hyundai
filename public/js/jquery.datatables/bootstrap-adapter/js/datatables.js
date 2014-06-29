@@ -3,7 +3,8 @@ $.extend( true, $.fn.dataTable.defaults, {
 	"sDom": "<'row'<'col-sm-12'<'pull-right'f><'pull-left'l>r<'clearfix'>>>t<'row'<'col-sm-12'<'pull-left'i><'pull-right'p><'clearfix'>>>",
     "sPaginationType": "bs_normal",
     "oLanguage": {
-        "sLengthMenu": "Show _MENU_ Rows",
+    		"sInfo":"第 _START_ 行到 _END_ 行共 _TOTAL_ 行",
+        "sLengthMenu": "显示 _MENU_ 行",
         "sSearch": ""
     }
 } );

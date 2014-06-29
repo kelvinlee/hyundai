@@ -473,11 +473,13 @@ block content_here
 
 
 
-
 block js_here
 	-var json = JSON.stringify(list);
+	-var _count = JSON.stringify(count);
+
 	script.
 		var lots = !{json};
+		var lotscounts = !{_count};
 		$(document).ready(function(){
 			if (!gico.mobilecheck()) {
 				$("[data-toggle=tooltip]").tooltip();

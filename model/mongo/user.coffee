@@ -18,16 +18,16 @@ exports.GetUserByTime = (dealer,startime,endtime,type,callback)->
   if type is "3"
     User.find {dealer:dealer,imp_at:{$gte:star,$lt:end}},callback
 
-getUserByCode = (code,callback)->
-  User.findOne {code:code},callback
+getUserByCode = (code,dealer,callback)->
+  User.findOne {code:code,dealer:dealer},callback
 exports.getUserByCode = getUserByCode
 
 getUserById = (id,callback)->
   User.findById id,callback
 exports.getUserById = getUserById
 
-updateInfo = (code,othername,othermobile,vin,mileage,customer,callback)->
-  getUserByCode code,(err,user)->
+updateInfo = (code,dealer_id,othername,othermobile,vin,mileage,customer,callback)->
+  getUserByCode code,dealer_id,(err,user)->
     if user?
       user.othername = othername
       user.othermobile = othermobile
@@ -43,6 +43,22 @@ exports.updateInfo = updateInfo
 exports.reged = (mobile,callback)->
   User.findOne {mobile:mobile},callback
 
+
+# 999注册
+exports.newUserNice = (code,dealer,thir,cartype,othername,othermobile,vin,mileage,customer,callback)->
+  user = new User()
+  user.code = code
+  user.dealer = dealer
+  user.othername = othername
+  user.othermobile = othermobile
+  user.vin = vin
+  user.mileage = mileage
+  user.customer = customer
+  user.thir = thir
+  user.cartype = cartype
+  user.imp_at = new Date()
+  user.save callback
+
 # 自助注册
 exports.newReg = (code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir,callback)->
   user = new User()
@@ -53,6 +69,7 @@ exports.newReg = (code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,prov
   user.changed = changed
   user.cartype = cartype
   if lot? and lot isnt ""
+    console.log "选择了奖品:",lot
     user.lot = lot
   user.tenoff = tenoff
   user.thirtytwo = thirtytwo

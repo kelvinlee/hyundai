@@ -19,10 +19,13 @@ str="qwertyuiopasdfghjklmnbvcxz1234567890"
 
 exports.before = (req,res,next)->
 	# check login.
+
 	next()
 exports.in = (req,res,next)->
 	defaultDealer()
 	res.render "admin/in"
+exports.index = (req,res,next)->
+	res.render "admin/index"
 exports.inpost = (req,res,next)->
 	# 登录
 	re = new helper.recode()
@@ -63,12 +66,15 @@ exports.inpost = (req,res,next)->
 		res.cookie 'usertype',type
 	if type isnt "1"
 		res.send re
+exports.out = (req,res,next)->
+	console.log "out"
+	res.render "admin/out"
 
 exports.next = (req,res,next)->
 	# 分发登录
 	console.log req.cookies.usertype
 	if req.cookies.usertype is "1"
-		res.redirect "/admin/dealer"
+		res.redirect "/admin/index"
 	if req.cookies.usertype is "2"
 		res.redirect "/admin/serv"
 	if req.cookies.usertype is "3"
@@ -107,9 +113,68 @@ exports.dealeractive = (req,res,next)->
 
 	res.render "admin/active"
 
+exports.nine = (req,res,next)->
+
+	res.render "admin/nine"
+exports.ninepost = (req,res,next)->
+	re = new helper.recode()
+
+	othername = req.body.othername
+	othermobile = req.body.othermobile
+	thir = req.body.thir 
+	cartype = req.body.cartype
+
+	vin = req.body.vin
+	mileage = req.body.mileage
+	customer = req.body.customer
+
+	dealer = req.cookies.user
+	code = "9999999"
+
+
+	if not customer? or customer is ""
+		re.recode = 201
+		re.reason = "客户代表必须填写"
+	if not vin? or vin is "" or vin.length isnt 6
+		re.recode = 201
+		re.reason = "VIN码格式不正确"
+	if not othermobile? or othermobile is "" or othermobile.length isnt 11
+		re.recode = 201
+		re.reason = "手机号码格式不正确"
+	if not othername? or othername is ""
+		re.recode = 201
+		re.reason = "用户名不能为空"
+	if re.recode isnt 200
+		res.send re
+		return false
+	User.getUserByCarType cartype,vin,(err,uvin)->
+		console.log "vin",uvin
+		if uvin?
+			re.recode = 201
+			re.reason = "此VIN码在此车型下已经存在"
+			res.send re
+		else
+			User.newUserNice code,dealer,thir,cartype,othername,othermobile,vin,mileage,customer,(err,user)->
+				console.log err,user
+				re.reason = user._id
+				res.send re
+exports.nineid = (req,res,next)->
+	id = req.params.id
+
+	User.getUserById id,(err,user)->
+		if user?
+			res.render "admin/nine",{user:user,dealer:req.cookies.dealer,dealer_id:req.cookies.user}
+
+
 exports.dealerinfo = (req,res,next)->
 	console.log req.query.code
-	User.getUserByCode req.query.code,(err,user)->
+
+	if req.query.code is "9999999"
+		return res.redirect "/admin/dealer/nine"
+
+
+
+	User.getUserByCode req.query.code,req.cookies.user,(err,user)->
 		# console.log resutls
 		if user?
 			Lots.getById user.lot,(err,lot)->
@@ -154,7 +219,11 @@ exports.dealerinfopost = (req,res,next)->
 				re.reason = "此VIN码在此车型下已经存在,请确认."
 				res.send re
 			else
-				User.updateInfo code,othername,othermobile,vin,mileage,customer,(err,resutls)->
+				User.updateInfo code,req.cookies.user,othername,othermobile,vin,mileage,customer,(err,resutls)->
+					if resutls?
+					else
+						re.recode = 201
+						re.reason = "随机码非本经销商所有."
 					res.send re
 		User.getUserByCode code,(err,user)->
 			cartype = user.cartype

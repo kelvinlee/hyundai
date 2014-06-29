@@ -141,8 +141,8 @@ exports.post = (req,res,next)->
 
 
 
-	console.log req.body
-
+	console.log "post: ",req.body
+	return ""
 	# if req.body.thir.length < 32
 	# 	re.recode = 203
 	# 	re.reason = "32项检查格式不正确"
@@ -195,8 +195,10 @@ exports.post = (req,res,next)->
 					re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品."
 
 			if re.recode is 200
+				console.log "user:",code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir
+
 				User.newReg code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir,(err,results)->
-					console.log err,results
+					# console.log err,results
 					content = "【活动验证码#{code}】（请妥善保存）亲爱的车主，恭喜您已经在活动网站注册成功！请您于7月16日-8月31日期间到您选择的经销商处参加此次活动。在您到店参加活动时，请出示活动验证码，以便经销商进行活动验证。感谢您的积极参与！"
 					sendMSG content,mobile
 				re.reason = code
@@ -236,15 +238,15 @@ sendMSG = (content,mobile)->
 		port: 80
 		path: u['path']+pa
 		method: 'POST'
-	console.log op,pa
+	# console.log op,pa
 	request = http.request op, (res)->
-		console.log "statusCode: ",res.statusCode
-		console.log "headers: ",res.headers
+		# console.log "statusCode: ",res.statusCode
+		# console.log "headers: ",res.headers
 
 		res.on 'data', (chunk)->
 			obj = JSON.parse chunk
-			console.log obj
-	console.log JSON.stringify post_data
+			# console.log obj
+	# console.log JSON.stringify post_data
 	request.write JSON.stringify(post_data)+'\n'
 	request.end()
 

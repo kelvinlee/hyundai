@@ -445,19 +445,27 @@ setCartype = function() {
 };
 
 checklots = function() {
-  var a, _i, _len;
+  var a, _cartype, _i, _j, _len, _len1;
   $(".lot-item").show();
   $(".lot-item input").removeAttr("checked");
+  console.log(lots);
+  _cartype = $("[name=cartype]").val();
   for (_i = 0, _len = lots.length; _i < _len; _i++) {
     a = lots[_i];
     if (a.cartype != null) {
-      if (a.cartype === $("[name=cartype]").val() && !a.can) {
+      if (a.cartype === _cartype && !a.can) {
         $("[value=" + a.lot + "]").parents(".lot-item").hide();
       }
     } else {
       if (!a.can) {
         $("[value=" + a.lot + "]").parents(".lot-item").hide();
       }
+    }
+  }
+  for (_j = 0, _len1 = lotscounts.length; _j < _len1; _j++) {
+    a = lotscounts[_j];
+    if (a.nums[parseInt(_cartype) - 1] <= 0) {
+      $("[value=" + a._id + "]").parents(".lot-item").hide();
     }
   }
   return "";
@@ -489,11 +497,11 @@ bindstepbystep = function() {
     if ($("[name=username]").val() === "") {
       return alert("用户名不能为空");
     }
-    if ($("[name=mobile]").val() === "") {
-      return alert("手机号码不能为空");
+    if ($('[name=mobile]').val().length <= 0) {
+      return alert('手机号码不能为空');
     }
-    if ($("[name=mobile]").val() === "") {
-      return alert("手机号码不能为空");
+    if ($('[name=mobile]').val().length !== 11) {
+      return alert('手机号码必须是11位数字');
     }
     if ($("[name=province]").val() === "" || $("[name=province]").val() === "省份") {
       return alert("请选择省份");

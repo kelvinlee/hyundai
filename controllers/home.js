@@ -202,7 +202,8 @@ exports.post = function(req, res, next) {
   city = req.body.city;
   dealer = req.body.dealer;
   thir = req.body.thir;
-  console.log(req.body);
+  console.log("post: ", req.body);
+  return "";
   if ((username == null) || username === "") {
     re.recode = 201;
     re.reason = "用户名不能为空";
@@ -262,9 +263,9 @@ exports.post = function(req, res, next) {
         }
       }
       if (re.recode === 200) {
+        console.log("user:", code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir);
         User.newReg(code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir, function(err, results) {
           var content;
-          console.log(err, results);
           content = "【活动验证码" + code + "】（请妥善保存）亲爱的车主，恭喜您已经在活动网站注册成功！请您于7月16日-8月31日期间到您选择的经销商处参加此次活动。在您到店参加活动时，请出示活动验证码，以便经销商进行活动验证。感谢您的积极参与！";
           return sendMSG(content, mobile);
         });
@@ -307,17 +308,12 @@ sendMSG = function(content, mobile) {
     path: u['path'] + pa,
     method: 'POST'
   };
-  console.log(op, pa);
   request = http.request(op, function(res) {
-    console.log("statusCode: ", res.statusCode);
-    console.log("headers: ", res.headers);
     return res.on('data', function(chunk) {
       var obj;
-      obj = JSON.parse(chunk);
-      return console.log(obj);
+      return obj = JSON.parse(chunk);
     });
   });
-  console.log(JSON.stringify(post_data));
   request.write(JSON.stringify(post_data) + '\n');
   return request.end();
 };

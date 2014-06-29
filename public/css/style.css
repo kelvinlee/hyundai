@@ -3031,4 +3031,11 @@ button::-moz-focus-inner {
 	.print-hide {
 		display: none;
 	}
+	tr td {
+		padding-top:0px !important;
+		padding-bottom:0px !important;
+	}
+	p {
+		margin:0px;
+	}
 }

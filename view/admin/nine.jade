@@ -1,0 +1,2071 @@
+extends layout 
+block content_here
+	div#head-nav.print-hide.navbar.navbar-default.navbar-fixed-top
+		div.container-fluid
+			div.navbar-header
+				button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+					span.fa.fa-gear
+				//- a.navbar-brand(href='tables-datatables.html#')
+					span Hy
+			div.navbar-collapse.collapse
+				ul.nav.navbar-nav 
+					li
+						a(href="/admin/index") 返回
+					li
+						a(href='/admin/dealer') 客户查询
+					li.active
+						a(href='/admin/dealer/active') 活动实施 
+					li
+						a(href="/admin/password") 修改密码
+					li
+						a(href="/admin/out") 退出
+	-var thirlist = ["1.	发动机/变速箱机油是否正常","2.	发动机冷却液是否正常","3.	制动油/离合器油是否正常","4.	动力转向油是否正常","5.	空气滤清器状态是否正常","6.	驱动皮带状态","7.	蓄电池工作状态及桩头紧固检查","8.	玻璃水是否正常","9.	发动机舱内进气管是否有涉水痕迹","10.	线路（插头）连接及工作状态是否正常","11.	检查车辆各种灯光是否齐全","12.	检查灯内是否有水迹","13.	检查雨刮喷水效果及胶片性能","14.	检查雨刮胶片性能是否正常","15.	车窗密封胶条是否变形","16.	冷凝器及散热器清洁及工作状况检查","17.	显示工作状态是否正常","18.	空调&暖风工作状态","19.	空调空气滤清器更换或清洁","20.	驻车制动器工作状态","21.	制动踏板/离合器踏板工作状态","22.	天窗槽是否积水","23.	室内地毯、顶棚是否有水迹","24.	电脑检测（故障代码）","25.	转向系统工作性能检查","26.	转向机防尘套是否破碎，是否有涉水","27.	刹车系统工作情况是否正常","28.	制动片&盘生锈及磨损情况","29.	传动轴防尘套是否损坏，是否涉水","30.	减震器工作状态","31.	底盘螺栓紧固检查","32.	轮胎胎压及磨损情况"];
+	div#cl-wrapper.print-hide 
+		form.form-horizontal(name="register",action="/admin/dealer/nine")
+			div#pcont.container-fluid(style="margin:0px;")
+				div.page-head
+					h2 客户查询
+					ol.breadcrumb
+						li
+							a(href='/admin/dealer') 经销商管理
+						li.active 客户列表
+				div.cl-mcont
+					div.row
+						div.col-sm-4.col-print-4
+							div.block-flat
+								div.header
+									h3 注册来源
+								div.content
+									table.no-border
+										tbody.no-border-y
+											tr
+												td 经销商名称
+												td #{dealer}
+											tr
+												td 经销商编号
+												td #{dealer_id}
+
+
+						div.col-sm-4.col-print-4
+							div.block-flat
+								div.header
+									h3 32项检测项目
+								div.content
+									ul(style="list-style:none;margin:0px;padding:0px;")
+										
+										-if (user != null)
+											-for (var i=0;i<user.thir.length;i++)
+												li
+													label #{thirlist[parseInt(user.thir[i])-1]}
+										-else
+											-for (var i=0;i<thirlist.length;i++)
+												li 
+													label
+														input(type="checkbox",name="thir[#{i}]",value="#{i}",checked)
+														|  #{thirlist[i]}
+						-var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"},{name:"其他",type:"7"}];
+						div.col-sm-4.col-print-4
+							div.block-flat
+								div.header
+									h3 注册信息
+								div.content
+									-if (user != null)
+										table.no-border
+											tbody.no-border-y
+												tr
+													td 姓名
+													td #{user.othername}
+												tr
+													td 手机号码
+													td #{user.othermobile}
+												tr
+													td 车架号
+													td #{user.vin}
+												tr
+													td 行驶里程
+													td #{user.mileage}Km
+												tr
+													
+													td 车型
+													td #{type[parseInt(user.cartype)-1].name}
+										button.btn.btn-primary.print-btn(type="button") 打印
+									-else
+										div.form-group
+											label.col-sm-3.control-label 姓名
+											div.col-sm-9
+												input.form-control(type="text",name="othername",value="",placeholder="到店用户姓名")
+										div.form-group
+											label.col-sm-3.control-label 手机号码
+											div.col-sm-9
+												input.form-control(type="text",maxlength="11",name="othermobile",value="",placeholder="到店用户手机号码")
+										div.form-group
+											label.col-sm-3.control-label 车架号
+											div.col-sm-9
+												input.form-control(type="text",maxlength="6",name="vin",placeholder="VIN码")
+										div.form-group
+											label.col-sm-3.control-label 行驶里程
+											div.col-sm-9
+												input.form-control(type="text",name="mileage",placeholder="行驶里程")
+										div.form-group
+											label.col-sm-3.control-label 客服代表
+											div.col-sm-9
+												input.form-control(type="text",name="customer",placeholder="客服代表姓名")
+										div.form-group
+											label.col-sm-3.control-label 车型
+											div.col-sm-9
+												select.form-control(name="cartype")
+													//- -var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}];
+													-for(var i=0;i<type.length;i++)
+														option(value="#{type[i].type}") #{type[i].name}
+										button.btn.btn-primary.submit(type="button") 提交
+	-if (user != null)
+		-function check(a){ for(var i=0;i<user.thir.length;i++){ if (user.thir[i] == a){ return true; } } return false; }
+		.WordSection1.print-visible(style='layout-grid:15.6pt')
+			table.MsoNormalTable(border='0', cellspacing='0', cellpadding='0', align='left', width='527', style='width:527.0pt;border-collapse:collapse;mso-yfti-tbllook:1536;\
+			mso-table-lspace:9.0pt;margin-left:6.0pt;mso-table-rspace:9.0pt;margin-right:\
+			6.0pt;mso-table-anchor-vertical:page;mso-table-anchor-horizontal:margin;\
+			mso-table-left:center;mso-table-top:52.55pt;mso-padding-alt:0cm 0cm 0cm 0cm')
+				tbody
+					tr(style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:36.3pt')
+						td(width='527', colspan='17', style='width:527.0pt;border:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:36.3pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								b
+									span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 维修委托书 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+					tr(style='mso-yfti-irow:1;height:16.9pt')
+						td(width='64', colspan='2', style='width:63.8pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 活动代码（
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 7
+									span(lang='ZH-CN') 位数）
+									o:p
+						td(width='162', colspan='5', style='width:162.3pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 　
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 9999999
+									o:p
+						td(width='301', colspan='10', style='width:300.9pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									span(style='mso-spacerun:yes')   
+									o:p
+					tr(style='mso-yfti-irow:2;height:16.9pt')
+						td(width='64', colspan='2', style='width:63.8pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 送修人姓名
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='162', colspan='5', style='width:162.3pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') #{user.othername}
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 联系电话 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='86', colspan='3', style='width:85.65pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑') #{user.othermobile}
+						td(width='65', colspan='2', style='width:64.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 预约时间 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='112', colspan='4', style='width:111.65pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								u
+									span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑')
+										
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+					tr(style='mso-yfti-irow:3;height:16.9pt')
+						td(width='64', colspan='2', style='width:63.8pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 车辆型号
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='162', colspan='5', style='width:162.3pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') #{type[parseInt(user.cartype)-1].name}
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 车架号
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='86', colspan='3', style='width:85.65pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') #{user.vin}
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='65', colspan='2', style='width:64.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 进店行驶里程
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='112', colspan='4', style='width:111.65pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									span(style='mso-spacerun:yes') #{user.mileage}Km
+									o:p
+					tr(style='mso-yfti-irow:4;height:16.9pt')
+						td(width='527', colspan='17', style='width:527.0pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+					tr(style='mso-yfti-irow:5;height:16.9pt')
+						td(width='64', colspan='2', style='width:63.8pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 本次维修项目 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='84', colspan='2', style='width:83.6pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 已经确认□ 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='79', colspan='3', style='width:78.7pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 预计交车时间 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='103', colspan='3', style='width:102.6pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='87', colspan='3', style='width:86.65pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 变更交车时间： 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='112', colspan='4', style='width:111.65pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:6;height:16.9pt')
+						td(width='527', colspan='17', style='width:527.0pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='margin-left:36.0pt;text-indent:-18.0pt;mso-list:\
+							l0 level1 lfo1;tab-stops:list 36.0pt;mso-element:frame;mso-element-frame-hspace:\
+							9.0pt;mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								//if !supportLists
+									| [if !supportLists]
+								//if !supportLists
+									| [if !supportLists]
+								span(style='font-size:9.0pt;font-family:Wingdings;mso-fareast-font-family:Wingdings;\
+								mso-bidi-font-family:Wingdings')
+									span(style='mso-list:Ignore')
+										| p
+										span(style='font:7.0pt "Times New Roman"')   
+								// [endif]
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									span(style='mso-spacerun:yes')  
+									span(lang='ZH-CN') 免费检测项目
+									o:p
+					tr(style='mso-yfti-irow:7;height:16.9pt')
+						td(width='21', rowspan='2', style='width:21.05pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 序号
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='126', colspan='3', rowspan='2', style='width:126.35pt;border-top:none;\
+						border-left:none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 检测项目
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='118', colspan='4', style='width:117.55pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 检测情况
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='24', rowspan='2', style='width:24.0pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 序号
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='126', colspan='4', rowspan='2', style='width:126.4pt;border-top:none;\
+						border-left:none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 检测项目
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='112', colspan='4', style='width:111.65pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 检测情况
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+					tr(style='mso-yfti-irow:8;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 良好
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 一般
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 需维修
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 良好
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 一般
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 需维修
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+					tr(style='mso-yfti-irow:9;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 1
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(0))
+									span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 发动机/变速箱机油是否正常
+								-else
+									span 无
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 17
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(16))
+									span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 仪表显示工作状态是否正常
+								-else
+									span 无
+
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:10;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 2
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:.65pt .65pt 0cm .65pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(1))
+									span 发动机冷却液是否正常 
+								-else
+									span 无
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 18
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(17))
+									span 空调&暖风工作状态 
+								-else
+									span 无
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:11;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 3
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:.65pt .65pt 0cm .65pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(3))
+									span 制动油/离合器油是否正常
+								-else
+									span 无
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 19
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(18))
+									span 空调空气滤清器更换或清洁
+								-else
+									span 无 
+						td(width='112', colspan='4', style='width:111.65pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 更换
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									span(style='mso-spacerun:yes')   
+									span(lang='ZH-CN') □
+									span(style='mso-spacerun:yes')
+									span(lang='ZH-CN') 清洁 □ 
+									o:p
+					tr(style='mso-yfti-irow:12;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 4
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(3))
+									span 动力转向油是否正常
+								-else
+									span 无
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 20
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(19))
+									span 驻车制动器工作状态
+								-else
+									span 无
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:13;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 5
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(4))
+									span 空气滤清器状态是否正常
+								-else
+									span 无 
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 21
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(20))
+									span 制动踏板/离合器踏板工作状态
+								-else
+									span 无
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:14;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 6
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(5))
+									span 驱动皮带状态
+								-else
+									span 无
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 22
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(21))
+									span 天窗槽是否有积水
+								-else
+									span 无
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:15;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 7
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(6))
+									span 蓄电池工作状态及桩头紧固检查
+								-else
+									span 无
+
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 23
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(22))
+									span 室内地毯、顶蓬是否有水迹
+								-else
+									span 无
+
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:16;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 8
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(7))
+									span 玻璃水是否正常
+								-else
+									span 无
+
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 24
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(23))
+									span 电脑检测（故障代码） 
+								-else
+									span 无
+
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:17;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 9
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(8))
+									span 发动机舱内进气管是否有涉水痕迹
+								-else
+									span 无
+
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 25
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(24))
+									span 转向系统工作性能检查
+								-else
+									span 无
+
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:18;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 10
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(9))
+									span 线路（插头）连接及工作状态是否正常
+								-else
+									span 无
+
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 26
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(25))
+									span 转向机防尘套是否破损，是否有涉水
+								-else
+									span 无
+									
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:19;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 11
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(10))
+									span 检查车辆各种灯光是否齐全 
+								-else
+									span 无
+
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 27
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(26))
+									span 刹车系统工作情况是否正常 
+								-else
+									span 无
+
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:20;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 12
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(11))
+									span 检查灯内是否有水迹 
+								-else
+									span 无
+
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 28
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(27))
+									span 制动片&盘生锈及磨损情况
+								-else
+									span 无
+
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:21;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 13
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(12))
+									span 检查雨刮喷水效果及胶片性能
+								-else
+									span 无
+									
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 29
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(28))
+									span 传动轴防尘套是否损坏，是否有涉水
+								-else
+									span 无
+									
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:22;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 14
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(12))
+									span 检查雨刮胶片性能是否正常
+								-else
+									span 无
+									
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 30
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(29))
+									span 减振器工作状态
+								-else
+									span 无
+									
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:23;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 15
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(14))
+									span 车窗密封胶条时候变形
+								-else
+									span 无
+									
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 31
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(30))
+									span 底盘螺栓紧固检查
+								-else
+									span 无
+									
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:24;height:16.9pt')
+						td(width='21', style='width:21.05pt;border:solid #A6A6A6 1.0pt;border-top:none;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 16
+									o:p
+						td(width='126', colspan='3', style='width:126.35pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(15))
+									span 冷凝器及散热器清洁及工作状况检查
+								-else
+									span 无
+									
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='24', style='width:24.0pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									| 32
+									o:p
+						td(width='126', colspan='4', style='width:126.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								-if (check(31))
+									span 轮胎胎压及磨损情况
+								-else
+									span 无
+									
+						td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='40', colspan='2', style='width:39.85pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:25;height:16.9pt')
+						td(width='527', colspan='17', style='width:527.0pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									span(style='mso-spacerun:yes')   
+									o:p
+					tr(style='mso-yfti-irow:26;height:40.3pt')
+						td(width='64', colspan='2', style='width:63.8pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:40.3pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 备注及建议： 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='463', colspan='15', style='width:463.2pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:40.3pt')
+					tr(style='mso-yfti-irow:27;height:16.9pt')
+						td(width='527', colspan='17', style='width:527.0pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+					tr(style='mso-yfti-irow:28;height:16.9pt')
+						td(width='64', colspan='2', style='width:63.8pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 旧件处理方式
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='84', colspan='2', style='width:83.6pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 客户带走 □ 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='118', colspan='4', style='width:117.55pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 店内保留 □
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									span(style='mso-spacerun:yes')
+									span(lang='ZH-CN') 保留（
+									span(style='mso-spacerun:yes')      
+									span(lang='ZH-CN') ）天 
+									o:p
+						td(width='64', colspan='2', style='width:63.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 清洗车辆需求 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='87', colspan='3', style='width:86.65pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无需清洗 □ 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='76', colspan='3', style='width:75.7pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 需要清洗 □ 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 其他： 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+					tr(style='mso-yfti-irow:29;height:38.85pt')
+						td(width='64', colspan='2', style='width:63.8pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:38.85pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 服务顾问： 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='201', colspan='6', style='width:201.15pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:38.85pt')
+							span #{user.customer}
+						td(width='64', colspan='2', style='width:63.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:38.85pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 送修客户签字： 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='198', colspan='7', style='width:198.3pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:38.85pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 　 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+					tr(style='mso-yfti-irow:30;height:16.9pt')
+						td(width='527', colspan='17', style='width:527.0pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+					tr(style='mso-yfti-irow:31;height:16.9pt')
+						td(width='64', colspan='2', style='width:63.8pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 维修开始时间 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='134', colspan='4', style='width:134.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='67', colspan='2', style='width:66.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 维修中断开始时间 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='150', colspan='5', style='width:150.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='76', colspan='3', style='width:75.7pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 维修中断原因 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:32;height:16.9pt')
+						td(width='64', colspan='2', style='width:63.8pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 维修完工时间 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='134', colspan='4', style='width:134.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='67', colspan='2', style='width:66.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 维修中断结束时间 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='150', colspan='5', style='width:150.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='76', colspan='3', style='width:75.7pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 维修中断时长 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='36', style='width:35.95pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 分钟 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+					tr(style='mso-yfti-irow:33;height:16.9pt')
+						td(width='64', colspan='2', style='width:63.8pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 质量检验开始时间 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='134', colspan='4', style='width:134.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='67', colspan='2', style='width:66.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 质量检验结果 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='262', colspan='9', style='width:262.05pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 检验合格，准备交车□
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									span(style='mso-spacerun:yes')     
+									span(lang='ZH-CN') 技术经理监督维修过程□
+									span(style='mso-spacerun:yes')     
+									span(lang='ZH-CN')
+										| 技术经理指导后再进行维修□
+									o:p
+					tr(style='mso-yfti-irow:34;height:16.9pt')
+						td(width='64', colspan='2', style='width:63.8pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 质量检验结束时间 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='134', colspan='4', style='width:134.4pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+						td(width='67', colspan='2', style='width:66.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 质量检验说明 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='262', colspan='9', style='width:262.05pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+					tr(style='mso-yfti-irow:35;height:16.9pt')
+						td(width='64', colspan='2', style='width:63.8pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 维修进度确认 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='67', style='width:66.7pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 调度派工　 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='68', colspan='3', style='width:67.7pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 机电维修 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='67', colspan='2', style='width:66.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 钣金维修　 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='64', colspan='2', style='width:63.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 喷漆维修 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='64', colspan='2', style='width:63.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 清洗车辆　 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='68', colspan='3', style='width:67.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 质量检验 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='67', colspan='2', style='width:66.8pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 技术支持　 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+					tr(style='mso-yfti-irow:36;height:38.6pt')
+						td(width='64', colspan='2', style='width:63.8pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:38.6pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 相关人员签字： 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='67', style='width:66.7pt;border-top:none;border-left:none;border-bottom:\
+						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
+						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:38.6pt')
+						td(width='68', colspan='3', style='width:67.7pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:38.6pt')
+						td(width='67', colspan='2', style='width:66.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:38.6pt')
+						td(width='64', colspan='2', style='width:63.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:38.6pt')
+						td(width='64', colspan='2', style='width:63.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:38.6pt')
+						td(width='68', colspan='3', style='width:67.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:38.6pt')
+						td(width='67', colspan='2', style='width:66.8pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:38.6pt')
+					tr(style='mso-yfti-irow:37;height:16.9pt')
+						td(width='527', colspan='17', style='width:527.0pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:16.9pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 　 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+					tr(style='mso-yfti-irow:38;mso-yfti-lastrow:yes;height:19.6pt')
+						td(width='64', colspan='2', style='width:63.8pt;border:solid #A6A6A6 1.0pt;\
+						border-top:none;mso-border-top-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
+						height:19.6pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 特约店名称 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='329', colspan='10', style='width:328.65pt;border-top:none;border-left:\
+						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:19.6pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') #{dealer}
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='68', colspan='3', style='width:67.75pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:19.6pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 特约店代码 
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+						td(width='67', colspan='2', style='width:66.8pt;border-top:none;border-left:none;\
+						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
+						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
+						padding:2.25pt 2.85pt 2.25pt 2.85pt;height:19.6pt')
+							p.MsoNormal(style='mso-element:frame;mso-element-frame-hspace:9.0pt;\
+							mso-element-wrap:around;mso-element-anchor-vertical:page;mso-element-anchor-horizontal:\
+							margin;mso-element-left:center;mso-element-top:52.55pt;mso-height-rule:exactly')
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') #{dealer_id}
+								span(style='font-size:9.0pt;font-family:微软雅黑')
+									o:p
+					//if !supportMisalignedColumns
+						| [if !supportMisalignedColumns]
+					//if !supportMisalignedColumns
+						| [if !supportMisalignedColumns]
+					tr(height='0')
+						td(width='21', style='border:none')
+						td(width='43', style='border:none')
+						td(width='67', style='border:none')
+						td(width='17', style='border:none')
+						td(width='39', style='border:none')
+						td(width='12', style='border:none')
+						td(width='28', style='border:none')
+						td(width='39', style='border:none')
+						td(width='24', style='border:none')
+						td(width='40', style='border:none')
+						td(width='22', style='border:none')
+						td(width='42', style='border:none')
+						td(width='23', style='border:none')
+						td(width='36', style='border:none')
+						td(width='9', style='border:none')
+						td(width='31', style='border:none')
+						td(width='36', style='border:none')
+					// [endif]
+			p.MsoNormal
+				span(style='font-size:9.0pt;font-family:微软雅黑')
+					o:p  
+
+
+
+block js_here
+	script.
+		$(document).ready(function(){
+			$(".print-btn").click(function(){window.print()});
+			$(".submit").click(function(){
+				$.ajax({
+					url:$('[name=register]').attr("action"),
+					type: 'POST',
+					data: $('[name=register]').serializeArray(),
+					dataType: 'json',
+					context: $('body'), 
+					success: function(msg){
+						if (msg.recode == 200){
+							window.location.href = "/admin/dealer/nine/"+msg.reason;
+						}else{
+							alert(msg.reason);
+						}
+					}
+				});
+			});
+		});
