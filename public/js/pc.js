@@ -5586,6 +5586,7 @@ fGetCity = function(p) {
 
 fGetCounty = function(p, c) {
   var aList, k, v, _ref;
+  alert(p + "," + c);
   aList = [];
   _ref = _pc[p][c];
   for (k in _ref) {
