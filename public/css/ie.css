@@ -1,3 +1,9 @@
+.homepage {
+  background: none;
+}
+.homepage .container {
+  width: 960px !important;
+}
 .container {
   width: 960px;
 }
