@@ -1,0 +1,11 @@
+.container {
+  width: 960px;
+}
+.container .col-sm-4 {
+  float: left;
+  width: 306.66666667px;
+}
+.container .col-sm-6 {
+  float: left;
+  width: 460px;
+}
