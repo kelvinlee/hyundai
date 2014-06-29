@@ -423,7 +423,19 @@ $(document).ready(function() {
   gico.fBindCheckBox($('input[type=checkbox]'));
   gico.fBindRadio_New($('input[type=radio]'));
 
+  $(".backcode").click(function(){
+    $(".backcodepop").show();
+    $(".backcodepop").click(function(evt){
+      if ($(evt.target).is(".msg") || $(evt.target).is("input") || $(evt.target).is("a")) {
+        return false;
+      }else {
+        $(".backcodepop").hide();
+      }
+    });
+  });
+
   $(".newcheckbox").bind("click",function(){
+    if ($(this).parents(".lot-item").is(".readonly")) {return false;}
     var _data = $(this).data("lot_id");
     if($(this).hasClass('on')){
       $(this).removeClass("on");
@@ -572,7 +584,7 @@ checklots = function() {
   for (_j = 0, _len1 = lotscounts.length; _j < _len1; _j++) {
     a = lotscounts[_j];
     if (a.nums[parseInt(_cartype) - 1] <= 0) {
-      $("[value=" + a._id + "]").parents(".lot-item").hide();
+      $("[data-lot_id=" + a._id + "]").parents(".lot-item").addClass('readonly');
     }
   }
   return "";
@@ -588,9 +600,15 @@ bindstepbystep = function() {
   });
   $("[name=mobilestep]").click(function() {
     $(".mobilestep1").hide();
+
     return $(".mobilestep2").show();
   });
   $("[name=step1]").click(function() {
+    if (gico.mobilecheck()) {
+      $(".confirmmo").hide();
+    }else{
+      $(".confirmpc").hide();
+    }
     if ($("[name=cartype]").val() !== "请选择车型") {
       $("[name=cartypetemp]").val(_car_type[parseInt($("[name=cartype]").val()) - 1].name);
       $("#cartype-show").text(_car_type[parseInt($("[name=cartype]").val()) - 1].name);
@@ -630,44 +648,73 @@ bindstepbystep = function() {
     $(".select32 input").each(function(i) {
       return $(".select321 li").eq(i).find("div").attr("class", $(this).parent().attr("class"));
     });
+    $("#thirnums").text($(".select32 input:checked").length);
+
     $(".tenoff div").removeClass("checkbox-parent undefined on").attr("class", $("[name=tenoff]").parent().attr("class"));
-    if( !$(".tenoff div").hasClass('on')){
-      $(".tenoff div").parent().parent().remove();
+    // if (gico.mobilecheck()) {
+    if ($("[name=tenoff]").parent().is(".on")) {
+      $(".tenoff").parent().show();
+    }else{
+      $(".tenoff").parent().hide();
     }
-    if ($("#freelot .on").parent().length >= 0) {
+    // }
+    if ($("#freelot .on").parent().length > 0) {
       $("#lot-show").html($("#freelot .on").parent().clone().text());
       $("#lot-show input").remove();
     }else{
-      $("#lot-show").html("无");
+      $("#lot-show").html("[空]");
     }
-    if ($("[name=changed]:checked").length <= 0) {
-      $("#changed-show").parent().remove()
+    if ($("[name=changed]").val() == "") {
+      $("#changed-show").parent().hide()
     } else {
-      $("#changed-show").html($("[name=changed]:checked").parents(".lot-item").clone());
+      $("#changed-show").parent().show()
+      if ($("[name=changed]").val() == "yes") {
+        $("#changed-show").html("是");
+      }else{
+        $("#changed-show").html("否");
+      }
     }
     $("#changed-show input").remove();
     $("#username-show,em.name").text($("[name=username]").val());
     $("#mobile-show,em.mobile").text($("[name=mobile]").val());
-    $("#province-show").html($("[name=province]").parents(".select-parent").html());
+
+    $("#province-show").html("<span>"+$("[name=province]").parents(".select-parent").find("span").text()+"</span>");
+    $("#mobile-province-show").html($("[name=province]").parents(".select-parent").find("span").text());
+
     $("#province-show").attr("class", $("[name=province]").parents(".select-parent").attr("class"));
     $("#province-show select").remove();
-    $("#city-show").html($("[name=city]").parents(".select-parent").html());
+    $("#city-show").html("<span>"+$("[name=city]").parents(".select-parent").find("span").text()+"</span>");
+    $("#mobile-city-show").html($("[name=city]").parents(".select-parent").find("span").text());
+
     $("#city-show").attr("class", $("[name=city]").parents(".select-parent").attr("class"));
     $("#city-show select").remove();
-    $("#county-show").html($("[name=county]").parents(".select-parent").html());
+
+    $("#county-show").html("<span>"+$("[name=county]").parents(".select-parent").find("span").text()+"</span>");
     $("#county-show").attr("class", $("[name=county]").parents(".select-parent").attr("class"));
     $("#county-show select").remove();
-    $("#dealer-show").html($("[name=dealer]").parents(".select-parent").html());
+
+    $("#dealer-show").html("<span>"+$("[name=dealer]").parents(".select-parent").find("span").text()+"</span>");
+    $("#mobile-dealer-show").html($("[name=dealer]").parents(".select-parent").find("span").text());
+
     $("#dealer-show").attr("class", $("[name=dealer]").parents(".select-parent").attr("class"));
     $("#dealer-show select").remove();
     $(".form-list").hide();
-    $(".confirm").show();
+    if (gico.mobilecheck()) {
+      $(".confirmmo").show();
+    }else{
+      $(".confirmpc").show();
+    }
     return window.scrollTo(0, 1);
   });
   return $(".goback").click(function() {
     if (gico.mobilecheck()) {
       $(".mobilestep1").show();
       $(".mobilestep2").hide();
+    }
+    if (gico.mobilecheck()) {
+      $(".confirmmo").hide();
+    }else{
+      $(".confirmpc").hide();
     }
     $(".form-list").show();
     $(".confirm").hide();

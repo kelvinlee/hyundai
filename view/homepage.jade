@@ -20,13 +20,13 @@ block content_here
 					h3 数量有限，赶快抢注吧！
 				div.col-sm-6.visible-xs
 					div.backcode
-						a(href="")
+						a()
 							img(src="/img/backcode.jpg")
 					div.m-title
 						img(src="/img/m-title-1.jpg")
 				div.col-sm-6
 					div.backcode.clearfix.hidden-xs
-						a(href="")
+						a()
 							img(src="/img/backcode.jpg")
 					h2.show-title.hidden-xs
 						span 大礼包内容：
@@ -277,15 +277,208 @@ block content_here
 						div.btns
 							div.nextstep(name="step1").goback 返回修改
 							div.nextstep(name="step2").last.submit 确认
-		div.confirm
+		
+		//- for pc list
+		div.confirmpc
+			div.container
+				div.row
+					div.col-sm-12.title-1
+						img(src="/img/title-2.png")
+				div.row
+					div.col-sm-4
+						div#thirthy-show.box
+							div.clearfix
+								h1 32项检测项目
+							div.thirlist.clearfix
+								ul.select321.clearfix
+									li.clearfix 
+										label
+											div
+											|1.	发动机/变速箱机油是否正常
+									li.clearfix 
+										label
+											div
+											|2.	发动机冷却液是否正常
+									li.clearfix 
+										label
+											div
+											|3.	制动油/离合器油是否正常
+									li.clearfix 
+										label
+											div
+											|4.	动力转向油是否正常
+									li.clearfix 
+										label
+											div
+											|5.	空气滤清器状态是否正常
+									li.clearfix 
+										label
+											div
+											|6.	驱动皮带状态
+									li.clearfix 
+										label
+											div
+											|7.	蓄电池工作状态及桩头紧固检<span style="padding-left:20px">查</span>
+									li.clearfix 
+										label
+											div
+											|8.	玻璃水是否正常
+									li.clearfix 
+										label
+											div
+											|9.	发动机舱内进气管是否有涉水痕迹
+									li.clearfix 
+										label
+											div
+											|10.	线路（插头）连接及工作状态是否正常
+									li.clearfix 
+										label
+											div
+											|11.	检查车辆各种灯光是否齐全
+									li.clearfix 
+										label
+											div
+											|12.	检查灯内是否有水迹
+									li.clearfix 
+										label
+											div
+											|13.	检查雨刮喷水效果及胶片性能
+									li.clearfix 
+										label
+											div
+											|14.	检查雨刮胶片性能是否正常
+									li.clearfix 
+										label
+											div
+											|15.	车窗密封胶条是否变形
+									li.clearfix 
+										label
+											div
+											|16.	冷凝器及散热器清洁及工作状况检查
+									li.clearfix 
+										label
+											div
+											|17.	显示工作状态是否正常
+									li.clearfix 
+										label
+											div
+											|18.	空调&暖风工作状态
+									li.clearfix 
+										label
+											div
+											|19.	空调空气滤清器更换或清洁
+									li.clearfix 
+										label
+											div
+											|20.	驻车制动器工作状态
+									li.clearfix 
+										label
+											div
+											|21.	制动踏板/离合器踏板工作状态
+									li.clearfix 
+										label
+											div
+											|22.	天窗槽是否积水
+									li.clearfix 
+										label
+											div
+											|23.	室内地毯、顶棚是否有水迹
+									li.clearfix 
+										label
+											div
+											|24.	电脑检测（故障代码）
+									li.clearfix 
+										label
+											div
+											|25.	转向系统工作性能检查
+									li.clearfix 
+										label
+											div
+											|26.	转向机防尘套是否破碎，是否有涉水
+									li.clearfix 
+										label
+											div
+											|27.	刹车系统工作情况是否正常
+									li.clearfix 
+										label
+											div
+											|28.	制动片&盘生锈及磨损情况
+									li.clearfix 
+										label
+											div
+											|29.	传动轴防尘套是否损坏，是否涉水
+									li.clearfix 
+										label
+											div
+											|30.	减震器工作状态
+									li.clearfix 
+										label
+											div
+											|31.	底盘螺栓紧固检查
+									li.clearfix 
+										label
+											div
+											|32.	轮胎胎压及磨损情况
+
+					div.col-sm-4
+						div.box
+							h1 免费赠送汽车用品
+							div#lot-show.lot.clearfix
+
+						div.box
+							label.h2.tenoff
+								div
+							h2 原厂保养配件9折优惠
+								br
+								span (机油（5W-20/30SM），
+								br
+								span 机油滤芯，空气滤清器3种)
+
+						div.box.clearfix
+							h1 近一年内是否有购买或换车意向
+							div#changed-show.lot
+
+					div.col-sm-4
+						div.box-b
+							h1 您的联系方式
+							div.form
+								div.input-group
+									i.icon.icon1
+									label 车型
+									span#cartype-show
+								div.input-group
+									i.icon.icon2
+									label 姓名
+									span#username-show
+									//- input(type="text",name="username")
+								div.input-group
+									i.icon.icon3
+									label 电话
+									span#mobile-show
+									//- input(type="text",name="mobile")
+								p.note *请确认手机号码,以方便获取验证码
+							h1 您要前往的4S店
+							div.form
+								div.select-group
+									div#province-show
+									div#city-show
+								div#county-show
+								div#dealer-show
+						div.btns
+							div.nextstep.goback 返回修改
+							div.nextstep.last.submit(name="submit") 提交
+							p.note *确认提交后不能修改
+
+
+		div.confirmmo
 			div.container
 				div.row
 					div.col-sm-12.title-1.change_title
 						img(src="/img/title-2.png")
 					div.show_msg
 						div.col-sm-4.box
-							<h1><em class="name"></em>先生/女士 (<em class="mobile"></em>)</h2>
-							<h2>你本次活动项目如下</h2>
+							<h4><em class="name"></em>先生/女士 (<em class="mobile"></em>)</h4>
+							<h4>你本次活动项目如下:</h4>
 				div.row
 					div.col-sm-4
 						div#thirthy-show.box
@@ -293,7 +486,9 @@ block content_here
 								label
 									//- div#thirthytwo-show
 									//- input(type="checkbox",name="thirthytwo",value="all",checked)
-								h1 免费检测项目（）项
+								h1.lf 免费检测项目（
+									span#thirnums
+									|）项
 								span.visible-xs.thirzk
 							div.thirlist.clearfix.zeroheight
 								ul.select321.clearfix
@@ -428,8 +623,8 @@ block content_here
 
 					div.col-sm-4
 						div.box
-							h1 赠品
-							div#lot-show.lot.clearfix
+							<h4> 赠品 <span id="lot-show"></span></h4>
+							//- div#lot-show.lot.clearfix
 								
 						div.box.clearfix
 							label.h2.tenoff
@@ -439,6 +634,11 @@ block content_here
 								span (机油（5W-20/30SM），
 								br
 								span 机油滤芯，空气滤清器3种)
+						div.box.clearfix
+							//- label.h2.tenoff
+								div
+							<h4> 你所选择的店 <span id="mobile-province-show"></span>，<span id="mobile-city-show"></span>，<span id="mobile-dealer-show"></span></h4>
+
 						div.box.clearfix
 							h1 近一年内是否有购买或换车意向
 							div#changed-show.lot
@@ -470,6 +670,8 @@ block content_here
 									div#city-show
 								div#county-show
 								div#dealer-show
+						div.col-sm-4
+							p 以上选项您确认请点击（确认按钮），如果需要修改请点击（返回修改）
 						div.btns
 							div.nextstep.goback 返回修改
 							div.nextstep.last.submit(name="submit") 提交
@@ -477,7 +679,10 @@ block content_here
 						//- div.nextstep(name="step2") 确认
 
 
-
+	.backcodepop
+		.msg
+			input(type="text",name="searchmobile",maxlength="11")
+			a(href="/backcode?",onclick="return backcodesend()")
 
 
 
@@ -496,3 +701,21 @@ block js_here
 				$("[data-toggle=tooltip]").tooltip();
 			}
 		});
+		function backcodesend() {
+			$.ajax({
+				url:"/backcode",
+				type: 'GET',
+				data: [{name:"mobile",value:$("[name=searchmobile]").val()}],
+				dataType: 'json',
+				context: $('body'), 
+				success: function(msg){
+					if (msg.recode == 200){
+						alert("找回成功,已经发送到您的手机号码当中.");
+						window.location.reload();
+					}else{
+						alert(msg.reason);
+					}
+				}
+			});
+			return false;
+		}

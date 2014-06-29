@@ -934,8 +934,11 @@ img {
   width: 48%;
   height: auto;
 }
-.lot .lot-item .readonly {
+.lot .lot-item.readonly {
   color: #aaaaaa;
+}
+.lot .readonly .checkbox-parent{
+  border: solid 2px #aaaaaa;
 }
 .thirlist {
   margin: 0px;

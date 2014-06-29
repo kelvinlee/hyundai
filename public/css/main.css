@@ -736,13 +736,16 @@ img {
   color: #824a1b;
 }
 .form-list,
-.confirm {
+.confirm, .confirmpc {
   display: none;
   padding-top: 50px;
   background: url("../img/bg.jpg") no-repeat top center;
   background-color: transparent;
   background-size: cover;
   min-height: 100%;
+}
+.confirmmo {
+  display: none;
 }
 .form-list {
   padding-bottom: 20px;
@@ -921,8 +924,11 @@ img {
   width: 48%;
   height: auto;
 }
-.lot .lot-item .readonly {
+.lot .lot-item.readonly {
   color: #aaaaaa;
+}
+.lot .readonly .checkbox-parent{
+  border: solid 2px #aaaaaa;
 }
 .thirlist {
   margin: 0px;
@@ -1162,7 +1168,55 @@ img {
     background-color: transparent;
     background-size: cover;
   }
+  .lf {
+    float: left;
+  }
+  .confirmmo , .confirmpc{
+    display: none;
+  }
+
 }
 
 .show-list li span.small-text{font-size: 12px;color:#956947;}
 .zeroheight{height:0;padding:0;border:0;}
+
+
+.backcodepop {
+  display: none;
+  background: url("../img/backcode-bg.png") repeat top center;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+.backcodepop .msg {
+  position: absolute;
+  top:50%;
+  left:50%;
+  width:300px;
+  height: 253px;
+  background: url("../img/backcode-bg-pc.jpg") no-repeat top center;
+  margin-left: -150px;
+  margin-top: -126px;
+}
+.backcodepop .msg input {
+  background: transparent;
+  border:none;
+  padding:10px;
+  height: 60px;
+  outline: none;
+  width: 260px;
+  position: absolute;
+  top:80px;
+  left:20px;
+}
+.backcodepop .msg a {
+  display: block;
+  position: absolute;
+  top:160px;
+  left: 20px;
+  width: 260px;
+  height: 60px;
+}
+
