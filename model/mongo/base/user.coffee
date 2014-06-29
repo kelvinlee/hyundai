@@ -12,6 +12,8 @@ UserSchema = new Schema({
   othermobile:{type:String}
   customer:{type:String}
   mileage:{type:String}
+  # 是否已经实施过了
+  usedby:{type:Boolean,default:false}
   # 来自,客服还是自助注册
   from:{type:Number}
   # 置换

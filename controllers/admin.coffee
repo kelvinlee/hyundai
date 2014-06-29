@@ -161,10 +161,16 @@ exports.ninepost = (req,res,next)->
 			re.reason = "此VIN码在此车型下已经存在"
 			res.send re
 		else
-			User.newUserNice code,dealer,thir,cartype,othername,othermobile,vin,mileage,customer,(err,user)->
-				console.log err,user
-				re.reason = user._id
-				res.send re
+			User.otherUser othermobile,(err,ouser)->
+				if ouser?
+					re.recode = 201
+					re.reason = "此手机号已经实施过."
+					res.send re
+				else
+					User.newUserNice code,dealer,thir,cartype,othername,othermobile,vin,mileage,customer,(err,user)->
+						console.log err,user
+						re.reason = user._id
+						res.send re
 exports.nineid = (req,res,next)->
 	id = req.params.id
 
@@ -220,20 +226,26 @@ exports.dealerinfopost = (req,res,next)->
 		re.reason = "用户名不能为空"
 	console.log re
 	if re.recode is 200
-		ep = new EventProxy.create "user","uvin",(user,uvin)->
-			console.log "goto save."
+		ep = new EventProxy.create "user","uvin","ouser",(user,uvin,ouser)->
+			# console.log "goto save."
+			usedby = false
+			if ouser?
+				usedby = true
+				console.log "已经实施过的用户."
 			if uvin?
 				re.recode = 201
 				re.reason = "此VIN码在此车型下已经存在,请确认."
 				res.send re
 			else
-				User.updateInfo code,req.cookies.user,othername,othermobile,vin,mileage,customer,(err,resutls)->
+				User.updateInfo code,req.cookies.user,othername,othermobile,vin,mileage,customer,usedby,(err,resutls)->
 					if resutls?
 						console.log resutls
 					else
 						re.recode = 201
 						re.reason = "随机码非本经销商所有."
 					res.send re
+		User.otherUser othermobile,(err,ouser)->
+			ep.emit "ouser",ouser
 		User.getUserByCode code,req.cookies.user,(err,user)->
 			cartype = user.cartype
 			ep.emit "user",user
@@ -270,6 +282,14 @@ exports.pocp = (req,res,next)->
 			re.recode = 201
 			re.reason = "现用密码错误,无法修改."
 			res.send re
+
+exports.download = (req,res,next)->
+	result = 'a,b,c'
+	res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+	res.setHeader("Content-Disposition", "attachment; filename=Report.xls");
+	res.end(result, 'binary');
+
+
 
 
 defaultDealer = ->
@@ -628,7 +648,7 @@ defaultDealer = ->
 		Dealer.new "贵州","贵阳市","小河区","D1604","贵阳宏健东","100349"
 		Dealer.new "贵州","贵阳市","乌当区","D1605","贵阳安泰和","100350"
 		Dealer.new "贵州","铜仁市","万山区","D1606","铜仁恒信华通","100351"
-		Dealer.new "贵州","六盘水","红桥新区","D1607","六盘水远现","100352"
+		Dealer.new "贵州","六盘水市","红桥新区","D1607","六盘水远现","100352"
 		Dealer.new "贵州","安顺市","西秀区","D1608","安顺恒信德龙","100353"
 		Dealer.new "贵州","兴义市","木贾物流园","D1609","兴义林兴","100354"
 		Dealer.new "贵州","凯里市","鸭塘镇","D1610","凯里恒信德龙","100355"
@@ -797,7 +817,7 @@ defaultDealer = ->
 		Dealer.new "黑龙江","佳木斯市","佳木斯市","D2505","佳木斯中天驭风","100518"
 		Dealer.new "黑龙江","齐齐哈尔市","南苑开发区","D2506","齐齐哈尔瑞宝宏通","100519"
 		Dealer.new "黑龙江","牡丹江市","阳明区","D2507","牡丹江百强丰源","100520"
-		Dealer.new "黑龙江","七台河","桃山区","D2508","七台河隆达","100521"
+		Dealer.new "黑龙江","七台河市","桃山区","D2508","七台河隆达","100521"
 		Dealer.new "黑龙江","黑河市","北安市","D2509","北安成功万邦","100522"
 		Dealer.new "黑龙江","大庆市","让胡路区","D2510","大庆业勤鸿润","100523"
 		Dealer.new "黑龙江","齐齐哈尔市","龙沙区","D2511","齐齐哈尔骏发","100524"
@@ -846,10 +866,10 @@ defaultDealer = ->
 		Dealer.new "辽宁","瓦房店市","吴店村","D2725","恒岳伟业","100567"
 		Dealer.new "辽宁","大连市","西岗区","D2726","大连金汇航","100568"
 		Dealer.new "辽宁","抚顺市","望花区","D2727","抚顺鑫博众","100569"
-		Dealer.new "河北","石家庄","裕华区","D2801","河北骏通","100570"
+		Dealer.new "河北","石家庄市","裕华区","D2801","河北骏通","100570"
 		Dealer.new "河北","秦皇岛市","开发区","D2802","秦皇岛瑞通佰盛","100571"
 		Dealer.new "河北","保定市","开发区","D2803","保定轩宇","100572"
-		Dealer.new "河北","石家庄","长安区","D2804","河北盛文","100573"
+		Dealer.new "河北","石家庄市","长安区","D2804","河北盛文","100573"
 		Dealer.new "河北","邯郸市","高新区","D2805","邯郸嘉华","100574"
 		Dealer.new "河北","唐山市","开平区","D2806","唐山海洋","100575"
 		Dealer.new "河北","邢台市","桥东区","D2807","邢台京鹏","100576"

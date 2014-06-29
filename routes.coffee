@@ -11,6 +11,7 @@ admin = require './controllers/admin'
 module.exports = (app)->
   app.get '/', home.index
   app.get '/success', home.success
+  app.get '/backcode', home.backcode
   app.post "/regs",home.post
   
 
@@ -33,6 +34,10 @@ module.exports = (app)->
   app.post '/admin/dealer/infopost',admin.dealerinfopost
 
   app.post '/admin/in',admin.inpost
+
+
+  app.get '/admin/download',admin.download
+  
   # app.get '/admin/dealer',dealer.homepage
   # app.get '/admin/dealer',dealer.homepage
   # app.get '/admin/home',dealer.homepage

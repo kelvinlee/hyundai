@@ -3038,4 +3038,10 @@ button::-moz-focus-inner {
 	p {
 		margin:0px;
 	}
+	tr td a{
+		display: none;
+	}
+	.form-control {
+		display: none;
+	}
 }

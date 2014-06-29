@@ -30,6 +30,10 @@ UserSchema = new Schema({
   mileage: {
     type: String
   },
+  usedby: {
+    type: Boolean,
+    "default": false
+  },
   from: {
     type: Number
   },

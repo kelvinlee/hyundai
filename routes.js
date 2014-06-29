@@ -8,6 +8,7 @@ admin = require('./controllers/admin');
 module.exports = function(app) {
   app.get('/', home.index);
   app.get('/success', home.success);
+  app.get('/backcode', home.backcode);
   app.post("/regs", home.post);
   app.get('/admin/*', admin.before);
   app.get('/admin/index', admin.index);
@@ -24,7 +25,8 @@ module.exports = function(app) {
   app.get('/admin/dealer/nine/:id', admin.nineid);
   app.post('/admin/dealer/nine', admin.ninepost);
   app.post('/admin/dealer/infopost', admin.dealerinfopost);
-  return app.post('/admin/in', admin.inpost);
+  app.post('/admin/in', admin.inpost);
+  return app.get('/admin/download', admin.download);
 };
 
 console.log("routes loaded.");

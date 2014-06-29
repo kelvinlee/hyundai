@@ -630,8 +630,8 @@ var App = function () {
   /*Data Tables*/
   var dataTables = function(){
   	//Basic Instance
-    $("#datatable").dataTable();
-
+    var newtable = $("#datatable").dataTable({aLengthMenu:[[-1, 5, 50, 100, 200],["所有", 5, 50, 100, 200]]});
+    newtable.fnSort([[0,'desc']]);
     //Search input style
     $('.dataTables_filter input').addClass('form-control').attr('placeholder','Search');
     $('.dataTables_length select').addClass('form-control');    

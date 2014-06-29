@@ -1,7 +1,7 @@
 extends layout 
 block content_here
 	-function getType(n){ if (n == null){return "";} var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}]; return type[parseInt(n)-1].name; }
-	div#head-nav.navbar.navbar-default.navbar-fixed-top
+	div#head-nav.print-hide.navbar.navbar-default.navbar-fixed-top
 		div.container-fluid
 			div.navbar-header
 				button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
@@ -20,7 +20,7 @@ block content_here
 						a(href="/admin/password") 修改密码
 					li
 						a(href="/admin/out") 退出
-	div#cl-wrapper
+	div#cl-wrapper.print-hide
 		div#pcont.container-fluid(style="margin:0px;")
 			div.page-head
 				h2 客户查询
@@ -47,12 +47,13 @@ block content_here
 										input.form-control.datepicker(type="text",size="16",name="endtime",style="width:140px;display:inline-block;")
 										button.btn.btn-primary(type="button",onclick="searchdate()") 查询
 										a.btn.btn-default(href="/admin/dealer") 重置
+										button.btn.btn-primary(type="button",onclick="printtable()") 打印
 									div
 										p 使用shift+点击,可以使用多项排序.
 									table#datatable.table.table-bordered
 										thead
 											tr
-												th. 时间
+												th.sorting_desc 时间
 												th 姓名
 												th 手机
 												th 车型
@@ -65,17 +66,24 @@ block content_here
 												tr.odd.gradeX
 													-var a = new Date(list[i].create_at);
 													td #{a.getFullYear()}-#{a.getMonth()+1}-#{a.getDate()} #{a.getHours()}:#{a.getMinutes()}
-													td #{list[i].username}
-													td #{list[i].mobile}
+													-if (list[i].code == "9999999")
+														td #{list[i].othername}
+														td #{list[i].othermobile}
+													-else
+														td #{list[i].username}
+														td #{list[i].mobile}
 													td #{getType(list[i].cartype)}
-													-if (list[i].reser_at == null)
+													-if (list[i].reser_at == null && list[i].imp_at == null)
 														td 
 															input.form-control.datepicker(type="text",size="16",data-format="yy-mm-dd",name="reser",style="width:140px",readonly)
+													-else if (list[i].imp_at != null && list[i].reser_at == null)
+														td
 													-else
 														-var b = new Date(list[i].reser_at);
 														td #{b.getFullYear()}-#{b.getMonth()+1}-#{b.getDate()}
 													-if (list[i].imp_at == null)
 														td
+															input(type="text",name="imp_at",value="null",style="display:none;")
 													-else
 														-var b = new Date(list[i].imp_at);
 														td #{b.getFullYear()}-#{b.getMonth()+1}-#{b.getDate()}
@@ -147,6 +155,13 @@ block js_here
 				}
 			});
 			return false;
+		}
+		function printtable() {
+			$("#printtable").remove();
+			newtable = $("#datatable").clone().attr("id","printtable");
+			newtable.addClass("print-visible");
+			$("body").append(newtable);
+			window.print();
 		}
     
 	script(src="/js/bootstrap/dist/js/bootstrap.min.js")

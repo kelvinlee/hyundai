@@ -39,7 +39,10 @@ block content_here
 						div.col-sm-4.col-print-4
 							div.block-flat
 								div.header
-									h3 32项检测项目
+									-if (user.usedby)
+										h3 32项检测项目 [已实施]
+									-else
+										h3 32项检测项目
 								div.content
 									ul(style="list-style:none;margin:0px;padding:0px;")
 										-var thirlist = ["1.	发动机/变速箱机油是否正常","2.	发动机冷却液是否正常","3.	制动油/离合器油是否正常","4.	动力转向油是否正常","5.	空气滤清器状态是否正常","6.	驱动皮带状态","7.	蓄电池工作状态及桩头紧固检查","8.	玻璃水是否正常","9.	发动机舱内进气管是否有涉水痕迹","10.	线路（插头）连接及工作状态是否正常","11.	检查车辆各种灯光是否齐全","12.	检查灯内是否有水迹","13.	检查雨刮喷水效果及胶片性能","14.	检查雨刮胶片性能是否正常","15.	车窗密封胶条是否变形","16.	冷凝器及散热器清洁及工作状况检查","17.	显示工作状态是否正常","18.	空调&暖风工作状态","19.	空调空气滤清器更换或清洁","20.	驻车制动器工作状态","21.	制动踏板/离合器踏板工作状态","22.	天窗槽是否积水","23.	室内地毯、顶棚是否有水迹","24.	电脑检测（故障代码）","25.	转向系统工作性能检查","26.	转向机防尘套是否破碎，是否有涉水","27.	刹车系统工作情况是否正常","28.	制动片&盘生锈及磨损情况","29.	传动轴防尘套是否损坏，是否涉水","30.	减震器工作状态","31.	底盘螺栓紧固检查","32.	轮胎胎压及磨损情况"];
@@ -85,7 +88,7 @@ block content_here
 												td #{user.city}
 											tr
 												td 经销商
-												td #{user.dealer}
+												td #{dealer}
 
 
 						div.col-sm-4.col-print-4
@@ -151,6 +154,7 @@ block content_here
 											button.btn.btn-primary.submit(type="button") 提交
 	-function check(a){ for(var i=0;i<user.thir.length;i++){ if (user.thir[i] == a){ return true; } } return false; }
 	-if (user != null && user.othername != null)
+		-if (user.usedby) { user.thir = []; }
 		table.print-visible.MsoNormalTable(border='0', cellspacing='0', cellpadding='0', width='527', style='width:527.0pt;border-collapse:collapse;mso-yfti-tbllook:\
 	1536;mso-padding-alt:0cm 0cm 0cm 0cm')
 			tbody
@@ -458,6 +462,8 @@ block content_here
 						p.MsoNormal
 							-if (check(0))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 发动机/变速箱机油是否正常
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 					mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -485,6 +491,8 @@ block content_here
 						p.MsoNormal
 							-if (check(16))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 仪表显示工作状态是否正常
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 					td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 					mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -512,6 +520,8 @@ block content_here
 						p.MsoNormal
 							-if (check(1))
 								span(style='font-size:9.0pt;font-family:微软雅黑') 发动机冷却液是否正常 
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 					mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -539,6 +549,8 @@ block content_here
 						p.MsoNormal
 							-if (check(17))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 空调&暖风工作状态 
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 					td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 					mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -566,6 +578,8 @@ block content_here
 						p.MsoNormal
 							-if (check(2))
 								span(style='font-size:9.0pt;font-family:微软雅黑') 制动油/离合器油是否正常 
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 					mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -593,6 +607,8 @@ block content_here
 						p.MsoNormal
 							-if (check(18))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 空调空气滤清器更换或清洁
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 					td(width='112', colspan='4', style='width:111.65pt;border-top:none;border-left:\
 					none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 					mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -620,7 +636,9 @@ block content_here
 						p.MsoNormal
 							-if (check(3))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 动力转向油是否正常
-							
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
+
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 					mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -648,6 +666,8 @@ block content_here
 						p.MsoNormal
 							-if (check(19))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 驻车制动器工作状态
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 							
 					td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
@@ -676,6 +696,8 @@ block content_here
 						p.MsoNormal
 							-if (check(4))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 空气滤清器状态是否正常
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 							
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
@@ -704,6 +726,8 @@ block content_here
 						p.MsoNormal
 							-if (check(20))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 制动踏板/离合器踏板工作状态
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 							
 					td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
@@ -732,6 +756,8 @@ block content_here
 						p.MsoNormal
 							-if (check(5))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 驱动皮带状态
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
@@ -760,6 +786,8 @@ block content_here
 						p.MsoNormal
 							-if (check(21))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 天窗槽是否有积水
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 					td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
@@ -788,6 +816,8 @@ block content_here
 						p.MsoNormal
 							-if (check(6))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 蓄电池工作状态及桩头紧固检查
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
@@ -816,6 +846,8 @@ block content_here
 						p.MsoNormal
 							-if (check(22))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 室内地毯、顶蓬是否有水迹
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 					td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
@@ -844,6 +876,8 @@ block content_here
 						p.MsoNormal
 							-if (check(7))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 玻璃水是否正常
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
@@ -872,6 +906,8 @@ block content_here
 						p.MsoNormal
 							-if (check(23))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 电脑检测（故障代码）
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 					td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
@@ -900,6 +936,8 @@ block content_here
 						p.MsoNormal
 							-if (check(8))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 发动机舱内进气管是否有涉水痕迹
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
@@ -928,6 +966,8 @@ block content_here
 						p.MsoNormal
 							-if (check(24))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 转向系统工作性能检查
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 
 					td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
@@ -957,6 +997,8 @@ block content_here
 						p.MsoNormal
 							-if (check(9))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 线路（插头）连接及工作状态是否正常
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
@@ -986,6 +1028,8 @@ block content_here
 						p.MsoNormal
 							-if (check(25))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 转向机防尘套是否破损，是否有涉水
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 					td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
@@ -1014,6 +1058,8 @@ block content_here
 						p.MsoNormal
 							-if (check(10))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 检查车辆各种灯光是否齐全
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
@@ -1043,6 +1089,8 @@ block content_here
 						p.MsoNormal
 							-if (check(26))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 刹车系统工作情况是否正常
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 
 					td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
@@ -1072,6 +1120,8 @@ block content_here
 						p.MsoNormal
 							-if (check(11))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 检查灯内是否有水迹
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
@@ -1101,6 +1151,8 @@ block content_here
 						p.MsoNormal
 							-if (check(27))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 制动片&盘生锈及磨损情况 
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 
 
@@ -1131,6 +1183,8 @@ block content_here
 						p.MsoNormal
 							-if (check(12))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 检查雨刮喷水效果及胶片性能
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
@@ -1159,6 +1213,8 @@ block content_here
 						p.MsoNormal
 							-if (check(28))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 传动轴防尘套是否损坏，是否有涉水
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 
 					td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
@@ -1188,6 +1244,8 @@ block content_here
 						p.MsoNormal
 							-if (check(13))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 检查雨刮胶片性能是否正常
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
@@ -1217,6 +1275,8 @@ block content_here
 						p.MsoNormal
 							-if (check(29))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 减振器工作状态
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 
 					td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
@@ -1246,6 +1306,8 @@ block content_here
 						p.MsoNormal
 							-if (check(14))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 车窗密封胶条时候变形
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
@@ -1275,6 +1337,8 @@ block content_here
 						p.MsoNormal
 							-if (check(30))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 底盘螺栓紧固检查
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 
 					td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
@@ -1304,6 +1368,8 @@ block content_here
 						p.MsoNormal
 							-if (check(15))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 冷凝器及散热器清洁及工作状况检查
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 					td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
@@ -1332,6 +1398,8 @@ block content_here
 						p.MsoNormal
 							-if (check(31))
 								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 轮胎胎压及磨损情况
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 					td(width='36', style='width:35.85pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
@@ -1374,6 +1442,8 @@ block content_here
 						p.MsoNormal
 							-if (user.tenoff)
 								span(style='font-size:9.0pt;font-family:微软雅黑') 3.配件9折优惠：机油（5W-20/30SM）机油滤芯 空气滤清器
+							-else
+								span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') 无
 
 				tr(style='mso-yfti-irow:29;height:15.75pt')
 					td(width='527', colspan='18', style='width:527.0pt;border:solid #A6A6A6 1.0pt;\
@@ -1479,6 +1549,7 @@ block content_here
 					none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 					mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
 					padding:2.25pt 2.85pt 2.25pt 2.85pt;height:36.2pt')
+						span(lang='ZH-CN', style='font-size:9.0pt;font-family:微软雅黑') #{user.customer}
 					td(width='64', colspan='3', style='width:63.75pt;border-top:none;border-left:none;\
 					border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 					mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\

@@ -202,7 +202,7 @@ exports.post = function(req, res, next) {
   city = req.body.city;
   dealer = req.body.dealer;
   thir = req.body.thir;
-  console.log("post: ", lot);
+  console.log("post: ", req.body);
   if ((username == null) || username === "") {
     re.recode = 201;
     re.reason = "用户名不能为空";
@@ -265,7 +265,7 @@ exports.post = function(req, res, next) {
         console.log("user:", code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir);
         User.newReg(code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir, function(err, results) {
           var content;
-          content = "【活动验证码" + code + "】（请妥善保存）亲爱的车主，恭喜您已经在活动网站注册成功！请您于7月16日-8月31日期间到您选择的经销商处参加此次活动。在您到店参加活动时，请出示活动验证码，以便经销商进行活动验证。感谢您的积极参与！";
+          content = "【北京现代感恩活动验证码" + code + "】（请妥善保存）亲爱的车主，恭喜您已经在活动网站注册成功！请您于7月16日-8月31日期间到您选择的经销商处参加此次活动。在您到店参加活动时，请出示活动验证码，以便经销商进行活动验证。感谢您的积极参与！";
           return sendMSG(content, mobile);
         });
         re.reason = code;
@@ -288,12 +288,37 @@ exports.post = function(req, res, next) {
   }
 };
 
+exports.backcode = function(req, res, next) {
+  var mobile, re;
+  mobile = req.query.mobile;
+  re = new helper.recode();
+  if ((mobile == null) || mobile === "") {
+    re.recode = 201;
+    re.reason = "手机号码不能为空";
+    return res.send(re);
+  }
+  return User.getUserByMobile(mobile, function(err, user) {
+    var code, content;
+    console.log(err, user);
+    if (user != null) {
+      code = user.code;
+      content = "【北京现代感恩活动验证码" + code + "】（请妥善保存）亲爱的车主，恭喜您已经在活动网站注册成功！请您于7月16日-8月31日期间到您选择的经销商处参加此次活动。在您到店参加活动时，请出示活动验证码，以便经销商进行活动验证。感谢您的积极参与！";
+      sendMSG(content, mobile);
+      return res.send(re);
+    } else {
+      re.recode = 201;
+      re.reason = "您并没有注册过此次活动";
+      return res.send(re);
+    }
+  });
+};
+
 msgurl = "http://116.213.72.20/SMSHttpService/send.aspx?";
 
 sendMSG = function(content, mobile) {
   var op, pa, post_data, request, u;
   u = URL.parse(msgurl);
-  pa = "username={username}&password={password}&mobile={mobile}&content={content}";
+  pa = "username={username}&password={password}&mobile={mobile}&content={content}&Extcode=106";
   pa = pa.replace("{username}", config.msguser);
   pa = pa.replace("{password}", config.msgpass);
   pa = pa.replace("{mobile}", mobile);
@@ -310,7 +335,8 @@ sendMSG = function(content, mobile) {
   request = http.request(op, function(res) {
     return res.on('data', function(chunk) {
       var obj;
-      return obj = JSON.parse(chunk);
+      obj = JSON.parse(chunk);
+      return console.log(obj);
     });
   });
   request.write(JSON.stringify(post_data) + '\n');

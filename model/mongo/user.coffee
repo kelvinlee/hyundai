@@ -5,6 +5,12 @@ User = models.User
 exports.getUserByCarType = (cartype,vin,callback)->
   User.findOne {cartype:cartype,vin:vin},callback
 
+exports.otherUser = (mobile,next)->
+  User.findOne {othermobile:mobile},next
+
+exports.getUserByMobile = (mobile,next)->
+  User.findOne {mobile:mobile},next
+
 exports.getUserByDealer = (dealer,callback)->
   # 获取经销商用户列表
   User.find {dealer:dealer},callback
@@ -35,7 +41,7 @@ getUserById = (id,callback)->
   User.findById id,callback
 exports.getUserById = getUserById
 
-updateInfo = (code,dealer_id,othername,othermobile,vin,mileage,customer,callback)->
+updateInfo = (code,dealer_id,othername,othermobile,vin,mileage,customer,usedby,callback)->
   getUserByCode code,dealer_id,(err,user)->
     if user?
       user.othername = othername
@@ -44,6 +50,7 @@ updateInfo = (code,dealer_id,othername,othermobile,vin,mileage,customer,callback
       user.mileage = mileage
       user.customer = customer
       user.imp_at = new Date()
+      user.usedby = usedby
       user.save callback
     else
       callback err,{}

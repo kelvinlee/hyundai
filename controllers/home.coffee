@@ -141,7 +141,7 @@ exports.post = (req,res,next)->
 
 
 
-	console.log "post: ",lot
+	console.log "post: ",req.body
 	# res.send {recode:201,reason:"error"}
 	# return ""
 	# if req.body.thir.length < 32
@@ -200,7 +200,7 @@ exports.post = (req,res,next)->
 
 				User.newReg code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir,(err,results)->
 					# console.log err,results
-					content = "【活动验证码#{code}】（请妥善保存）亲爱的车主，恭喜您已经在活动网站注册成功！请您于7月16日-8月31日期间到您选择的经销商处参加此次活动。在您到店参加活动时，请出示活动验证码，以便经销商进行活动验证。感谢您的积极参与！"
+					content = "【北京现代感恩活动验证码#{code}】（请妥善保存）亲爱的车主，恭喜您已经在活动网站注册成功！请您于7月16日-8月31日期间到您选择的经销商处参加此次活动。在您到店参加活动时，请出示活动验证码，以便经销商进行活动验证。感谢您的积极参与！"
 					sendMSG content,mobile
 				re.reason = code
 				res.send re
@@ -216,6 +216,27 @@ exports.post = (req,res,next)->
 	else
 		res.send re
 
+exports.backcode = (req,res,next)->
+	mobile = req.query.mobile
+	re = new helper.recode()
+
+	if not mobile? or mobile is ""
+		re.recode = 201
+		re.reason = "手机号码不能为空"
+		return res.send re
+
+	User.getUserByMobile mobile,(err,user)->
+		console.log err,user
+		if user?
+			code = user.code
+			content = "【北京现代感恩活动验证码#{code}】（请妥善保存）亲爱的车主，恭喜您已经在活动网站注册成功！请您于7月16日-8月31日期间到您选择的经销商处参加此次活动。在您到店参加活动时，请出示活动验证码，以便经销商进行活动验证。感谢您的积极参与！"
+			sendMSG content,mobile
+			res.send re
+		else
+			re.recode = 201
+			re.reason = "您并没有注册过此次活动"
+			res.send re
+
 
 # http://116.213.72.20/SMSHttpService/send.aspx
 # 短信发送
@@ -226,7 +247,7 @@ msgurl = "http://116.213.72.20/SMSHttpService/send.aspx?"
 sendMSG = (content,mobile)->
 	u = URL.parse msgurl
 	 # p = if u['port'] then u['port'] else 80
-	pa = "username={username}&password={password}&mobile={mobile}&content={content}" #&Extcode=106
+	pa = "username={username}&password={password}&mobile={mobile}&content={content}&Extcode=106"
 	pa = pa.replace "{username}",config.msguser
 	pa = pa.replace "{password}",config.msgpass
 	pa = pa.replace "{mobile}",mobile
@@ -246,7 +267,7 @@ sendMSG = (content,mobile)->
 
 		res.on 'data', (chunk)->
 			obj = JSON.parse chunk
-			# console.log obj
+			console.log obj
 	# console.log JSON.stringify post_data
 	request.write JSON.stringify(post_data)+'\n'
 	request.end()

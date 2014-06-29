@@ -12,6 +12,18 @@ exports.getUserByCarType = function(cartype, vin, callback) {
   }, callback);
 };
 
+exports.otherUser = function(mobile, next) {
+  return User.findOne({
+    othermobile: mobile
+  }, next);
+};
+
+exports.getUserByMobile = function(mobile, next) {
+  return User.findOne({
+    mobile: mobile
+  }, next);
+};
+
 exports.getUserByDealer = function(dealer, callback) {
   return User.find({
     dealer: dealer
@@ -85,7 +97,7 @@ getUserById = function(id, callback) {
 
 exports.getUserById = getUserById;
 
-updateInfo = function(code, dealer_id, othername, othermobile, vin, mileage, customer, callback) {
+updateInfo = function(code, dealer_id, othername, othermobile, vin, mileage, customer, usedby, callback) {
   return getUserByCode(code, dealer_id, function(err, user) {
     if (user != null) {
       user.othername = othername;
@@ -94,6 +106,7 @@ updateInfo = function(code, dealer_id, othername, othermobile, vin, mileage, cus
       user.mileage = mileage;
       user.customer = customer;
       user.imp_at = new Date();
+      user.usedby = usedby;
       return user.save(callback);
     } else {
       return callback(err, {});
