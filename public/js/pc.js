@@ -5575,6 +5575,9 @@ fGetProvince = function() {
 
 fGetCity = function(p) {
   var aList, c, _ref;
+  if (p === "") {
+    return [];
+  }
   aList = [];
   _ref = _pc[p];
   for (p in _ref) {
@@ -5679,6 +5682,9 @@ fGetHTMLC = function(p) {
 
 fGetHTMLS = function(p, c, t) {
   var html, s, _i, _len, _ref;
+  if (p === "" || c === "" || t === "") {
+    return "";
+  }
   html = "";
   _ref = _pc[p][c][t];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {

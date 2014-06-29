@@ -1713,12 +1713,12 @@ fGetProvince = ()->
 	aList.push p for p,c of _pc
 	aList
 fGetCity = (p)->
+	return [] if p is ""
 	aList = []
 	aList.push p for p,c of _pc[p]
 	aList
 fGetCounty = (p,c)->
 	return [] if p is "" or c is ""
-		
 	aList = []
 	aList.push k for k,v of _pc[p][c]
 	aList
@@ -1757,6 +1757,7 @@ fGetHTMLC = (p)->
 	html
 
 fGetHTMLS = (p,c,t)->
+	return "" if p is "" or c is "" or t is ""
 	html = ""
 	html+= '<option value="'+s.code+'" data-adr="'+s.adr+'">'+s.name+'</option>' for s in _pc[p][c][t]
 	html
