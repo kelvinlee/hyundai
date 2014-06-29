@@ -1,7 +1,7 @@
 extends layout 
 block content_here
 	-function getType(n){ if (n == null){return "";} var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}]; return type[parseInt(n)-1].name; }
-	-function getDates(date){ return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes(); }
+	-function getDates(date){ if (n == null){return "";} return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes(); }
 	div#head-nav.print-hide.navbar.navbar-default.navbar-fixed-top
 		div.container-fluid
 			div.navbar-header
