@@ -361,9 +361,9 @@ $(document).ready(function() {
     console.log(myK("county").value);
     myK("province").onchange = function() {
       return setTimeout(function() {
-        myK("city").innerHTML = fGetHTMLC(myK("province").value);
-        myK("county").innerHTML = fGetHTMLT(myK("province").value, myK("city").value);
-        myK("dealer").innerHTML = fGetHTMLS(myK("province").value, myK("city").value, myK("county").value);
+        $("#city").html(fGetHTMLC(myK("province").value));
+        $("#county").html(fGetHTMLT(myK("province").value, myK("city").value));
+        $("#dealer").html(fGetHTMLS(myK("province").value, myK("city").value, myK("county").value));
         $('#city').change();
         $("#county").change();
         return $('#dealer').change();
@@ -371,14 +371,15 @@ $(document).ready(function() {
     };
     myK("city").onchange = function() {
       return setTimeout(function() {
-        myK("county").innerHTML = fGetHTMLT(myK("province").value, myK("city").value);
+        $("#county").html = fGetHTMLT(myK("province").value, myK("city").value);
+        $("#dealer").html = fGetHTMLS(myK("province").value, myK("city").value, myK("county").value);
         $("#county").change();
         return $('#dealer').change();
       }, 20);
     };
     myK("county").onchange = function() {
       return setTimeout(function() {
-        myK("dealer").innerHTML = fGetHTMLS(myK("province").value, myK("city").value, myK("county").value);
+        $("#dealer").html = fGetHTMLS(myK("province").value, myK("city").value, myK("county").value);
         return $('#dealer').change();
       }, 20);
     };

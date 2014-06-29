@@ -32,9 +32,9 @@ $(document).ready ->
 		console.log myK("county").value
 		myK("province").onchange = ->
 			setTimeout ->
-				myK("city").innerHTML = fGetHTMLC myK("province").value
-				myK("county").innerHTML = fGetHTMLT myK("province").value,myK("city").value
-				myK("dealer").innerHTML = fGetHTMLS myK("province").value,myK("city").value,myK("county").value
+				$("#city").html fGetHTMLC myK("province").value
+				$("#county").html fGetHTMLT myK("province").value,myK("city").value
+				$("#dealer").html fGetHTMLS myK("province").value,myK("city").value,myK("county").value
 				$('#city').change()
 				$("#county").change()
 				$('#dealer').change() 
@@ -43,13 +43,14 @@ $(document).ready ->
 			setTimeout -> 
 				# myK("dealer").innerHTML = fGetHTMLS myK("province").value,myK("city").value,myK("county").value
 				# $('#dealer').change()
-				myK("county").innerHTML = fGetHTMLT myK("province").value,myK("city").value
+				$("#county").html = fGetHTMLT myK("province").value,myK("city").value
+				$("#dealer").html = fGetHTMLS myK("province").value,myK("city").value,myK("county").value
 				$("#county").change()
 				$('#dealer').change()
 			,20
 		myK("county").onchange = ->
 			setTimeout ->
-				myK("dealer").innerHTML = fGetHTMLS myK("province").value,myK("city").value,myK("county").value
+				$("#dealer").html = fGetHTMLS myK("province").value,myK("city").value,myK("county").value
 				$('#dealer').change()
 			,20
 		# myK("type").innerHTML = fGetCarTypeHTML()
