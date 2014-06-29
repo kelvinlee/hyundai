@@ -19,10 +19,11 @@ html(lang="en").no-js
 		//- link(rel="stylesheet",href="css/animate.css")
 		link(rel="stylesheet",href="/js/bootstrap/dist/css/bootstrap.css")
 		//- link(rel="stylesheet",href="/fonts/font-awesome-4/css/font-awesome.min.css")
-		link(rel="stylesheet",href="/css/main.css")
+		link(rel="stylesheet",id="browser",href="/css/main.css")
 		//- script(src="js/vendor/modernizr-2.6.2.min.js")
 		//- script(src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js")
 		| <!--[if lt IE 9]><link href="/css/ie.css" /><![endif]-->
+		| <!--[if lt IE 9]><script src="/js/ie.js"></script><![endif]-->
 		block css_here
 	body.texture
 		block content_here
