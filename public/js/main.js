@@ -339,7 +339,7 @@ gico = new Giccoo('normal');
 --------------------------------------------
  */
 
-if (window.addEventListener != null) {
+if (typeof window.addEventListener !== "undefined") {
   document.addEventListener('WeixinJSBridgeReady', function() {
     return WeixinJSBridge.call('hideToolbar');
   });

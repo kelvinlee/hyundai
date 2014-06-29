@@ -2,7 +2,7 @@
 # @codekit-prepend "coffee/plugs.coffee";
 
 # already = false
-if window.addEventListener?
+if typeof window.addEventListener isnt "undefined"
 	document.addEventListener 'WeixinJSBridgeReady', ->
 		WeixinJSBridge.call 'hideToolbar'
 
