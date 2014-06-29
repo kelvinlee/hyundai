@@ -1,11 +1,11 @@
 .homepage {
-  background: none;
+  background: none !important;
 }
 .homepage .container {
   width: 960px !important;
 }
 .container {
-  width: 960px;
+  width: 920px !important;
 }
 .container .col-sm-4 {
   float: left;
