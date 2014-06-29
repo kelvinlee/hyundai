@@ -208,6 +208,35 @@ exports.dealerinfopost = function(req, res, next) {
   }
 };
 
+exports.changepassword = function(req, res, next) {
+  return res.render("admin/changepassword");
+};
+
+exports.pocp = function(req, res, next) {
+  var newpass, password, re, username;
+  re = new helper.recode();
+  username = req.cookies.user;
+  password = req.body.password;
+  newpass = req.body.newpass;
+  if (newpass.length < 6 || newpass.length > 18) {
+    re.recode = 201;
+    re.reason = "新密码长度为6到18位";
+    res.send(re);
+    return false;
+  }
+  return Dealer.login(username.toUpperCase(), password, function(err, resutls) {
+    if (resutls != null) {
+      resutls.password = newpass;
+      resutls.save();
+      return res.send(re);
+    } else {
+      re.recode = 201;
+      re.reason = "现用密码错误,无法修改.";
+      return res.send(re);
+    }
+  });
+};
+
 defaultDealer = function() {
   return Dealer.get(function(err, resutls) {
     if (resutls.length > 0) {

@@ -169,6 +169,30 @@ exports.dealerinfopost = (req,res,next)->
 		res.send re
 
 
+exports.changepassword = (req,res,next)->
+	res.render "admin/changepassword"
+exports.pocp = (req,res,next)->
+	re = new helper.recode()
+
+	username = req.cookies.user
+	password = req.body.password
+	newpass = req.body.newpass
+
+	if newpass.length < 6 || newpass.length > 18
+		re.recode = 201
+		re.reason = "新密码长度为6到18位"
+		res.send re
+		return false
+
+	Dealer.login username.toUpperCase(),password,(err,resutls)->
+		if resutls?
+			resutls.password = newpass
+			resutls.save()
+			res.send re
+		else
+			re.recode = 201
+			re.reason = "现用密码错误,无法修改."
+			res.send re
 
 
 defaultDealer = ->

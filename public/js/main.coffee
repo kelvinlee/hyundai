@@ -2,8 +2,9 @@
 # @codekit-prepend "coffee/plugs.coffee";
 
 # already = false
-document.addEventListener 'WeixinJSBridgeReady', ->
-	WeixinJSBridge.call 'hideToolbar'
+if window.addEventListener?
+	document.addEventListener 'WeixinJSBridgeReady', ->
+		WeixinJSBridge.call 'hideToolbar'
 
 $(document).ready ->
 	setCartype()

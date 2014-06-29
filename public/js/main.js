@@ -339,9 +339,11 @@ gico = new Giccoo('normal');
 --------------------------------------------
  */
 
-document.addEventListener('WeixinJSBridgeReady', function() {
-  return WeixinJSBridge.call('hideToolbar');
-});
+if (window.addEventListener != null) {
+  document.addEventListener('WeixinJSBridgeReady', function() {
+    return WeixinJSBridge.call('hideToolbar');
+  });
+}
 
 $(document).ready(function() {
   setCartype();
