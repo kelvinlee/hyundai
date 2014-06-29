@@ -464,6 +464,13 @@ checklots = function() {
 };
 
 bindstepbystep = function() {
+  $(".thirzk").click(function() {
+    if ($(".thirlist").is(".autohight")) {
+      return $(".thirlist").removeClass("autohight");
+    } else {
+      return $(".thirlist").addClass("autohight");
+    }
+  });
   $("[name=mobilestep]").click(function() {
     $(".mobilestep1").hide();
     return $(".mobilestep2").show();
@@ -501,9 +508,12 @@ bindstepbystep = function() {
     $(".select32 input").each(function(i) {
       return $(".select321 li").eq(i).find("div").attr("class", $(this).parent().attr("class"));
     });
-    $(".tenoff").attr("class", $("[name=tenoff]").parent().attr("class"));
-    $("#lot-show").html($("[name=lot]:checked").parents(".lot-item").clone());
-    $("#lot-show input").remove();
+    $(".tenoff div").removeClass("checkbox-parent undefined on").attr("class", $("[name=tenoff]").parent().attr("class"));
+    console.log($("[name=tenoff]").parent().attr("class"));
+    if ($("#freelot .on").parent().length >= 0) {
+      $("#lot-show").html($("#freelot .on").parent().clone());
+      $("#lot-show input").remove();
+    }
     if ($("[name=changed]:checked").length <= 0) {
       $("#changed-show").html($("[name=changed][value=" + $("[name=changed]").val() + "]").parents(".lot-item").clone());
     } else {

@@ -293,7 +293,7 @@ msgurl = "http://116.213.72.20/SMSHttpService/send.aspx?";
 sendMSG = function(content, mobile) {
   var op, pa, post_data, request, u;
   u = URL.parse(msgurl);
-  pa = "username={username}&password={password}&mobile={mobile}&content={content}&Extcode=106";
+  pa = "username={username}&password={password}&mobile={mobile}&content={content}";
   pa = pa.replace("{username}", config.msguser);
   pa = pa.replace("{password}", config.msgpass);
   pa = pa.replace("{mobile}", mobile);

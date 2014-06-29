@@ -12,7 +12,11 @@ exports.login = function(dealer, password, callback) {
   }, callback);
 };
 
-exports["new"] = function(province, city, id, password, name, adr, callback) {
+exports.get = function(next) {
+  return Dealer.find({}, next);
+};
+
+exports["new"] = function(province, city, county, id, name, password) {
   var d;
   d = new Dealer();
   d.province = province;
@@ -20,6 +24,6 @@ exports["new"] = function(province, city, id, password, name, adr, callback) {
   d.dealer_id = id;
   d.password = password;
   d.dealer = name;
-  d.adr = adr;
-  return d.save(callback);
+  d.county = county;
+  return d.save();
 };

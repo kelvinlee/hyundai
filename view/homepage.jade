@@ -77,6 +77,7 @@ block content_here
 								label
 									input(type="checkbox",name="thirtytwo",value="all",checked)
 								h1 32项检测项目
+								span.visible-xs.thirzk
 							div.thirlist.clearfix
 								ul.select32.clearfix
 									li.clearfix 
@@ -211,7 +212,7 @@ block content_here
 						div.box.clearfix
 							h1 免费赠送汽车用品  
 								span (单选)
-							div.lot.clearfix
+							div#freelot.lot.clearfix
 								-for (var i=0;i<count.length;i++)
 									-var readonly = false;
 									-for (var j=0;j<list.length;j++)
@@ -420,8 +421,8 @@ block content_here
 							div#lot-show.lot.clearfix
 								
 						div.box.clearfix
-							label.h2
-								div.tenoff
+							label.h2.tenoff
+								div
 							h2 原厂保养配件9折优惠
 								br
 								span (机油（5W-20/30SM），

@@ -262,6 +262,8 @@ img {
 		.mp();
 		li {
 			.wh(100%);
+			font-size: 10px;
+			line-height: 20px;
 		}
 	}
 	.checkbox-parent {
@@ -390,6 +392,8 @@ img {
 		display: none;
 	}
 }
+
+
 @media (max-width: 768px) {
 	.cartype,.nextstep,.note,.homepage .note {
 		.wh(auto);
@@ -442,6 +446,18 @@ img {
 	}
 	.thirlist {
 		height: 87px;
+		.tram();
+		&.autohight {
+			height: auto;
+			overflow:auto;
+			ul li {
+				line-height: 20px;
+				font-size: 14px;
+				label {
+					height: auto;
+				}
+			}
+		}
 	}
 	.box label {
 		height: 20px;
@@ -451,5 +467,12 @@ img {
 	}
 	.box h2 span {
 		line-height: 12px;
+	}
+	.thirzk {
+		float:right;
+		margin-right: 0px;
+		.wh(56/2px,56/2px);
+		.b("../img/zk.jpg");
+		background-size: cover;
 	}
 }

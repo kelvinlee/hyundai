@@ -938,6 +938,8 @@ img {
 .thirlist ul li {
   width: 100%;
   height: auto;
+  font-size: 10px;
+  line-height: 20px;
 }
 .thirlist .checkbox-parent {
   width: 20px;
@@ -1126,6 +1128,21 @@ img {
   }
   .thirlist {
     height: 87px;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+  }
+  .thirlist.autohight {
+    height: auto;
+    overflow: auto;
+  }
+  .thirlist.autohight ul li {
+    line-height: 20px;
+    font-size: 14px;
+  }
+  .thirlist.autohight ul li label {
+    height: auto;
   }
   .box label {
     height: 20px;
@@ -1135,5 +1152,14 @@ img {
   }
   .box h2 span {
     line-height: 12px;
+  }
+  .thirzk {
+    float: right;
+    margin-right: 0px;
+    width: 28px;
+    height: 28px;
+    background: url("../img/zk.jpg") no-repeat top left;
+    background-color: transparent;
+    background-size: cover;
   }
 }

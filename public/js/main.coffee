@@ -112,6 +112,11 @@ checklots = ->
 			$("[value=#{a.lot}]").parents(".lot-item").hide() if not a.can
 	return ""
 bindstepbystep = ->
+	$(".thirzk").click ->
+		if $(".thirlist").is(".autohight")
+			$(".thirlist").removeClass "autohight"
+		else
+			$(".thirlist").addClass "autohight"
 	$("[name=mobilestep]").click ->
 		$(".mobilestep1").hide()
 		$(".mobilestep2").show()
@@ -139,9 +144,13 @@ bindstepbystep = ->
 		$(".select32 input").each (i)->
 			$(".select321 li").eq(i).find("div").attr "class",$(this).parent().attr "class"
 		# alert $("[name=tenoff]").parent().attr "class"
-		$(".tenoff").attr "class",$("[name=tenoff]").parent().attr "class"
-		$("#lot-show").html $("[name=lot]:checked").parents(".lot-item").clone()
-		$("#lot-show input").remove()
+
+		$(".tenoff div").removeClass("checkbox-parent undefined on").attr "class",$("[name=tenoff]").parent().attr "class"
+		console.log $("[name=tenoff]").parent().attr "class"
+		if $("#freelot .on").parent().length>=0
+			$("#lot-show").html $("#freelot .on").parent().clone()
+			$("#lot-show input").remove()
+
 		if $("[name=changed]:checked").length <= 0
 			$("#changed-show").html $("[name=changed][value="+$("[name=changed]").val()+"]").parents(".lot-item").clone()
 		else

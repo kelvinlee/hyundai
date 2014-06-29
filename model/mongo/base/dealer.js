@@ -24,6 +24,9 @@ DealerSchema = new Schema({
   city: {
     type: String
   },
+  county: {
+    type: String
+  },
   adr: {
     type: String
   },

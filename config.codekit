@@ -39,6 +39,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 0
 		},
+	"\/config.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/config.js",
+		"outputAbbreviatedPath": "\/min\/config-ck.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/controllers\/admin.coffee": {
 		"createSourceMap": 0,
 		"fileType": 32,
@@ -51,17 +62,6 @@
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 0
-		},
-	"\/controllers\/admin.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/controllers\/admin.js",
-		"outputAbbreviatedPath": "\/controllers\/min\/admin-ck.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
 		},
 	"\/controllers\/home.coffee": {
 		"createSourceMap": 0,
@@ -697,6 +697,17 @@
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
+	"\/public\/img\/zk.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 2020,
+		"inputAbbreviatedPath": "\/public\/img\/zk.jpg",
+		"outputAbbreviatedPath": "\/public\/img\/zk.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
 	"\/public\/js\/behaviour\/general.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -1312,6 +1323,15 @@
 		"strictImports": 0,
 		"strictMath": 0,
 		"strictUnits": 0
+		},
+	"\/public\/test.html": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/public\/test.html",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
 		},
 	"\/routes.coffee": {
 		"createSourceMap": 0,

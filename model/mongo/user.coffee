@@ -2,6 +2,9 @@ models = require './base'
 User = models.User
 
 
+exports.getUserByCarType = (cartype,vin,callback)->
+  User.findOne {cartype:cartype,vin:vin},callback
+
 exports.getUserByDealer = (dealer,callback)->
   # 获取经销商用户列表
   User.find {dealer:dealer},callback

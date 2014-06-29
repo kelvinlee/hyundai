@@ -8,6 +8,7 @@ DealerSchema = new Schema({
   dealer:{type:String}
   province:{type:String}
   city:{type:String}
+  county:{type:String}
   adr:{type:String}
   create_at: {type:Date, default:new Date()}
 })
