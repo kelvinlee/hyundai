@@ -1746,8 +1746,6 @@ fGetHTMLP = ->
 	html = ""
 	html+= '<option value="'+i+'">'+i+'</option>' for i in fGetProvince()
 	html
-	alert html
-	return html
 
 fGetHTMLT = (p,city)->
 	html = ""

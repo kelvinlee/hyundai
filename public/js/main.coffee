@@ -20,11 +20,15 @@ $(document).ready ->
 
 
 	if myK("province")
-		myK("province").innerHTML = fGetHTMLP()
-		myK("city").innerHTML = fGetHTMLC myK("province").value
-		myK("county").innerHTML = fGetHTMLT myK("province").value,myK("city").value
-		console.log myK("county").value
-		myK("dealer").innerHTML = fGetHTMLS myK("province").value,myK("city").value,myK("county").value
+		# myK("province").innerHTML = fGetHTMLP()
+		$("#province").html fGetHTMLP()
+		# myK("city").innerHTML = fGetHTMLC myK("province").value
+		$("#city").html fGetHTMLC myK("province").value
+		# myK("county").innerHTML = fGetHTMLT myK("province").value,myK("city").value
+		$("#county").html fGetHTMLT myK("province").value,myK("city").value
+		# console.log myK("county").value
+		# myK("dealer").innerHTML = fGetHTMLS myK("province").value,myK("city").value,myK("county").value
+		$("#dealer").html fGetHTMLS myK("province").value,myK("city").value,myK("county").value
 		console.log myK("county").value
 		myK("province").onchange = ->
 			setTimeout ->

@@ -5657,8 +5657,6 @@ fGetHTMLP = function() {
     i = _ref[_i];
     html += '<option value="' + i + '">' + i + '</option>';
   }
-  html;
-  alert(html);
   return html;
 };
 

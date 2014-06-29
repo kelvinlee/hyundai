@@ -354,11 +354,10 @@ $(document).ready(function() {
     $(".mobilestep2").hide();
   }
   if (myK("province")) {
-    myK("province").innerHTML = fGetHTMLP();
-    myK("city").innerHTML = fGetHTMLC(myK("province").value);
-    myK("county").innerHTML = fGetHTMLT(myK("province").value, myK("city").value);
-    console.log(myK("county").value);
-    myK("dealer").innerHTML = fGetHTMLS(myK("province").value, myK("city").value, myK("county").value);
+    $("#province").html(fGetHTMLP());
+    $("#city").html(fGetHTMLC(myK("province").value));
+    $("#county").html(fGetHTMLT(myK("province").value, myK("city").value));
+    $("#dealer").html(fGetHTMLS(myK("province").value, myK("city").value, myK("county").value));
     console.log(myK("county").value);
     myK("province").onchange = function() {
       return setTimeout(function() {
