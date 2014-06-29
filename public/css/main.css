@@ -1075,6 +1075,9 @@ img {
 #dealer-show:before {
   display: none;
 }
+.hide-pc {
+  display: none;
+}
 @media (max-width: 768px) {
   .cartype,
   .nextstep,
@@ -1139,13 +1142,17 @@ img {
     padding-top: 20px;
   }
   .thirlist {
-    height: 87px;
-    -moz-transition: all 0.5s ease;
+    height: 0px;
+    padding:0px;
+    display: none;
+    /*-moz-transition: all 0.5s ease;
     -webkit-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
+    transition: all 0.5s ease;*/
   }
   .thirlist.autohight {
+    display: block;
+    padding:10px;
     height: auto;
     overflow: auto;
   }
@@ -1182,6 +1189,9 @@ img {
   }
   .headerpc {
     display: none;
+  }
+  .hide-pc {
+    display: inline-block;
   }
 }
 

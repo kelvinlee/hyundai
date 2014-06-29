@@ -6,7 +6,7 @@ block content_here
 	div.headerpc
 		div.logo
 			img(src="/img/logo.png")
-				
+
 	form.body(action="/regs",name="register")
 		div.homepage
 			div.container.clearfix
@@ -19,7 +19,7 @@ block content_here
 
 					h4 活动内容:
 					//- p 尊敬的北京现代车主，您好：
-					p 即日起北京现代推出感恩回馈活动，<br/>登录活动网站并完成注册，即可免费享受价值<span>598元的32项全车免费检测</span>！<br/>先注册车主更可获赠超值汽车用品并享受保养配件<em>9</em>折优惠！
+					p 即日起北京现代推出感恩回馈活动，<br/>登录活动网站并完成注册，即可免费享受价值<span>598元的32项全车免费检测</span>！<br/>先注册车主更可获赠超值汽车用品并享受保养配件<em>9</em>折优惠大礼包！
 					//- p 即日起北京现代为老客户推出感恩回馈活动，<br/>在活动期间，您只要登录活动网站页面并完成个人注册，<br/>即可免费享受价值<span>598元的32项全车免费检测</span>，<br/>先到车主可获得超值汽车用品并享受<br/>保养配件<em>9</em>折优惠“大礼包”！
 					h3 数量有限，赶快抢注吧！
 				div.col-sm-6.visible-xs
@@ -279,7 +279,7 @@ block content_here
 								select#county(name="county")
 								select#dealer(name="dealer")
 						div.btns
-							div.nextstep(name="step1").goback 返回修改
+							div.nextstep(name="step1").hide-pc.goback 返回修改
 							div.nextstep(name="step2").last.submit 确认
 		
 		//- for pc list
@@ -427,7 +427,7 @@ block content_here
 					div.col-sm-4
 						div.box
 							h1 免费赠送汽车用品
-							div#lot-show.lot.clearfix
+							div#lot-show.lot-show-content.lot.clearfix
 
 						div.box
 							label.h2.tenoff
@@ -495,7 +495,7 @@ block content_here
 									|）项
 								span.visible-xs.thirzk
 							div.thirlist.clearfix.zeroheight
-								ul.select321.clearfix
+								ul.select322.clearfix
 									li.clearfix 
 										label
 											div
@@ -627,7 +627,7 @@ block content_here
 
 					div.col-sm-4
 						div.box
-							<h4> 赠品 <span id="lot-show"></span></h4>
+							<h4> 赠品 <span id="lot-show" class="lot-show-content"></span></h4>
 							//- div#lot-show.lot.clearfix
 								
 						div.box.clearfix
@@ -645,7 +645,7 @@ block content_here
 
 						div.box.clearfix
 							h1 近一年内是否有购买或换车意向
-							div#changed-show.lot
+							div#changed-show2.lot
 								
 					div.col-sm-4
 
@@ -685,7 +685,7 @@ block content_here
 
 	.backcodepop
 		.msg
-			input(type="text",name="searchmobile",maxlength="11")
+			input(type="text",name="searchmobile",maxlength="11",placeholder="请输入手机号码")
 			a(href="/backcode?",onclick="return backcodesend()")
 
 

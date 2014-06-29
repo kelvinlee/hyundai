@@ -647,7 +647,8 @@ bindstepbystep = function() {
     }
     $("#thirthytwo-show").attr("class", $("[name=thirtytwo]").parent().attr("class"));
     $(".select32 input").each(function(i) {
-      return $(".select321 li").eq(i).find("div").attr("class", $(this).parent().attr("class"));
+      $(".select321 li").eq(i).find("div").attr("class", $(this).parent().attr("class"));
+      $(".select322 li").eq(i).find("div").attr("class", $(this).parent().attr("class"));
     });
     $("#thirnums").text($(".select32 input:checked").length);
 
@@ -660,19 +661,19 @@ bindstepbystep = function() {
     }
     // }
     if ($("#freelot .on").parent().length > 0) {
-      $("#lot-show").html($("#freelot .on").parent().clone().text());
-      $("#lot-show input").remove();
+      $("#lot-show,.lot-show-content").html($("#freelot .on").parent().clone().text());
+      // $("#lot-show input").remove();
     }else{
-      $("#lot-show").html("[空]");
+      $("#lot-show,.lot-show-content").html("[空]");
     }
-    if ($("[name=changed]").val() == "") {
-      $("#changed-show").parent().hide()
+    if ($("[name=changed]").val() == "" || $("[name=changed]").val() == "no") {
+      $("#changed-show,#changed-show2").parent().hide()
     } else {
-      $("#changed-show").parent().show()
+      $("#changed-show,#changed-show2").parent().show()
       if ($("[name=changed]").val() == "yes") {
-        $("#changed-show").html("是");
+        $("#changed-show,#changed-show2").html("是");
       }else{
-        $("#changed-show").html("否");
+        $("#changed-show,#changed-show2").html("否");
       }
     }
     $("#changed-show input").remove();
