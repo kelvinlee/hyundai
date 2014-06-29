@@ -24,7 +24,7 @@ calNumber = function(num) {
   return o.innerHTML = html;
 };
 
-_pc = {};
+_pc = [];
 
 _pc["北京"] = [];
 

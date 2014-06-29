@@ -14,7 +14,7 @@ calNumber = (num)->
 
 	o.innerHTML = html
 
-_pc = {}
+_pc = []
 
 _pc["北京"] = []
 _pc["上海"] = []
