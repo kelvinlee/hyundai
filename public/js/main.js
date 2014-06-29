@@ -346,6 +346,7 @@ if (typeof window.addEventListener !== "undefined") {
 }
 
 $(document).ready(function() {
+  alert(_pc["广东"]["茂名市"]["茂南区"][0].name);
   setCartype();
   bindstepbystep();
   fBindFormBtn();

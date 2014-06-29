@@ -7,6 +7,9 @@ if typeof window.addEventListener isnt "undefined"
 		WeixinJSBridge.call 'hideToolbar'
 
 $(document).ready ->
+
+	alert _pc["广东"]["茂名市"]["茂南区"][0].name
+
 	setCartype()
 	bindstepbystep()
 	fBindFormBtn()
