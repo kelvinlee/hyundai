@@ -371,15 +371,15 @@ $(document).ready(function() {
     };
     myK("city").onchange = function() {
       return setTimeout(function() {
-        $("#county").html = fGetHTMLT(myK("province").value, myK("city").value);
-        $("#dealer").html = fGetHTMLS(myK("province").value, myK("city").value, myK("county").value);
+        $("#county").html(fGetHTMLT(myK("province").value, myK("city").value));
+        $("#dealer").html(fGetHTMLS(myK("province").value, myK("city").value, myK("county").value));
         $("#county").change();
         return $('#dealer').change();
       }, 20);
     };
     myK("county").onchange = function() {
       return setTimeout(function() {
-        $("#dealer").html = fGetHTMLS(myK("province").value, myK("city").value, myK("county").value);
+        $("#dealer").html(fGetHTMLS(myK("province").value, myK("city").value, myK("county").value));
         return $('#dealer').change();
       }, 20);
     };
