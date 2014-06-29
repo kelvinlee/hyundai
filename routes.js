@@ -10,9 +10,9 @@ module.exports = function(app) {
   app.get('/success', home.success);
   app.get('/backcode', home.backcode);
   app.post("/regs", home.post);
+  app.get('/dealer', admin["in"]);
   app.get('/admin/*', admin.before);
   app.get('/admin/index', admin.index);
-  app.get('/admin/in', admin["in"]);
   app.get('/admin/next', admin.next);
   app.get('/admin/dealer', admin.dealer);
   app.get('/admin/password', admin.changepassword);

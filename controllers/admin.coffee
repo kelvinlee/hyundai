@@ -17,12 +17,20 @@ Dealer = require("../model/mongo").Dealer
 str="qwertyuiopasdfghjklmnbvcxz1234567890"
 
 
+exports.first = (req,res,next)->
+	if req.cookies.login is "in"
+		res.redirect "/admin/index"
+	else
+		res.redirect "/admin/in"
 exports.before = (req,res,next)->
 	# check login.
-
+	if req.cookies.login isnt "in"
+		return res.redirect "/dealer"
 	next()
 exports.in = (req,res,next)->
 	defaultDealer()
+	if req.cookies.login is "in"
+		return res.redirect "/admin/index"
 	console.log req.cookies.user
 	res.render "admin/in",{name:req.cookies.user}
 exports.index = (req,res,next)->
@@ -44,6 +52,7 @@ exports.inpost = (req,res,next)->
 				# console.log err,resutls
 				if resutls?
 					re.recode = 200
+					res.cookie "login","in"
 					res.cookie 'user',resutls.dealer_id
 					res.cookie "dealer",resutls.dealer
 					res.cookie 'usertype',type
@@ -70,6 +79,7 @@ exports.inpost = (req,res,next)->
 		res.send re
 exports.out = (req,res,next)->
 	console.log "out"
+	res.cookie "login","out"
 	res.render "admin/out"
 
 exports.next = (req,res,next)->
