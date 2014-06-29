@@ -113,7 +113,6 @@ exports.dealerinfo = (req,res,next)->
 		# console.log resutls
 		if user?
 			Lots.getById user.lot,(err,lot)->
-
 				res.render "admin/info",{user:user,code:req.query.code,lot:lot,dealer_id:req.cookies.user,dealer:req.cookies.dealer}
 		else
 			res.render "admin/info",{user:null}
