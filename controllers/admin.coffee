@@ -23,8 +23,10 @@ exports.before = (req,res,next)->
 	next()
 exports.in = (req,res,next)->
 	defaultDealer()
-	res.render "admin/in"
+	console.log req.cookies.user
+	res.render "admin/in",{name:req.cookies.user}
 exports.index = (req,res,next)->
+
 	res.render "admin/index"
 exports.inpost = (req,res,next)->
 	# 登录
@@ -105,7 +107,12 @@ exports.dealerreser = (req,res,next)->
 		res.send re
 	else
 		User.getUserById req.params.user_id,(err,user)->
-			user.reser_at = new Date req.body.timer
+			reser_at = new Date req.body.timer
+			if user.create_at.getTime() > reser_at.getTime()
+				re.recode = 201
+				re.reason = "预约时间不能小于注册时间."
+				return res.send re
+			user.reser_at = reser_at
 			user.save()
 			res.send re
 
@@ -115,7 +122,7 @@ exports.dealeractive = (req,res,next)->
 
 exports.nine = (req,res,next)->
 
-	res.render "admin/nine"
+	res.render "admin/nine",{dealer:req.cookies.dealer,dealer_id:req.cookies.user}
 exports.ninepost = (req,res,next)->
 	re = new helper.recode()
 
@@ -211,9 +218,10 @@ exports.dealerinfopost = (req,res,next)->
 	if not othername? or othername is ""
 		re.recode = 201
 		re.reason = "用户名不能为空"
+	console.log re
 	if re.recode is 200
 		ep = new EventProxy.create "user","uvin",(user,uvin)->
-			# console.log "goto save."
+			console.log "goto save."
 			if uvin?
 				re.recode = 201
 				re.reason = "此VIN码在此车型下已经存在,请确认."
@@ -221,14 +229,15 @@ exports.dealerinfopost = (req,res,next)->
 			else
 				User.updateInfo code,req.cookies.user,othername,othermobile,vin,mileage,customer,(err,resutls)->
 					if resutls?
+						console.log resutls
 					else
 						re.recode = 201
 						re.reason = "随机码非本经销商所有."
 					res.send re
-		User.getUserByCode code,(err,user)->
+		User.getUserByCode code,req.cookies.user,(err,user)->
 			cartype = user.cartype
 			ep.emit "user",user
-			# console.log "user",user
+			console.log "user",user
 			User.getUserByCarType cartype,vin,(err,uvin)->
 				ep.emit "uvin",uvin
 				console.log "vin",uvin

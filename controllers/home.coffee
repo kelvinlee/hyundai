@@ -141,8 +141,9 @@ exports.post = (req,res,next)->
 
 
 
-	console.log "post: ",req.body
-	return ""
+	console.log "post: ",lot
+	# res.send {recode:201,reason:"error"}
+	# return ""
 	# if req.body.thir.length < 32
 	# 	re.recode = 203
 	# 	re.reason = "32项检查格式不正确"

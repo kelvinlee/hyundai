@@ -1,6 +1,6 @@
 extends layout 
 block content_here
-	div.header
+	//- div.header
 		div.logo
 			img(src="/img/logo.jpg")
 	form.body(action="/regs",name="register")
@@ -10,13 +10,13 @@ block content_here
 					div.banner
 						//- img(src="/img/hero.png")
 						div.time
-							p 线上报名时间：<span>2014年7月1日~7月15日</span>
-							p 免检活动实施时间：<span>2014年7月16日~8月31日</span>
+							p 活动注册时间：<span>2014年7月1日~7月15日</span>
+							p 活动执行时间：<span>2014年7月16日~8月31日</span>
 
 					h4 活动内容:
-					p 尊敬的北京现代车主，您好：
+					//- p 尊敬的北京现代车主，您好：
 					p 即日起北京现代推出感恩回馈活动，<br/>登录活动网站并完成注册，即可免费享受价值<span>598元的32项全车免费检测</span>！<br/>先注册车主更可获赠超值汽车用品并享受保养配件<em>9</em>折优惠！
-					//- p 即日起北京现代为老客户推出感恩回馈活动，<br/>在活动期间，您只要登录活动网站页面并完成个人注册，<br/>即可免费享受价值<span>598元的32项全车免费检测</span>，<br/>先到车主可获得超值汽车用品并享受<br/>保养配件<em>9</em>折优惠！
+					//- p 即日起北京现代为老客户推出感恩回馈活动，<br/>在活动期间，您只要登录活动网站页面并完成个人注册，<br/>即可免费享受价值<span>598元的32项全车免费检测</span>，<br/>先到车主可获得超值汽车用品并享受<br/>保养配件<em>9</em>折优惠“大礼包”！
 					h3 数量有限，赶快抢注吧！
 				div.col-sm-6.visible-xs
 					div.backcode
@@ -29,17 +29,17 @@ block content_here
 						a(href="")
 							img(src="/img/backcode.jpg")
 					h2.show-title.hidden-xs
-						span 礼包内容：
+						span 大礼包内容：
 					ul.show-list.hidden-xs
 						li.l1
 							span 免费检测：
 							|凡是登陆活动页面完成注册的客户，即可免费享受价值598元的32项全车免费检测 。
 						li.l2
 							span 免费赠送汽车物品：
-							|优先在活动网站上完成注册的客户，免费获得为您提供的汽车用品之一：汽车消毒液，汽油清净剂，雨刮片，空调滤芯4种中任选一种 。
+							|优先在活动网站上完成注册的客户，免费获得为您提供的汽车用品之一：汽车消毒液，汽油清净剂，雨刮片，空调滤芯。
 						li.l3
 							span 保养配件打折：
-							|优先在活动网站完成注册的客户，原厂保养配件9折优惠大礼包(机油（5W-20/30SM），机油滤芯，空气滤清器3种） 。
+							|优先在活动网站完成注册的客户，原厂保养配件9折优惠大礼包 *机油（<span class="small-text">5W-20/30SM</span>），机油滤芯，空气滤清器3种。
 					div.cartype
 						select(name="cartype")
 							option(value="请选择车型") 请选择车型
@@ -231,15 +231,15 @@ block content_here
 								input(type="checkbox",name="tenoff")
 							h2 原厂保养配件9折优惠
 								br
-								span (机油（5W-20/30SM），
+								span *机油（5W-20/30SM），
 								br
-								span 机油滤芯，空气滤清器3种)
+								span 机油滤芯，空气滤清器3种
 						div.box.clearfix
 							h1 近一年内是否有购买或换车意向
 							div.lot
 								div.lot-item
 									label
-										input(type="radio",name="changed",value="yes",checked="checked")
+										input(type="radio",name="changed",value="yes")
 										| 是
 								div.lot-item
 									label

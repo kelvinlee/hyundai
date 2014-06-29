@@ -154,7 +154,7 @@ Giccoo = (function() {
     url = url.replace("{url}", backUrl);
     return window.open(url, '_blank');
   };
-
+/*
   Giccoo.prototype.fBindRadio = function(e) {
     var $e;
     $e = this;
@@ -177,6 +177,39 @@ Giccoo = (function() {
             return $o.parent().addClass('on');
           } else {
             return $o.parent().removeClass('on');
+          }
+        }, 10);
+      });
+    });
+  };
+*/
+  Giccoo.prototype.fBindRadio = function(e) {
+    var $e;
+    var tempradio= null; 
+    $e = this;
+    return e.each(function(i) {
+      var $div, $i;
+      $div = $('<div>').addClass('radio-parent ' + $(this).attr('class'));
+      $i = $('<i>');
+      $(this).before($div);
+      $div.addClass($(this).attr('class')).append($(this));
+      $div.append($i);
+      if ($(this).is(':checked')) {
+        $div.addClass('on');
+      }
+      return $(this).change(function() {
+        var $o;
+        $o = $(this);
+        $('[name=' + $o.attr('name') + ']').parent().removeClass('on');
+        return setTimeout(function() {
+          if(tempradio== $o){  
+            tempradio.checked=false;  
+            tempradio=null;  
+            return $o.parent().removeClass('on');
+          }else{  
+            
+            tempradio= $o;
+            return $o.parent().addClass('on');
           }
         }, 10);
       });

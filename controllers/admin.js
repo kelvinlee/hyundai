@@ -27,7 +27,10 @@ exports.before = function(req, res, next) {
 
 exports["in"] = function(req, res, next) {
   defaultDealer();
-  return res.render("admin/in");
+  console.log(req.cookies.user);
+  return res.render("admin/in", {
+    name: req.cookies.user
+  });
 };
 
 exports.index = function(req, res, next) {
@@ -133,7 +136,14 @@ exports.dealerreser = function(req, res, next) {
     return res.send(re);
   } else {
     return User.getUserById(req.params.user_id, function(err, user) {
-      user.reser_at = new Date(req.body.timer);
+      var reser_at;
+      reser_at = new Date(req.body.timer);
+      if (user.create_at.getTime() > reser_at.getTime()) {
+        re.recode = 201;
+        re.reason = "预约时间不能小于注册时间.";
+        return res.send(re);
+      }
+      user.reser_at = reser_at;
       user.save();
       return res.send(re);
     });
@@ -145,7 +155,10 @@ exports.dealeractive = function(req, res, next) {
 };
 
 exports.nine = function(req, res, next) {
-  return res.render("admin/nine");
+  return res.render("admin/nine", {
+    dealer: req.cookies.dealer,
+    dealer_id: req.cookies.user
+  });
 };
 
 exports.ninepost = function(req, res, next) {
@@ -260,8 +273,10 @@ exports.dealerinfopost = function(req, res, next) {
     re.recode = 201;
     re.reason = "用户名不能为空";
   }
+  console.log(re);
   if (re.recode === 200) {
     ep = new EventProxy.create("user", "uvin", function(user, uvin) {
+      console.log("goto save.");
       if (uvin != null) {
         re.recode = 201;
         re.reason = "此VIN码在此车型下已经存在,请确认.";
@@ -269,7 +284,7 @@ exports.dealerinfopost = function(req, res, next) {
       } else {
         return User.updateInfo(code, req.cookies.user, othername, othermobile, vin, mileage, customer, function(err, resutls) {
           if (resutls != null) {
-
+            console.log(resutls);
           } else {
             re.recode = 201;
             re.reason = "随机码非本经销商所有.";
@@ -278,10 +293,11 @@ exports.dealerinfopost = function(req, res, next) {
         });
       }
     });
-    return User.getUserByCode(code, function(err, user) {
+    return User.getUserByCode(code, req.cookies.user, function(err, user) {
       var cartype;
       cartype = user.cartype;
       ep.emit("user", user);
+      console.log("user", user);
       return User.getUserByCarType(cartype, vin, function(err, uvin) {
         ep.emit("uvin", uvin);
         return console.log("vin", uvin);

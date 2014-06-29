@@ -1829,6 +1829,7 @@ block js_here
 		$(document).ready(function(){
 			$(".print-btn").click(function(){window.print()});
 			$(".submit").click(function(){
+				alert("sdf");
 				$.ajax({
 					url:$('[name=register]').attr("action"),
 					type: 'POST',

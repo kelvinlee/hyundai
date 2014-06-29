@@ -9,6 +9,15 @@ exports.getUserByDealer = (dealer,callback)->
   # 获取经销商用户列表
   User.find {dealer:dealer},callback
 exports.GetUserByTime = (dealer,startime,endtime,type,callback)->
+
+  if startime is "" and type is "1"
+    return User.find {dealer:dealer,create_at:null},callback
+  if startime is "" and type is "2"
+    return User.find {dealer:dealer,reser_at:null},callback
+  if startime is "" and type is "3"
+    console.log type,startime
+    return User.find {dealer:dealer,imp_at:null},callback
+
   star = new Date parseInt startime
   end = new Date parseInt endtime
   if type is "1"

@@ -1,5 +1,6 @@
 extends layout 
 block content_here
+	-function getType(n){ if (n == null){return "";} var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}]; return type[parseInt(n)-1].name; }
 	div#head-nav.navbar.navbar-default.navbar-fixed-top
 		div.container-fluid
 			div.navbar-header
@@ -66,7 +67,7 @@ block content_here
 													td #{a.getFullYear()}-#{a.getMonth()+1}-#{a.getDate()} #{a.getHours()}:#{a.getMinutes()}
 													td #{list[i].username}
 													td #{list[i].mobile}
-													td #{list[i].cartype}
+													td #{getType(list[i].cartype)}
 													-if (list[i].reser_at == null)
 														td 
 															input.form-control.datepicker(type="text",size="16",data-format="yy-mm-dd",name="reser",style="width:140px",readonly)
@@ -113,10 +114,13 @@ block js_here
 		//initialize the javascript
 			App.init();
 			App.dataTables();
+			$("[placeholder=Search]").attr("placeholder","查询");
 		}); 
 		function searchdate() {
 			if ($("[name=startime]").val() !="" && $("[name=endtime]").val() !="") {
 				window.location.href = "/admin/dealer?startime="+(new Date($("[name=startime]").val()).getTime())+"&endtime="+(new Date($("[name=endtime]").val()).getTime())+"&type="+$("[name=type]").val();
+			}else if($("[name=startime]").val() =="" && $("[name=endtime]").val() ==""){
+				window.location.href = "/admin/dealer?startime=&endtime=&type="+$("[name=type]").val();
 			}else {
 				alert("请选择时间范围后查询.");
 			}

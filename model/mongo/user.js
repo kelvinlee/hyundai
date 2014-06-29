@@ -20,6 +20,25 @@ exports.getUserByDealer = function(dealer, callback) {
 
 exports.GetUserByTime = function(dealer, startime, endtime, type, callback) {
   var end, star;
+  if (startime === "" && type === "1") {
+    return User.find({
+      dealer: dealer,
+      create_at: null
+    }, callback);
+  }
+  if (startime === "" && type === "2") {
+    return User.find({
+      dealer: dealer,
+      reser_at: null
+    }, callback);
+  }
+  if (startime === "" && type === "3") {
+    console.log(type, startime);
+    return User.find({
+      dealer: dealer,
+      imp_at: null
+    }, callback);
+  }
   star = new Date(parseInt(startime));
   end = new Date(parseInt(endtime));
   if (type === "1") {

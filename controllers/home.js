@@ -202,8 +202,7 @@ exports.post = function(req, res, next) {
   city = req.body.city;
   dealer = req.body.dealer;
   thir = req.body.thir;
-  console.log("post: ", req.body);
-  return "";
+  console.log("post: ", lot);
   if ((username == null) || username === "") {
     re.recode = 201;
     re.reason = "用户名不能为空";

@@ -3,6 +3,8 @@ $.extend( true, $.fn.dataTable.defaults, {
 	"sDom": "<'row'<'col-sm-12'<'pull-right'f><'pull-left'l>r<'clearfix'>>>t<'row'<'col-sm-12'<'pull-left'i><'pull-right'p><'clearfix'>>>",
     "sPaginationType": "bs_normal",
     "oLanguage": {
+    		"sPrevious":"上一页",
+    		"sNext":"下一页",
     		"sInfo":"第 _START_ 行到 _END_ 行共 _TOTAL_ 行",
         "sLengthMenu": "显示 _MENU_ 行",
         "sSearch": ""
@@ -43,8 +45,8 @@ $.extend( $.fn.dataTableExt.oPagination, {
 			};
 			$(nPaging).append(
 				'<ul class="pagination">'+
-					'<li class="prev disabled"><a href="#"><span class="fa fa-angle-left"></span>&nbsp;'+oLang.sPrevious+'</a></li>'+
-					'<li class="next disabled"><a href="#">'+oLang.sNext+'&nbsp;<span class="fa fa-angle-right"></span></a></li>'+
+					'<li class="prev disabled"><a href="#"><span class="fa fa-angle-left"></span>&nbsp;上一页</a></li>'+
+					'<li class="next disabled"><a href="#">下一页&nbsp;<span class="fa fa-angle-right"></span></a></li>'+
 				'</ul>'
 			);
 			var els = $('a', nPaging);
