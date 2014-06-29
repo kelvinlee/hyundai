@@ -5547,7 +5547,7 @@ fGetCarType = function() {
   aList = [];
   for (p in _car_type) {
     c = _car_type[p];
-    aList.push(p);
+    aList[aList.length] = p;
   }
   return aList;
 };
@@ -5558,7 +5558,7 @@ fGetCarTypeSecond = function(s) {
   _ref = _car_type[s];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     a = _ref[_i];
-    aList.push(a.name);
+    aList[aList.length] = a.name;
   }
   return aList;
 };
@@ -5568,7 +5568,7 @@ fGetProvince = function() {
   aList = [];
   for (p in _pc) {
     c = _pc[p];
-    aList.push(p);
+    aList[aList.length] = p;
   }
   return aList;
 };
@@ -5582,7 +5582,7 @@ fGetCity = function(p) {
   _ref = _pc[p];
   for (p in _ref) {
     c = _ref[p];
-    aList.push(p);
+    aList[aList.length] = p;
   }
   return aList;
 };
@@ -5596,7 +5596,7 @@ fGetCounty = function(p, c) {
   _ref = _pc[p][c];
   for (k in _ref) {
     v = _ref[k];
-    aList.push(k);
+    aList[aList.length] = k;
   }
   return aList;
 };
@@ -5610,7 +5610,7 @@ fGetCityAll = function(p) {
     _ref1 = _pc[p][i];
     for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
       c = _ref1[_j];
-      aList.push(c);
+      aList[aList.length] = c;
     }
   }
   return aList;
@@ -5622,7 +5622,7 @@ fGetCityShop = function(p, c) {
   _ref = _pc[p][c];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     s = _ref[_i];
-    aList.push(s);
+    aList[aList.length] = s;
   }
   return aList;
 };

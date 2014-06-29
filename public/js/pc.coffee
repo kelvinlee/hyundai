@@ -1702,36 +1702,36 @@ _car_type = [
 
 fGetCarType = ->
 	aList = []
-	aList.push p for p,c of _car_type
+	aList[aList.length] = p for p,c of _car_type
 	aList
 fGetCarTypeSecond = (s)->
 	aList = []
-	aList.push a.name for a in _car_type[s]
+	aList[aList.length] = a.name for a in _car_type[s]
 	aList
 fGetProvince = ()->
 	aList = []
-	aList.push p for p,c of _pc
+	aList[aList.length] = p for p,c of _pc
 	aList
 fGetCity = (p)->
 	return [] if p is ""
 	aList = []
-	aList.push p for p,c of _pc[p]
+	aList[aList.length] = p for p,c of _pc[p]
 	aList
 fGetCounty = (p,c)->
 	return [] if p is "" or c is ""
 	aList = []
-	aList.push k for k,v of _pc[p][c]
+	aList[aList.length] = k for k,v of _pc[p][c]
 	aList
 fGetCityAll = (p)->
 	aList = []
 	for i in fGetCity(p)
 		for c in _pc[p][i]
-			aList.push c
+			aList[aList.length] = c
 	aList
 fGetCityShop = (p,c)->
 	aList = []
 	for s in _pc[p][c]
-		aList.push s
+		aList[aList.length] = s
 	aList
 
 fGetCarTypeHTML = ->
