@@ -449,6 +449,7 @@ $(document).ready(function() {
       $(this).addClass("on");
       alert("out");
     }
+    alert("leve");
   });
 
   $(".newradio").bind("click",function(){
