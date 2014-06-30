@@ -102,16 +102,16 @@ setDefaultLots = ->
 			console.log "奖品已存在."
 		else
 			# 24000,8500,5000,6000,1500,5000
-			Lots.new {lotname:"雨刮片",description:"安装在前挡风玻璃前，下雨时刮除前挡风玻璃上的雨水，确保前方视野的清晰度。",cartype:true,nums:[10,10,10,10,10,10]},(err,results)->
+			Lots.new {lotname:"雨刮片",description:"安装在前挡风玻璃前，下雨时刮除前挡风玻璃上的雨水，确保前方视野的清晰度。",cartype:true,nums:[24000,8500,5000,6000,1500,5000]},(err,results)->
 				console.log results
 			# 22500,11500,5000,6000,0,5000
-			Lots.new {lotname:"空调滤芯",description:"过滤从外界进入车厢内部的空气，使空气的洁净度提高，一般的过滤物质是指空气中所包含的杂质，微小颗粒物、花粉、细菌、工业废气和灰尘等。",cartype:true,nums:[10,10,10,10,0,10]},(err,results)->
+			Lots.new {lotname:"空调滤芯",description:"过滤从外界进入车厢内部的空气，使空气的洁净度提高，一般的过滤物质是指空气中所包含的杂质，微小颗粒物、花粉、细菌、工业废气和灰尘等。",cartype:true,nums:[22500,11500,5000,6000,0,5000]},(err,results)->
 				console.log results
 			# 100000
 			Lots.new {lotname:"室内消毒剂",description:"快速清除空调风口及室内有害细菌病毒。",cartype:false,nums:[100000]},(err,results)->
 				console.log results
 			# 100000
-			Lots.new {lotname:"燃油清净剂",description:"偏重于节油性能的超短期添加剂，改善气缸摩擦，1.提高动力性，燃油经济性；2.保持进气阀、喷油嘴、燃烧室清洁。",cartype:false,nums:[10]},(err,results)->
+			Lots.new {lotname:"燃油清净剂",description:"偏重于节油性能的超短期添加剂，改善气缸摩擦，1.提高动力性，燃油经济性；2.保持进气阀、喷油嘴、燃烧室清洁。",cartype:false,nums:[100000]},(err,results)->
 				console.log results
 
 
