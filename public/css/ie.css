@@ -665,6 +665,10 @@ textarea {
   float: left;
   width: 530px;
 }
+.container .col-sm-offset-3 {
+  float: none !important;
+  margin: 0 auto;
+}
 body {
   font-size: 14px;
 }
