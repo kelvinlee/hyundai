@@ -572,19 +572,21 @@ checklots = function() {
   _cartype = $("[name=cartype]").val();
   for (_i = 0, _len = lots.length; _i < _len; _i++) {
     a = lots[_i];
+    console.log(a.cartype);
     if (a.cartype != null) {
       if (a.cartype === _cartype && !a.can) {
-        $("[value=" + a.lot + "]").parents(".lot-item").hide();
+        $("[data-lot_id=" + a.lot + "]").parents(".lot-item").addClass('readonly');
       }
     } else {
       if (!a.can) {
-        $("[value=" + a.lot + "]").parents(".lot-item").hide();
+        console.log($("[data-lot_id=" + a.lot + "]"));
+        $("[data-lot_id=" + a.lot + "]").parents(".lot-item").addClass('readonly');
       }
     }
   }
   for (var _j = 0, _len1 = lotscounts.length; _j < _len1; _j++) {
     a = lotscounts[_j];
-    if (typeof(a.nums[parseInt($("[name=cartype]").val()) - 1])!="undefined" && a.nums[parseInt($("[name=cartype]").val()) - 1] <= 0) {
+    if (a.nums[parseInt($("[name=cartype]").val()) - 1] <= 0) {
       // console.log(a.nums[parseInt($("[name=cartype]").val()) - 1],typeof(a.nums[parseInt($("[name=cartype]").val()) - 1]));
       $("[data-lot_id=" + a._id + "]").parents(".lot-item").addClass('readonly');
     }
@@ -651,7 +653,7 @@ bindstepbystep = function() {
       $(".select321 li").eq(i).find("div").attr("class", $(this).parent().attr("class")).html("<i></i>");
       $(".select322 li").eq(i).find("div").attr("class", $(this).parent().attr("class")).html("<i></i>");
     });
-    $("#thirnums").text($(".select32 input:checked").length);
+    $("#thirnums").text($(".select322 .checkbox-parent.on").length);
 
     $(".tenoff div").removeClass("checkbox-parent undefined on").attr("class", $("[name=tenoff]").parent().attr("class"));
     // if (gico.mobilecheck()) {

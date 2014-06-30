@@ -375,15 +375,6 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/public\/css\/ie.css": {
-		"fileType": 16,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/public\/css\/ie.css",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
 	"\/public\/css\/main.css": {
 		"fileType": 16,
 		"ignore": 1,
@@ -680,6 +671,17 @@
 		"initialSize": 195761,
 		"inputAbbreviatedPath": "\/public\/img\/hero.png",
 		"outputAbbreviatedPath": "\/public\/img\/hero.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/public\/img\/icon-select.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 0,
+		"inputAbbreviatedPath": "\/public\/img\/icon-select.png",
+		"outputAbbreviatedPath": "\/public\/img\/icon-select.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -1023,6 +1025,17 @@
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 0
+		},
+	"\/public\/js\/ie.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/public\/js\/ie.js",
+		"outputAbbreviatedPath": "\/public\/js\/min\/ie-ck.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
 		},
 	"\/public\/js\/jquery.datatables\/bootstrap-adapter\/css\/datatables.css": {
 		"fileType": 16,

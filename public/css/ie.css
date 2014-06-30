@@ -685,6 +685,7 @@ ul {
   width: 100%;
   height: auto;
   background: #fff;
+  display: none
 }
 .headerpc {
   position: absolute;
@@ -1209,6 +1210,8 @@ ul {
 
 .show-list li span.small-text{font-size: 12px;color:#956947;}
 .zeroheight{height:0;padding:0;border:0;}
+.city-show{margin-left:10%;}
+.select-icon{background:url(../img/icon-select.png) no-repeat 100% center}
 
 
 .backcodepop {
