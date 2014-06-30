@@ -679,6 +679,12 @@ img {
   height: auto;
   background: #fff;
 }
+.headerpc {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  padding:10px;
+}
 .header .logo {
   width: 320px;
   height: auto;
@@ -747,13 +753,16 @@ img {
   color: #824a1b;
 }
 .form-list,
-.confirm {
+.confirm, .confirmpc {
   display: none;
   padding-top: 50px;
   background: url("../img/bg.jpg") no-repeat top center;
   background-color: transparent;
   background-size: cover;
   min-height: 100%;
+}
+.confirmmo {
+  display: none;
 }
 .form-list {
   padding-bottom: 20px;
@@ -1088,7 +1097,7 @@ img {
   display: none;
 }
 .hide-pc {
-  display: none;
+  display: none !important;
 }
 @media (max-width: 768px) {
   .cartype,
