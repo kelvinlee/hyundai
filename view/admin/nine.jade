@@ -53,7 +53,6 @@ block content_here
 									h3 32项检测项目
 								div.content
 									ul(style="list-style:none;margin:0px;padding:0px;")
-										
 										-if (user != null)
 											-for (var i=0;i<user.thir.length;i++)
 												li
@@ -80,7 +79,7 @@ block content_here
 													td 手机号码
 													td #{user.othermobile}
 												tr
-													td 车架号
+													td 车架号(后六位)
 													td #{user.vin}
 												tr
 													td 行驶里程
@@ -116,6 +115,7 @@ block content_here
 											div.col-sm-9
 												select.form-control(name="cartype")
 													//- -var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}];
+													option(value="") 请选择车型
 													-for(var i=0;i<type.length;i++)
 														option(value="#{type[i].type}") #{type[i].name}
 										button.btn.btn-primary.submit(type="button") 提交
@@ -131,7 +131,7 @@ block content_here
 							p.MsoNormal(style='margin-top:12.0pt;line-height:12.0pt;mso-line-height-rule:\
 							exactly')
 								span(style='mso-ignore:vglayout;\
-								position:absolute;z-index:251658240;left:0px;margin-left:333px;margin-top:\
+								position:absolute;z-index:251658240;left:0px;margin-left:513px;margin-top:\
 								3px;width:187px;height:19px')
 									img(width='187', height='19', src='/img/image002.png', v:shapes='Picture_x0020_21')
 								// [endif]
@@ -457,6 +457,8 @@ block content_here
 										| /
 										span(lang='ZH-CN') 变速箱机油是否正常
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -487,6 +489,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 仪表显示工作状态是否正常
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -518,6 +522,8 @@ block content_here
 										span(style='mso-spacerun:yes')  
 										span(lang='ZH-CN') 发动机冷却液是否正常 
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -550,6 +556,8 @@ block content_here
 										| &
 										span(lang='ZH-CN') 暖风工作状态 
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -583,6 +591,8 @@ block content_here
 										| /
 										span(lang='ZH-CN') 离合器油是否正常 
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -613,6 +623,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 空调空气滤清器更换或清洁
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='112', colspan='4', style='width:111.65pt;border-top:none;border-left:\
 						none;border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -645,6 +657,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 动力转向油是否正常
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -675,6 +689,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 驻车制动器工作状态
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -705,6 +721,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 空气滤清器状态是否正常
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -737,6 +755,8 @@ block content_here
 										| /
 										span(lang='ZH-CN') 离合器踏板工作状态
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -767,6 +787,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 驱动皮带状态 
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -797,6 +819,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 天窗槽是否有积水
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -827,6 +851,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 蓄电池工作状态及桩头紧固检查 
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -857,6 +883,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 室内地毯、顶蓬是否有水迹
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -887,6 +915,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 玻璃水是否正常 
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -917,6 +947,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 电脑检测（故障代码） 
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -947,6 +979,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 发动机舱内进气管是否有涉水痕迹 
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -977,6 +1011,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 转向系统工作性能检查
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -1007,6 +1043,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 线路连接及工作状态是否正常
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -1037,6 +1075,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 转向机防尘套是否破损，是否有涉水
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -1067,6 +1107,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 检查车辆各种灯光是否齐全 
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -1097,6 +1139,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 刹车系统工作情况是否正常
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -1127,6 +1171,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 检查灯内是否有水迹
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -1159,6 +1205,8 @@ block content_here
 										| &
 										span(lang='ZH-CN') 盘生锈及磨损情况 
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -1189,6 +1237,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 检查雨刮喷水效果及胶片性能 
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -1219,6 +1269,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 传动轴防尘套是否损坏，是否有涉水 
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -1249,6 +1301,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 检查雨刮胶片性能是否正常 
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -1279,6 +1333,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 减振器工作状态 
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -1309,6 +1365,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 车窗密封胶条时候变形 
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -1339,6 +1397,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 底盘螺栓紧固检查 
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -1369,6 +1429,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 冷凝器及散热器清洁及工作状况检查 
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='39', style='width:38.85pt;border-top:none;border-left:none;\
 						border-bottom:solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;\
 						mso-border-top-alt:solid #A6A6A6 1.0pt;mso-border-left-alt:solid #A6A6A6 1.0pt;\
@@ -1399,6 +1461,8 @@ block content_here
 									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 轮胎胎压及磨损情况 
 									span(style='font-size:6.5pt;font-family:微软雅黑')
 										o:p
+								-else
+									span(lang='ZH-CN', style='font-size:6.5pt;font-family:微软雅黑') 无
 						td(width='36', style='width:35.9pt;border-top:none;border-left:none;border-bottom:\
 						solid #A6A6A6 1.0pt;border-right:solid #A6A6A6 1.0pt;mso-border-top-alt:solid #A6A6A6 1.0pt;\
 						mso-border-left-alt:solid #A6A6A6 1.0pt;padding:2.25pt 2.85pt 2.25pt 2.85pt;\
@@ -1889,6 +1953,11 @@ block js_here
 		$(document).ready(function(){
 			$(".print-btn").click(function(){window.print()});
 			$(".submit").click(function(){
+				if ($("[name=cartype]").val() == "")
+				{
+					alert("请选择车型");
+					return "";
+				}
 				$.ajax({
 					url:$('[name=register]').attr("action"),
 					type: 'POST',

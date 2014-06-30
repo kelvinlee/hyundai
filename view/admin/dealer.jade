@@ -47,9 +47,9 @@ block content_here
 											-else
 												option(value="1") 注册时间
 											-if (selectype == "2")
-												option(value="2",selected="selected") 预约时间
+												option(value="2",selected="selected") 预约日期
 											-else
-												option(value="2") 预约时间
+												option(value="2") 预约日期
 											-if (selectype == "3")
 												option(value="3",selected="selected") 实施时间
 											-else
@@ -70,7 +70,7 @@ block content_here
 												th 姓名
 												th 手机
 												th 车型
-												th 预约时间
+												th 预约日期
 												th 实施时间
 												th 是否置换
 												th 操作
@@ -156,7 +156,7 @@ block js_here
 			var val = $(o).parents("tr").find("[name=reser]").val();
 			//- console.log(val);
 			if (val == "") {
-				alert("请选择预约时间");
+				alert("请选择预约日期");
 				return false;
 			}
 			$.ajax({
