@@ -60,7 +60,7 @@ block content_here
 													label #{thirlist[parseInt(user.thir[i])]}
 										-else
 											-for (var i=0;i<thirlist.length;i++)
-												li 
+												li
 													label
 														input(type="checkbox",name="thir[#{i}]",value="#{i}",checked)
 														|  #{thirlist[i]}
@@ -106,7 +106,7 @@ block content_here
 										div.form-group
 											label.col-sm-3.control-label 行驶里程
 											div.col-sm-9
-												input.form-control(type="text",maxlength="11",name="mileage",placeholder="行驶里程")
+												input.form-control(type="text",maxlength="6",name="mileage",placeholder="行驶里程")
 										div.form-group
 											label.col-sm-3.control-label 客服代表
 											div.col-sm-9
