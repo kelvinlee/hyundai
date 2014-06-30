@@ -1073,6 +1073,7 @@ ul {
 }
 .btns .nextstep.last {
   margin-left: 10%;
+  float: right;
 }
 #province-show:before,
 #city-show:before,

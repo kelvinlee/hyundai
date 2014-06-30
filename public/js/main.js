@@ -388,7 +388,7 @@ $(document).ready(function() {
     });
     $(".headerpc").hide();
   }else{
-    $(".header,.show_msg").hide();
+    $(".header,.show_msg,.hide-pc").hide();
   }
   if (myK("province")) {
     $("#province").html(fGetHTMLP());
@@ -644,6 +644,9 @@ bindstepbystep = function() {
     }
     if ($("[name=city]").val() === "" || $("[name=city]").val() === "城市") {
       return alert("请选择城市");
+    }
+    if ($("[name=county]").val() === "" || $("[name=county]").val() === "区县/区域") {
+      return alert("请选择区县/区域");
     }
     if ($("[name=dealer]").val() === "" || $("[name=dealer]").val() === "经销商") {
       return alert("请选择经销商");

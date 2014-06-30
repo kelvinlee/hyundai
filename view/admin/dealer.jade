@@ -78,7 +78,7 @@ block content_here
 											-for (var i=0;i<list.length;i++)
 												tr.odd.gradeX
 													-var a = new Date(list[i].create_at);
-													td #{a.getFullYear()}-#{a.getMonth()+1}-#{a.getDate()} #{a.getHours()}:#{a.getMinutes()}
+													td #{a.getFullYear()}-#{a.getMonth()+1}-#{a.getDate()}
 													-if (list[i].code == "9999999")
 														td #{list[i].othername}
 														td #{list[i].othermobile}

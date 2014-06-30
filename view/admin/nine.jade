@@ -100,13 +100,13 @@ block content_here
 											div.col-sm-9
 												input.form-control(type="text",maxlength="11",name="othermobile",value="",placeholder="到店用户手机号码")
 										div.form-group
-											label.col-sm-3.control-label 车架号
+											label.col-sm-3.control-label 车架号(后六位)
 											div.col-sm-9
 												input.form-control(type="text",maxlength="6",name="vin",placeholder="VIN码")
 										div.form-group
 											label.col-sm-3.control-label 行驶里程
 											div.col-sm-9
-												input.form-control(type="text",name="mileage",placeholder="行驶里程")
+												input.form-control(type="text",maxlength="11",name="mileage",placeholder="行驶里程")
 										div.form-group
 											label.col-sm-3.control-label 客服代表
 											div.col-sm-9
@@ -121,7 +121,7 @@ block content_here
 										button.btn.btn-primary.submit(type="button") 提交
 	-if (user != null)
 		-function check(a){ for(var i=0;i<user.thir.length;i++){ if (user.thir[i] == a){ return true; } } return false; }
-		.WordSection1(style='layout-grid:18.0pt')
+		.WordSection1.print-visible(style='layout-grid:18.0pt')
 			table.MsoNormalTable(border='0', cellspacing='0', cellpadding='0', width='531', style='width:531.25pt;border-collapse:collapse;mso-yfti-tbllook:\
 			1536;mso-padding-alt:0cm 0cm 0cm 0cm')
 				tbody

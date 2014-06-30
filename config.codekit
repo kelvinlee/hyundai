@@ -87,6 +87,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 0
 		},
+	"\/controllers\/home.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/controllers\/home.js",
+		"outputAbbreviatedPath": "\/controllers\/min\/home-ck.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/lib\/helper.coffee": {
 		"createSourceMap": 0,
 		"fileType": 32,
@@ -689,6 +700,28 @@
 		"initialSize": 0,
 		"inputAbbreviatedPath": "\/public\/img\/icon-select.png",
 		"outputAbbreviatedPath": "\/public\/img\/icon-select.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/public\/img\/image001.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 13638,
+		"inputAbbreviatedPath": "\/public\/img\/image001.png",
+		"outputAbbreviatedPath": "\/public\/img\/image001.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/public\/img\/image002.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 0,
+		"inputAbbreviatedPath": "\/public\/img\/image002.png",
+		"outputAbbreviatedPath": "\/public\/img\/image002.png",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
@@ -1398,17 +1431,6 @@
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 0
-		},
-	"\/public\/js\/main.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/public\/js\/main.js",
-		"outputAbbreviatedPath": "\/public\/js\/min\/main-ck.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
 		},
 	"\/public\/js\/modernizr.js": {
 		"fileType": 64,
