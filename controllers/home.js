@@ -92,13 +92,18 @@ exports.index = function(req, res, next) {
   var code, ep;
   code = getCode();
   setDefaultLots();
-  ep = new EventProxy.create("count", "used", function(count, used) {
-    var list;
+  ep = new EventProxy.create("count", "used", "tenoff", function(count, used, tenoff) {
+    var can, list;
     list = getList(count, used);
+    can = true;
+    if (tenoff >= 100000) {
+      can = false;
+    }
     return res.render("homepage", {
       code: code,
       list: list,
-      count: count
+      count: count,
+      tenoff: can
     });
   });
   Lots.used(function(err, used) {
@@ -107,8 +112,9 @@ exports.index = function(req, res, next) {
   Lots.count(function(err, count) {
     return ep.emit("count", count);
   });
-  return User.getUserByCode(code, function(err, results) {
-    return console.log(results);
+  return User.getTenoff(function(err, results) {
+    console.log(err, results);
+    return ep.emit("tenoff", results);
   });
 };
 
@@ -241,8 +247,14 @@ exports.post = function(req, res, next) {
     re.reason = "请选择经销商";
   }
   if (re.recode === 200) {
-    ep = new EventProxy.create("count", "used", "user", function(count, used, user) {
+    ep = new EventProxy.create("count", "used", "user", "tenoffcount", function(count, used, user, tenoffcount) {
       var a, list, _i, _len;
+      if (tenoffcount >= 100000) {
+        re.recode = 201;
+        re.reason = "您选择的原厂保养配件已经派发完了";
+        res.send(re);
+        return "";
+      }
       if (user != null) {
         re.recode = 202;
         re.reason = "此手机号码已经注册过了.";
@@ -280,8 +292,12 @@ exports.post = function(req, res, next) {
     Lots.used(function(err, used) {
       return ep.emit("used", used);
     });
-    return Lots.count(function(err, count) {
+    Lots.count(function(err, count) {
       return ep.emit("count", count);
+    });
+    return User.getTenoff(function(err, results) {
+      console.log(err, results);
+      return ep.emit("tenoffcount", results);
     });
   } else {
     return res.send(re);

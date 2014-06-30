@@ -16,6 +16,8 @@ Lots = require("../model/mongo").Lots
 
 str="qwertyuiopasdfghjklmnbvcxz1234567890"
 
+
+
 getList = (count,used)->
 	list = []
 	for d in count
@@ -53,7 +55,7 @@ exports.index = (req,res,next)->
 
 	setDefaultLots()
 
-	ep = new EventProxy.create "count","used",(count,used)->
+	ep = new EventProxy.create "count","used","tenoff",(count,used,tenoff)->
 		
 		# addNewUser()
 		list = getList count,used
@@ -61,7 +63,9 @@ exports.index = (req,res,next)->
 		# console.log list,count
 		# list 查看是否可以使用此奖品.
 		# 如果can是false表示已经发放完了.
-		res.render "homepage",{code:code,list:list,count:count}
+		can = true
+		can = false if tenoff>=100000
+		res.render "homepage",{code:code,list:list,count:count,tenoff:can}
 
 
 	Lots.used (err,used)->
@@ -69,8 +73,12 @@ exports.index = (req,res,next)->
 	Lots.count (err,count)->
 		ep.emit "count",count 
 
-	User.getUserByCode code,(err,results)->
-		console.log results
+	# User.getUserByCode code,(err,results)->
+		# console.log results
+
+	User.getTenoff (err,results)->
+		console.log err,results
+		ep.emit "tenoff",results
 
 exports.success = (req,res,next)->
 	res.render "success",{code:req.query.code}
@@ -177,9 +185,13 @@ exports.post = (req,res,next)->
 		re.reason = "请选择经销商"
 
 	if re.recode is 200
-		ep = new EventProxy.create "count","used","user", (count,used,user)->
+		ep = new EventProxy.create "count","used","user","tenoffcount", (count,used,user,tenoffcount)->
 			# console.log count,used,cartype
-
+			if tenoffcount>=100000
+				re.recode = 201
+				re.reason = "您选择的原厂保养配件已经派发完了"
+				res.send re
+				return ""
 			if user?
 				re.recode = 202
 				re.reason = "此手机号码已经注册过了."
@@ -212,6 +224,9 @@ exports.post = (req,res,next)->
 			ep.emit "used",used
 		Lots.count (err,count)->
 			ep.emit "count",count
+		User.getTenoff (err,results)->
+			console.log err,results
+			ep.emit "tenoffcount",results
 
 	else
 		res.send re

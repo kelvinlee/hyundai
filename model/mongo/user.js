@@ -24,6 +24,12 @@ exports.getUserByMobile = function(mobile, next) {
   }, next);
 };
 
+exports.getTenoff = function(next) {
+  return User.find({
+    tenoff: true
+  }).count().exec(next);
+};
+
 exports.getUserByDealer = function(dealer, callback) {
   return User.find({
     dealer: dealer

@@ -11,6 +11,9 @@ exports.otherUser = (mobile,next)->
 exports.getUserByMobile = (mobile,next)->
   User.findOne {mobile:mobile},next
 
+exports.getTenoff = (next)->
+  User.find({tenoff:true}).count().exec next
+
 exports.getUserByDealer = (dealer,callback)->
   # 获取经销商用户列表
   User.find {dealer:dealer},callback

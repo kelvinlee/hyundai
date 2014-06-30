@@ -229,14 +229,15 @@ block content_here
 											div.checkbox-parent.undefined.newcheckbox(data-lot_id="#{count[i]._id}")
 												i
 											| #{count[i].lotname}
-						div.box.clearfix
-							label.h2
-								input(type="checkbox",name="tenoff")
-							h2 原厂保养配件9折优惠
-								br
-								span *机油（5W-20/30SM），
-								br
-								span 机油滤芯，空气滤清器3种
+						-if (tenoff)
+							div.box.clearfix
+								label.h2
+									input(type="checkbox",name="tenoff")
+								h2 原厂保养配件9折优惠
+									br
+									span *机油（5W-20/30SM），
+									br
+									span 机油滤芯，空气滤清器3种
 						div.box.clearfix
 							h1 近一年内是否有购买或换车意向
 							div.lot
@@ -698,10 +699,10 @@ block content_here
 block js_here
 	-var json = JSON.stringify(list);
 	-var _count = JSON.stringify(count);
-
 	script.
 		var lots = !{json};
 		var lotscounts = !{_count};
+		var tenoffcan = !{tenoff};
 		$(document).ready(function(){
 			if (!gico.mobilecheck()) {
 				$("[data-toggle=tooltip]").tooltip();
