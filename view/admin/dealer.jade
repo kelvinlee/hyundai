@@ -126,7 +126,7 @@ block js_here
 		}); 
 		function searchdate() {
 			if ($("[name=startime]").val() !="" && $("[name=endtime]").val() !="") {
-				window.location.href = "/admin/dealer?startime="+(new Date($("[name=startime]").val()).getTime())+"&endtime="+(new Date($("[name=endtime]").val()).getTime())+"&type="+$("[name=type]").val();
+				window.location.href = "/admin/dealer?startime="+(new Date($("[name=startime]").val()+" 0:0:0").getTime())+"&endtime="+(new Date($("[name=endtime]").val()+" 23:59:59").getTime())+"&type="+$("[name=type]").val();
 			}else if($("[name=startime]").val() =="" && $("[name=endtime]").val() ==""){
 				window.location.href = "/admin/dealer?startime=&endtime=&type="+$("[name=type]").val();
 			}else {
