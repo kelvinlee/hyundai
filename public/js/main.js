@@ -438,13 +438,16 @@ $(document).ready(function() {
   $(".newcheckbox").bind("click",function(){
     if ($(this).parents(".lot-item").is(".readonly")) {return false;}
     var _data = $(this).data("lot_id");
+    alert($(this).hasClass('on'));
     if($(this).hasClass('on')){
       $(this).removeClass("on");
       $("#lot_id").val("");
+      alert("in");
     }else{
       $("#lot_id").val(_data);
       $(".newcheckbox").removeClass("on");
       $(this).addClass("on");
+      alert("out");
     }
   });
 
