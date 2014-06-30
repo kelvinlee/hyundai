@@ -5664,13 +5664,19 @@ fGetHTMLP = function() {
     i = _ref[_i];
     html += '<option value="' + i + '">' + i + '</option>';
   }
+
   return html;
 };
 
 fGetHTMLT = function(p, city) {
   var c, html, _i, _len, _ref;
-  html = "";
+  if(p == "省份/直辖市" && city =="城市"){
+    html = '';
+  }else{
+  html = '<option value="区县/区域" selected="selected">区县/区域</option>';
+}
   _ref = fGetCounty(p, city);
+
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     c = _ref[_i];
     html += "<option value='" + c + "''>" + c + "</option>";
@@ -5680,7 +5686,11 @@ fGetHTMLT = function(p, city) {
 
 fGetHTMLC = function(p) {
   var c, html;
-  html = "";
+  if(p == "省份/直辖市"){
+    html = "";
+  }else{
+    html = '<option value="城市" selected="selected">城市</option>';
+  }
   for (c in _pc[p]) {
     html += '<option value="' + c + '">' + c + '</option>';
   }
@@ -5689,10 +5699,10 @@ fGetHTMLC = function(p) {
 
 fGetHTMLS = function(p, c, t) {
   var html, s, _i, _len, _ref;
-  if (p === "" || c === "" || t === "") {
-    return "";
+  if (p === "" || c === "" || t === "" || c === "城市" || t === "区县/区域") {
+    return "<option value='店名'>店名</option>";
   }
-  html = "";
+  html = "<option value='店名'>店名</option>";
   _ref = _pc[p][c][t];
   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
     s = _ref[_i];
