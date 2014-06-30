@@ -905,8 +905,8 @@ ul {
   padding: 20px;
   opacity: 0;
 }
-.checkbox-parent:before,
-.radio-parent:before {
+.checkbox-parent i,
+.radio-parent i {
   display: none;
   content: " ";
   position: absolute;
@@ -917,8 +917,8 @@ ul {
   background: url("../img/checked.png") no-repeat top left;
   background-color: transparent;
 }
-.checkbox-parent.on:before,
-.radio-parent.on:before {
+.checkbox-parent.on i,
+.radio-parent.on i {
   display: block;
 }
 .checkbox-parent.readonly,
