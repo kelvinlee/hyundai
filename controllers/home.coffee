@@ -111,7 +111,7 @@ setDefaultLots = ->
 			Lots.new {lotname:"室内消毒剂",description:"快速清除空调风口及室内有害细菌病毒。",cartype:false,nums:[100000]},(err,results)->
 				console.log results
 			# 100000
-			Lots.new {lotname:"燃油添加剂",description:"偏重于节油性能的超短期添加剂，改善气缸摩擦，1.提高动力性，燃油经济性；2.保持进气阀、喷油嘴、燃烧室清洁。",cartype:false,nums:[10]},(err,results)->
+			Lots.new {lotname:"燃油清净剂",description:"偏重于节油性能的超短期添加剂，改善气缸摩擦，1.提高动力性，燃油经济性；2.保持进气阀、喷油嘴、燃烧室清洁。",cartype:false,nums:[10]},(err,results)->
 				console.log results
 
 

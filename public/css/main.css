@@ -660,6 +660,9 @@ body {
 img {
   max-width: 100%;
 }
+ul {
+  list-style: none;
+}
 .header {
   position: absolute;
   top: 0px;
@@ -1127,7 +1130,7 @@ img {
     float: right;
   }
   .m-title {
-    padding-bottom: 20px;
+    padding-bottom: 10px;
   }
   .m-btn {
     line-height: 34px;
@@ -1139,7 +1142,7 @@ img {
   .show-list {
     margin: 0 auto;
     padding: 0px;
-    padding-top: 20px;
+    /*padding-top: 20px;*/
   }
   .thirlist {
     height: 0px;

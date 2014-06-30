@@ -168,7 +168,7 @@ setDefaultLots = function() {
         return console.log(results);
       });
       return Lots["new"]({
-        lotname: "燃油添加剂",
+        lotname: "燃油清净剂",
         description: "偏重于节油性能的超短期添加剂，改善气缸摩擦，1.提高动力性，燃油经济性；2.保持进气阀、喷油嘴、燃烧室清洁。",
         cartype: false,
         nums: [10]
