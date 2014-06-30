@@ -572,14 +572,14 @@ checklots = function() {
   _cartype = $("[name=cartype]").val();
   for (_i = 0, _len = lots.length; _i < _len; _i++) {
     a = lots[_i];
-    console.log(a.cartype);
+    // console.log(a.cartype);
     if (a.cartype != null) {
       if (a.cartype === _cartype && !a.can) {
         $("[data-lot_id=" + a.lot + "]").parents(".lot-item").addClass('readonly');
       }
     } else {
       if (!a.can) {
-        console.log($("[data-lot_id=" + a.lot + "]"));
+        // console.log($("[data-lot_id=" + a.lot + "]"));
         $("[data-lot_id=" + a.lot + "]").parents(".lot-item").addClass('readonly');
       }
     }
