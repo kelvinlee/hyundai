@@ -22,7 +22,7 @@ Dealer = require("../model/mongo").Dealer;
 str = "qwertyuiopasdfghjklmnbvcxz1234567890";
 
 exports.first = function(req, res, next) {
-  if (req.cookies.login === "in") {
+  if ((req.cookies.login != null) && req.cookies.login === "in" && (req.cookies.user != null)) {
     return res.redirect("/admin/index");
   } else {
     return res.redirect("/admin/in");
@@ -38,7 +38,7 @@ exports.before = function(req, res, next) {
 
 exports["in"] = function(req, res, next) {
   defaultDealer();
-  if (req.cookies.login === "in") {
+  if ((req.cookies.login != null) && req.cookies.login === "in" && (req.cookies.user != null)) {
     return res.redirect("/admin/index");
   }
   console.log(req.cookies.user);

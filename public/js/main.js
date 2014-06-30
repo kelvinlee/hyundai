@@ -692,6 +692,7 @@ bindstepbystep = function() {
     $("#city-show select").remove();
 
     $("#county-show").html("<span>"+$("[name=county]").parents(".select-parent").find("span").text()+"</span>");
+    $("#mobile-county-show").html($("[name=county]").parents(".select-parent").find("span").text());
     $("#county-show").attr("class", $("[name=county]").parents(".select-parent").attr("class"));
     $("#county-show select").remove();
 

@@ -18,7 +18,7 @@ str="qwertyuiopasdfghjklmnbvcxz1234567890"
 
 
 exports.first = (req,res,next)->
-	if req.cookies.login is "in"
+	if req.cookies.login? and req.cookies.login is "in" and req.cookies.user?
 		res.redirect "/admin/index"
 	else
 		res.redirect "/admin/in"
@@ -29,7 +29,7 @@ exports.before = (req,res,next)->
 	next()
 exports.in = (req,res,next)->
 	defaultDealer()
-	if req.cookies.login is "in"
+	if req.cookies.login? and req.cookies.login is "in" and req.cookies.user?
 		return res.redirect "/admin/index"
 	console.log req.cookies.user
 	res.render "admin/in",{name:req.cookies.user}
