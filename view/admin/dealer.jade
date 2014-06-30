@@ -75,7 +75,7 @@ block content_here
 													td #{getType(list[i].cartype)}
 													-if (list[i].reser_at == null && list[i].imp_at == null)
 														td 
-															input.form-control.datepicker(type="text",size="16",data-format="yy-mm-dd",name="reser",style="width:140px",readonly)
+															input.form-control.datepickerh(type="text",size="16",data-format="yy-mm-dd",name="reser",style="width:140px",readonly)
 													-else if (list[i].imp_at != null && list[i].reser_at == null)
 														td
 													-else

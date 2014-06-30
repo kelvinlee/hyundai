@@ -1261,6 +1261,14 @@ var App = function () {
             language: "zh-CN",
             autoclose: true
         });
+        $(".datepickerh").datepicker({
+            format: "yyyy-mm-dd",
+            startDate: "2014-07-16",
+            endDate: "2014-08-31",
+            language: "zh-CN",
+            autoclose: true
+        });
+        
         $(".datetime").datetimepicker({format: 'yyyy-mm-dd',autoclose:true,startDate:"2014-07-01",endDate:"2014-08-31"});
       }
       
