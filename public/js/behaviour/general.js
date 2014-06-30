@@ -1256,7 +1256,7 @@ var App = function () {
       if(config.dateTime){
         $(".datepicker").datepicker({
             format: "yyyy-mm-dd",
-            startDate: "2014-07-01",
+            startDate: "2014-06-29",
             endDate: "2014-08-31",
             language: "zh-CN",
             autoclose: true
