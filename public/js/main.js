@@ -350,7 +350,7 @@ deviceMotionHandler = function(eventData) {
     _y = acceleration.y;
     _z = acceleration.z;
     speed = Math.abs(_x + _y + _z - last_x - last_y - last_z) / diffTime * 10000;
-    console.log(_x, _y, _z);
+    // console.log(_x, _y, _z);
     if (speed > SHAKE_THRESHOLD) {
       DMHandler();
     }
@@ -471,7 +471,7 @@ $(document).ready(function() {
     }else{
         // alert("s")
         $(".select32 input").each(function() {
-          console.log($(this).parent());
+          // console.log($(this).parent());
            $(this).parent().addClass('on');
            $(this).attr("checked", true);  
            // $(this).click();
@@ -568,7 +568,7 @@ checklots = function() {
   var a, _cartype, _i, _j, _len, _len1;
   $(".lot-item").show();
   $(".lot-item input").removeAttr("checked");
-  console.log(lots);
+  // console.log(lots);
   _cartype = $("[name=cartype]").val();
   for (_i = 0, _len = lots.length; _i < _len; _i++) {
     a = lots[_i];

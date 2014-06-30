@@ -1073,10 +1073,21 @@ img {
 .btns .nextstep.last {
   margin-left: 10%;
 }
+.btns .nextstep {
+  width: 45%;
+  height: auto;
+  display: inline-block;
+}
+.btns .nextstep.last {
+  margin-left: 10%;
+}
 #province-show:before,
 #city-show:before,
 #county-show:before,
 #dealer-show:before {
+  display: none;
+}
+.hide-pc {
   display: none;
 }
 @media (max-width: 768px) {
@@ -1179,5 +1190,47 @@ img {
     background-size: cover;
   }
 }
+
 .show-list li span.small-text{font-size: 12px;color:#956947;}
 .zeroheight{height:0;padding:0;border:0;}
+
+
+.backcodepop {
+  display: none;
+  background: url("../img/backcode-bg.png") repeat top center;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+.backcodepop .msg {
+  position: absolute;
+  top:50%;
+  left:50%;
+  width:300px;
+  height: 253px;
+  background: url("../img/backcode-bg-pc.jpg") no-repeat top center;
+  margin-left: -150px;
+  margin-top: -126px;
+}
+.backcodepop .msg input {
+  background: transparent;
+  border:none;
+  padding:10px;
+  height: 60px;
+  outline: none;
+  width: 260px;
+  position: absolute;
+  top:80px;
+  left:20px;
+}
+.backcodepop .msg a {
+  display: block;
+  position: absolute;
+  top:160px;
+  left: 20px;
+  width: 260px;
+  height: 60px;
+}
+
