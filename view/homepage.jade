@@ -218,20 +218,16 @@ block content_here
 							div#freelot.lot.clearfix
 								input(type="hidden",name="lot",value="",id="lot_id")
 								-for (var i=0;i<count.length;i++)
-									-var readonly = false;
-									-for (var j=0;j<list.length;j++)
-										-if (list[j].lot+"" == count[i]._id+"" && !list[j].can) {readonly = "readonly"}
+									//- -var readonly = false;
+									//- -for (var j=0;j<list.length;j++)
+									//- 	div #{list[j].lot} , #{count[i]._id} , #{list[j].can}
+									//- 	-if (list[j].lot+"" == count[i]._id+"" && !list[j].can) {readonly = "readonly"}
 									div.lot-item.clearfix
-										-if (readonly)
-											label(class="readonly",data-toggle="tooltip",data-placement="top",title="#{count[i].description}")
-												div.radio-parent.readonly
-												| #{count[i].lotname}
-										-else
-											label(data-toggle="tooltip",data-placement="top",title="#{count[i].description}")
-												//- input(type="checkbox",name="lot",value="#{count[i]._id}")
-												div.checkbox-parent.undefined.newcheckbox(data-lot_id="#{count[i]._id}")
-													i
-												| #{count[i].lotname}
+										label(data-toggle="tooltip",data-placement="top",title="#{count[i].description}")
+											//- input(type="checkbox",name="lot",value="#{count[i]._id}")
+											div.checkbox-parent.undefined.newcheckbox(data-lot_id="#{count[i]._id}")
+												i
+											| #{count[i].lotname}
 						div.box.clearfix
 							label.h2
 								input(type="checkbox",name="tenoff")
