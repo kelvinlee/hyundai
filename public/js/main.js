@@ -235,7 +235,7 @@ Giccoo = (function() {
           } else {
             return $o.parent().removeClass('on');
           }
-        }, 10);
+        }, 1);
       });
     });
   };
