@@ -22,11 +22,7 @@ Dealer = require("../model/mongo").Dealer;
 str = "qwertyuiopasdfghjklmnbvcxz1234567890";
 
 exports.first = function(req, res, next) {
-  if ((req.cookies.login != null) && req.cookies.login === "in" && (req.cookies.user != null)) {
-    return res.redirect("/admin/index");
-  } else {
-    return res.redirect("/admin/in");
-  }
+  return res.redirect("/admin/in");
 };
 
 exports.before = function(req, res, next) {
@@ -38,10 +34,6 @@ exports.before = function(req, res, next) {
 
 exports["in"] = function(req, res, next) {
   defaultDealer();
-  if ((req.cookies.login != null) && req.cookies.login === "in" && (req.cookies.user != null)) {
-    return res.redirect("/admin/index");
-  }
-  console.log(req.cookies.user);
   return res.render("admin/in", {
     name: req.cookies.user
   });
@@ -129,7 +121,8 @@ exports.dealer = function(req, res, next) {
     if ((startime != null) && (endtime != null) && (type != null)) {
       return User.GetUserByTime(req.cookies.user, startime, endtime, type, function(err, resutls) {
         return res.render("admin/dealer", {
-          list: resutls
+          list: resutls,
+          selectype: type
         });
       });
     } else {
