@@ -424,6 +424,10 @@ $(document).ready(function() {
   gico.fBindCheckBox($('input[type=checkbox]'));
   gico.fBindRadio_New($('input[type=radio]'));
 
+  $("[name=cartype]")[0].onchange = function() {
+    _hmt.push(['_trackEvent', '选择车型', '车型', '']);
+  }
+
   $(".backcode").click(function(){
     $(".backcodepop").show();
     $(".backcodepop").click(function(evt){
@@ -536,6 +540,7 @@ fBindFormBtn = function() {
     if ($('[name=dealer]').val() === "经销商") {
       return alert('请选择经销商');
     }
+    _hmt.push(['_trackEvent', '注册', '提交', '']);
     $.ajax({
       url: $('[name=register]').attr("action"),
       type: 'POST',
@@ -613,6 +618,7 @@ bindstepbystep = function() {
     }else{
       $(".confirmpc").hide();
     }
+
     if ($("[name=cartype]").val() !== "请选择车型") {
       $("[name=cartypetemp]").val(_car_type[parseInt($("[name=cartype]").val()) - 1].name);
       $("#cartype-show").text(_car_type[parseInt($("[name=cartype]").val()) - 1].name);
@@ -623,6 +629,7 @@ bindstepbystep = function() {
         $(".form-list").css({"padding-top":0})
       }
       checklots();
+      _hmt.push(['_trackEvent', '选择车型', '车型', '']);
       return window.scrollTo(0, 1);
     }else{
       alert("请选择车型");
@@ -713,6 +720,7 @@ bindstepbystep = function() {
     }else{
       $(".confirmpc").show();
     }
+    _hmt.push(['_trackEvent', '验证页面', '验证', '']);
     return window.scrollTo(0, 1);
   });
   return $(".goback").click(function() {
@@ -727,6 +735,7 @@ bindstepbystep = function() {
     }
     $(".form-list").show();
     $(".confirm").hide();
+    _hmt.push(['_trackEvent', '返回页面', '验证', '']);
     return window.scrollTo(0, 1);
   });
 };
