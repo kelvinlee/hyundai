@@ -251,13 +251,16 @@ exports.dealerinfo = function(req, res, next) {
   }
   return User.getUserByCode(req.query.code, req.cookies.user, function(err, user) {
     if (user != null) {
-      return Lots.getById(user.lot, function(err, lot) {
-        return res.render("admin/info", {
-          user: user,
-          code: req.query.code,
-          lot: lot,
-          dealer_id: req.cookies.user,
-          dealer: req.cookies.dealer
+      return Dealer.getbyid(user.dealer, function(err, dealer) {
+        return Lots.getById(user.lot, function(err, lot) {
+          return res.render("admin/info", {
+            user: user,
+            code: req.query.code,
+            lot: lot,
+            dealer_id: req.cookies.user,
+            dealer: req.cookies.dealer,
+            dl: dealer
+          });
         });
       });
     } else {

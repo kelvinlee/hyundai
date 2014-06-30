@@ -203,8 +203,9 @@ exports.dealerinfo = (req,res,next)->
 	User.getUserByCode req.query.code,req.cookies.user,(err,user)->
 		# console.log resutls
 		if user?
-			Lots.getById user.lot,(err,lot)->
-				res.render "admin/info",{user:user,code:req.query.code,lot:lot,dealer_id:req.cookies.user,dealer:req.cookies.dealer}
+			Dealer.getbyid user.dealer,(err,dealer)->
+				Lots.getById user.lot,(err,lot)->
+					res.render "admin/info",{user:user,code:req.query.code,lot:lot,dealer_id:req.cookies.user,dealer:req.cookies.dealer,dl:dealer}
 		else
 			res.render "admin/info",{user:null}
 

@@ -16,6 +16,12 @@ exports.get = function(next) {
   return Dealer.find({}, next);
 };
 
+exports.getbyid = function(id, next) {
+  return Dealer.findOne({
+    dealer_id: id
+  }, next);
+};
+
 exports["new"] = function(province, city, county, id, name, password) {
   var d;
   d = new Dealer();
