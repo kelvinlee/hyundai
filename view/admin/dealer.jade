@@ -91,7 +91,7 @@ block content_here
 													td #{changed}
 													td
 														-if (list[i].imp_at == null && list[i].reser_at == null)
-															a(href="/admin/dealer/reser/#{list[i]._id}",onclick="return setTimepost(this)") 确定
+															a(href="/admin/dealer/reser/#{list[i]._id}",onclick="setTimepost(this); return false;") 确定
 block css_here
 	link(rel="stylesheet",type="text/css",href="/js/jquery.nanoscroller/nanoscroller.css" )
 	link(rel="stylesheet",type="text/css",href="/js/jquery.easypiechart/jquery.easy-pie-chart.css" )
@@ -135,7 +135,7 @@ block js_here
 		}
 		function setTimepost(o) {
 			var val = $(o).parents("tr").find("[name=reser]").val();
-			console.log(val);
+			//- console.log(val);
 			if (val == "") {
 				alert("请选择预约时间");
 				return false;
