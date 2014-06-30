@@ -129,7 +129,10 @@ block js_here
 		}); 
 		function searchdate() {
 			if ($("[name=startime]").val() !="" && $("[name=endtime]").val() !="") {
-				window.location.href = "/admin/dealer?startime="+(new Date($("[name=startime]").val()+" 0:0:0").getTime())+"&endtime="+(new Date($("[name=endtime]").val()+" 23:59:59").getTime())+"&type="+$("[name=type]").val();
+				//- $("[name=startime]").val()+" 0:0:0"
+				var _s = NewDate($("[name=startime]").val(),"0:0:0");
+				var _e = NewDate($("[name=endtime]").val(),"23:59:59");
+				window.location.href = "/admin/dealer?startime="+(_s.getTime())+"&endtime="+(_e.getTime())+"&type="+$("[name=type]").val();
 			}else if($("[name=startime]").val() =="" && $("[name=endtime]").val() ==""){
 				window.location.href = "/admin/dealer?startime=&endtime=&type="+$("[name=type]").val();
 			}else {
@@ -166,6 +169,14 @@ block js_here
 			$("body").append(newtable);
 			window.print();
 		}
+		function NewDate(str,hour) { 
+			str = str.split('-'); 
+			var date = new Date(); 
+			date.setUTCFullYear(str[0], str[1] - 1, str[2]); 
+			hour = hour.split(':');
+			date.setUTCHours(hour[0], hour[1], hour[2], 0); 
+			return date; 
+		} 
     
 	script(src="/js/bootstrap/dist/js/bootstrap.min.js")
 	script(type="text/javascript",src="/js/jquery.flot/jquery.flot.js")
