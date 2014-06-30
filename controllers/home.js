@@ -103,7 +103,7 @@ exports.index = function(req, res, next) {
       code: code,
       list: list,
       count: count,
-      tenoff: can
+      tenoffcan: can
     });
   });
   Lots.used(function(err, used) {

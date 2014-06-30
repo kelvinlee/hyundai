@@ -65,7 +65,7 @@ exports.index = (req,res,next)->
 		# 如果can是false表示已经发放完了.
 		can = true
 		can = false if tenoff>=100000
-		res.render "homepage",{code:code,list:list,count:count,tenoff:can}
+		res.render "homepage",{code:code,list:list,count:count,tenoffcan:can}
 
 
 	Lots.used (err,used)->

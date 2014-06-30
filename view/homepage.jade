@@ -229,7 +229,7 @@ block content_here
 											div.checkbox-parent.undefined.newcheckbox(data-lot_id="#{count[i]._id}")
 												i
 											| #{count[i].lotname}
-						-if (tenoff)
+						-if (tenoffcan)
 							div.box.clearfix
 								label.h2
 									input(type="checkbox",name="tenoff")
@@ -702,7 +702,7 @@ block js_here
 	script.
 		var lots = !{json};
 		var lotscounts = !{_count};
-		var tenoffcan = !{tenoff};
+		var tenoffcan = !{tenoffcan};
 		$(document).ready(function(){
 			if (!gico.mobilecheck()) {
 				$("[data-toggle=tooltip]").tooltip();
