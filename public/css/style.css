@@ -2818,6 +2818,12 @@ button::-moz-focus-inner {
 .print-visible {
 	display: none;
 }
+.navbar-header {
+	display: none;
+}
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+	border:none;
+}
 @media print {
 	.col-print-1,.col-print-2,.col-print-3,.col-print-4,.col-print-5,.col-print-6,.col-print-7,.col-print-8,.col-print-9,.col-print-10,.col-print-11{float:left}.col-print-1{width:8.33333%}.col-print-2{width:16.66667%}.col-print-3{width:25%}.col-print-4{width:33.33333%}.col-print-5{width:41.66667%}.col-print-6{width:50%}.col-print-7{width:58.33333%}.col-print-8{width:66.66667%}.col-print-9{width:75%}.col-print-10{width:83.33333%}.col-print-11{width:91.66667%}.col-print-12{width:100%}.col-print-offset-0{margin-left:0}.col-print-offset-1{margin-left:8.33333%}.col-print-offset-2{margin-left:16.66667%}.col-print-offset-3{margin-left:25%}.col-print-offset-4{margin-left:33.33333%}.col-print-offset-5{margin-left:41.66667%}.col-print-offset-6{margin-left:50%}.col-print-offset-7{margin-left:58.33333%}.col-print-offset-8{margin-left:66.66667%}.col-print-offset-9{margin-left:75%}.col-print-offset-10{margin-left:83.33333%}.col-print-offset-11{margin-left:91.66667%}
 	.print-btn {
