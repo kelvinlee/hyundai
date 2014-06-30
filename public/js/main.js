@@ -582,9 +582,10 @@ checklots = function() {
       }
     }
   }
-  for (_j = 0, _len1 = lotscounts.length; _j < _len1; _j++) {
+  for (var _j = 0, _len1 = lotscounts.length; _j < _len1; _j++) {
     a = lotscounts[_j];
-    if (a.nums[parseInt(_cartype) - 1] <= 0) {
+    if (typeof(a.nums[parseInt($("[name=cartype]").val()) - 1])!="undefined" && a.nums[parseInt($("[name=cartype]").val()) - 1] <= 0) {
+      // console.log(a.nums[parseInt($("[name=cartype]").val()) - 1],typeof(a.nums[parseInt($("[name=cartype]").val()) - 1]));
       $("[data-lot_id=" + a._id + "]").parents(".lot-item").addClass('readonly');
     }
   }
