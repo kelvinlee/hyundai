@@ -434,38 +434,19 @@ $(document).ready(function() {
       }
     });
   });
-  $(".newcheckbox").each(function(){
-    this.onclick = function(){
-      alert($(this).hasClass('on'));
-      if($(this).hasClass('on')){
-        $(this).attr("class","checkbox-parent newcheckbox");
-      }else{
-        $(this).attr("class","checkbox-parent newcheckbox on");
-      }
+
+  $(".newcheckbox").bind("click",function(){
+    if ($(this).parents(".lot-item").is(".readonly")) {return false;}
+    var _data = $(this).data("lot_id");
+    if($(this).hasClass('on')){
+      $(this).removeClass("on");
+      $("#lot_id").val("");
+    }else{
+      $("#lot_id").val(_data);
+      $(".newcheckbox").removeClass("on");
+      $(this).addClass("on");
     }
   });
-  // $(".newcheckbox").bind("click",function(){
-  //   if ($(this).parents(".lot-item").is(".readonly")) {return false;}
-  //   var _data = $(this).data("lot_id");
-  //   alert($(this).hasClass('on'));
-  //   if($(this).hasClass('on')){
-  //     var ep = $(this);
-  //     setTimeout(function(){
-  //       ep.removeClass("on");
-  //     },10);
-  //     $("#lot_id").val("");
-  //     alert("in"+$(this).attr("class"));
-  //   }else{
-  //     $("#lot_id").val(_data);
-  //     var ep = $(this);
-  //     setTimeout(function(){
-  //       $(".newcheckbox").removeClass('on');
-  //       ep.addClass("on");
-  //     },10);
-  //     alert("out"+$(this).attr("class"));
-  //   }
-  //   alert("leve");
-  // });
 
   $(".newradio").bind("click",function(){
     var _data = $(this).data("changed_id");
