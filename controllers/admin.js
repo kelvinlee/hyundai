@@ -198,6 +198,10 @@ exports.ninepost = function(req, res, next) {
     re.recode = 201;
     re.reason = "用户名不能为空";
   }
+  if (parseInt(mileage) > 10000000) {
+    re.recode = 201;
+    re.reason = "行驶里程过长";
+  }
   if (re.recode !== 200) {
     res.send(re);
     return false;

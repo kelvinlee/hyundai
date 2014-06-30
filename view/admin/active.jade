@@ -8,17 +8,18 @@ block content_here
 				//- a.navbar-brand(href='tables-datatables.html#')
 					span Hy
 			div.navbar-collapse.collapse
-				ul.nav.navbar-nav
-					li
-						a(href="/admin/index") 返回
+				ul.nav.navbar-nav(style="width:100%")
+					
 					li
 						a(href='/admin/dealer') 客户查询
 					li.active
 						a(href='/admin/dealer/active') 活动实施 
 					li
 						a(href="/admin/password") 修改密码
-					li
+					li(style="float:right;")
 						a(href="/admin/out") 退出
+					li(style="float:right;")
+						a(href="/admin/index") 返回
 	div#cl-wrapper
 		div#pcont.container-fluid(style="margin:0px;")
 			div.page-head

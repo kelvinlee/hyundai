@@ -8,17 +8,18 @@ block content_here
 				//- a.navbar-brand(href='tables-datatables.html#')
 					span Hy
 			div.navbar-collapse.collapse
-				ul.nav.navbar-nav 
-					li
-						a(href="/admin/index") 返回
+				ul.nav.navbar-nav(style="width:100%")
+					
 					li
 						a(href='/admin/dealer') 客户查询
 					li.active
 						a(href='/admin/dealer/active') 活动实施 
 					li
 						a(href="/admin/password") 修改密码
-					li
+					li(style="float:right;")
 						a(href="/admin/out") 退出
+					li(style="float:right;")
+						a(href="/admin/index") 返回
 	-var thirlist = ["1.	发动机/变速箱机油是否正常","2.	发动机冷却液是否正常","3.	制动油/离合器油是否正常","4.	动力转向油是否正常","5.	空气滤清器状态是否正常","6.	驱动皮带状态","7.	蓄电池工作状态及桩头紧固检查","8.	玻璃水是否正常","9.	发动机舱内进气管是否有涉水痕迹","10.	线路（插头）连接及工作状态是否正常","11.	检查车辆各种灯光是否齐全","12.	检查灯内是否有水迹","13.	检查雨刮喷水效果及胶片性能","14.	检查雨刮胶片性能是否正常","15.	车窗密封胶条是否变形","16.	冷凝器及散热器清洁及工作状况检查","17.	显示工作状态是否正常","18.	空调&暖风工作状态","19.	空调空气滤清器更换或清洁","20.	驻车制动器工作状态","21.	制动踏板/离合器踏板工作状态","22.	天窗槽是否积水","23.	室内地毯、顶棚是否有水迹","24.	电脑检测（故障代码）","25.	转向系统工作性能检查","26.	转向机防尘套是否破碎，是否有涉水","27.	刹车系统工作情况是否正常","28.	制动片&盘生锈及磨损情况","29.	传动轴防尘套是否损坏，是否涉水","30.	减震器工作状态","31.	底盘螺栓紧固检查","32.	轮胎胎压及磨损情况"];
 	div#cl-wrapper.print-hide 
 		form.form-horizontal(name="register",action="/admin/dealer/nine")

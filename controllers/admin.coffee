@@ -161,6 +161,9 @@ exports.ninepost = (req,res,next)->
 	if not othername? or othername is ""
 		re.recode = 201
 		re.reason = "用户名不能为空"
+	if parseInt(mileage) > 10000000
+		re.recode = 201
+		re.reason = "行驶里程过长"
 	if re.recode isnt 200
 		res.send re
 		return false
