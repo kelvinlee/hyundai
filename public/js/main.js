@@ -440,14 +440,20 @@ $(document).ready(function() {
     var _data = $(this).data("lot_id");
     alert($(this).hasClass('on'));
     if($(this).hasClass('on')){
-      $(this).removeClass("on");
+      var ep = $(this);
+      setTimeout(function(){
+        ep.removeClass("on");
+      },10);
       $("#lot_id").val("");
-      alert("in");
+      alert("in"+$(this).attr("class"));
     }else{
       $("#lot_id").val(_data);
-      $(".newcheckbox").removeClass("on");
-      $(this).addClass("on");
-      alert("out");
+      var ep = $(this);
+      setTimeout(function(){
+        $(".newcheckbox").removeClass('on');
+        ep.addClass("on");
+      },10);
+      alert("out"+$(this).attr("class"));
     }
     alert("leve");
   });
