@@ -74,8 +74,11 @@ block content_here
 														td #{list[i].mobile}
 													td #{getType(list[i].cartype)}
 													-if (list[i].reser_at == null && list[i].imp_at == null)
-														td 
-															input.form-control.datepickerh(type="text",size="16",data-format="yy-mm-dd",name="reser",style="width:140px",readonly)
+														td(width="140px;")
+															div.input-group.date.datepickerh.col-sm-3(style="margin-bottom:0px;")
+																input.form-control(type="text",size="16",data-format="yy-mm-dd",name="reser",style="width:140px",readonly)
+																span.input-group-addon.btn.btn-primary
+																	span.glyphicon.glyphicon-th
 													-else if (list[i].imp_at != null && list[i].reser_at == null)
 														td
 													-else
