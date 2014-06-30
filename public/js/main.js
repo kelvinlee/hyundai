@@ -647,8 +647,8 @@ bindstepbystep = function() {
     }
     $("#thirthytwo-show").attr("class", $("[name=thirtytwo]").parent().attr("class"));
     $(".select32 input").each(function(i) {
-      $(".select321 li").eq(i).find("div").attr("class", $(this).parent().attr("class"));
-      $(".select322 li").eq(i).find("div").attr("class", $(this).parent().attr("class"));
+      $(".select321 li").eq(i).find("div").attr("class", $(this).parent().attr("class")).html("<i></i>");
+      $(".select322 li").eq(i).find("div").attr("class", $(this).parent().attr("class")).html("<i></i>");
     });
     $("#thirnums").text($(".select32 input:checked").length);
 
