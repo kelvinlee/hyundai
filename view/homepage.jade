@@ -244,16 +244,17 @@ block content_here
 								input(type="hidden",name="changed",value="",id="changed_id")
 								div.lot-item
 									label
-										//- input(type="radio",name="changed",value="yes")
-										div.radio-parent.undefined.newradio(data-changed_id="yes")
-											i
-										| 是
-								div.lot-item
-									label
 										div.radio-parent.undefined.newradio(data-changed_id="no")
 											i
 										//- input(type="radio",name="changed",value="no")
 										| 否
+								div.lot-item
+									label
+										//- input(type="radio",name="changed",value="yes")
+										div.radio-parent.undefined.newradio(data-changed_id="yes")
+											i
+										| 是
+								
 						div.nextstep.visible-xs(name="mobilestep") 下一步
 					div.col-sm-4.mobilestep2
 						div.box-b

@@ -1,9 +1,12 @@
 models = require './base'
 User = models.User
 
-exports.findAll = (next)->
+exports.findAll = (startime,endtime,next)->
   # body...
-  User.find {},next
+  star = new Date startime
+  end = new Date endtime
+  console.log star,end
+  User.find {create_at:{$gte:star,$lt:end}},next
 exports.getUserByCarType = (cartype,vin,callback)->
   User.findOne {cartype:cartype,vin:vin},callback
 

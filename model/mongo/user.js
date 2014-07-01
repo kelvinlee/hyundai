@@ -5,8 +5,17 @@ models = require('./base');
 
 User = models.User;
 
-exports.findAll = function(next) {
-  return User.find({}, next);
+exports.findAll = function(startime, endtime, next) {
+  var end, star;
+  star = new Date(startime);
+  end = new Date(endtime);
+  console.log(star, end);
+  return User.find({
+    create_at: {
+      $gte: star,
+      $lt: end
+    }
+  }, next);
 };
 
 exports.getUserByCarType = function(cartype, vin, callback) {

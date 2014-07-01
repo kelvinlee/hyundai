@@ -208,7 +208,6 @@ exports.post = function(req, res, next) {
   city = req.body.city;
   dealer = req.body.dealer;
   thir = req.body.thir;
-  console.log("post: ", req.body);
   if ((username == null) || username === "") {
     re.recode = 201;
     re.reason = "用户名不能为空";
@@ -246,6 +245,10 @@ exports.post = function(req, res, next) {
     re.recode = 201;
     re.reason = "请选择经销商";
   }
+  if ((lot != null) && lot === "53b18294ecfe820279c03331" && cartype === "5") {
+    re.recode = 201;
+    re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品.";
+  }
   if (re.recode === 200) {
     ep = new EventProxy.create("count", "used", "user", "tenoffcount", function(count, used, user, tenoffcount) {
       var a, list, _i, _len;
@@ -274,14 +277,19 @@ exports.post = function(req, res, next) {
         }
       }
       if (re.recode === 200) {
-        console.log("user:", code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir);
-        User.newReg(code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir, function(err, results) {
+        return User.newReg(code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir, function(err, results) {
           var content;
-          content = "【北京现代感恩活动验证码" + code + "】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。";
-          return sendMSG(content, mobile);
+          if (results != null) {
+            content = "【北京现代感恩活动验证码" + code + "】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。";
+            sendMSG(content, mobile);
+            re.reason = code;
+            return res.send(re);
+          } else {
+            re.recode = 210;
+            re.reason = "连接失败,请重试.";
+            return res.send(re);
+          }
         });
-        re.reason = code;
-        return res.send(re);
       } else {
         return res.send(re);
       }

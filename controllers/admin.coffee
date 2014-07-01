@@ -303,12 +303,26 @@ exports.download = (req,res,next)->
 	res.setHeader("Content-Disposition", "attachment; filename=Report.xls");
 	res.end(result, 'binary');
 
+
+resetCode = (code)->
+
+	# code = parseInt(code).toString(32);
+	# var reg = /(\w{1})(\w{6})/;code = code.replace(reg,"d"); return new Date(parseInt(code,32)*100);
+
+
 exports.super = (req,res,next)->
+
+	st = new Date().getTime()-(1000*60*60*4)
+	et = new Date().getTime()+(1000*60*60*4)
+	if req.query.startime? and req.query.endtime?
+		st = req.query.startime
+		et = req.query.endtime
+
 	ep = new EventProxy.create "users","lots","dealers",(users,lots,dealers)->
 		
 		res.render "admin/super",{users:users,dealers:dealers,lots:lots}
 
-	User.findAll (err,users)->
+	User.findAll st,et,(err,users)->
 		# console.log users
 		ep.emit "users",users
 	Dealer.findAll (err,dealers)->

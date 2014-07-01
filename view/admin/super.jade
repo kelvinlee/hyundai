@@ -1,10 +1,11 @@
 extends layout 
 block content_here
-	-function getDates(date){ if (date == null){return "";} return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate(); }
+	-function getDates(date){ if (date == null){return "";} return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds(); }
 	-function getLots(id) { for(var i=0;i<lots.length;i++) { if (id+"" == lots[i]._id+""){ return lots[i].lotname; }  } return ""; }
 	-function getType(n){ if (n == null){return "";} var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}]; return type[parseInt(n)-1].name; }
 	-function sf(bo) {if (bo){ return "是"; }else{return "否";}}
 	-function getdealer(id) { for(var i=0;i<dealers.length;i++) { if(dealers[i].dealer_id == id) {return dealers[i];} } return null; }
+	-function getcode(code) { var reg = /(\w{1})(\w{6})/; code = code.replace(reg,"d$2"); return new Date(parseInt(code,32)*100); }
 	div#head-nav.print-hide.navbar.navbar-default.navbar-fixed-top
 		div.container-fluid
 	div#cl-wrapper
@@ -12,7 +13,17 @@ block content_here
 			div.header
 				h3 注册信息
 			div.content
-				table.no-border
+				div
+					p 默认返回最新4个小时的注册数据. 如果需要查询所有则选择日期从7月1日到今天.
+				div.table-responsive
+					div.table-ctrl
+						layout   从  
+						input.form-control.datepicker(type="text",size="16",name="startime",style="width:140px;display:inline-block;")
+						layout   到  
+						input.form-control.datepicker(type="text",size="16",name="endtime",style="width:140px;display:inline-block;")
+						button.btn.btn-primary(type="button",onclick="searchdate()") 查询
+						a.btn.btn-primary(href="/super") 重置
+				table#datatable.no-border
 					thead
 						tr
 							th.sorting_desc 时间
@@ -33,7 +44,7 @@ block content_here
 						-for(var i=0;i<users.length;i++)
 							-if (users[i].dealer != "店名")
 								tr
-									td #{getDates(users[i].create_at)}
+									td #{getDates(getcode(users[i].code))}
 									td #{users[i].code}
 									td #{users[i].username}
 									td #{users[i].mobile}
@@ -53,4 +64,45 @@ block content_here
 										td
 										td
 									td #{users[i].dealer}
-
+block css_here
+	link(rel="stylesheet",type="text/css",href="/js/bootstrap.datetimepicker/datepicker.css" )
+block js_here
+	script(type="text/javascript",src="/js/jquery.nanoscroller/jquery.nanoscroller.js")
+	script(type="text/javascript",src="/js/jquery.sparkline/jquery.sparkline.min.js")
+	script(type="text/javascript",src="/js/jquery.easypiechart/jquery.easy-pie-chart.js")
+	script(type="text/javascript",src="/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js")
+	script(type="text/javascript",src="/js/bootstrap.datetimepicker/bootstrap-datepicker.js")
+	script(type="text/javascript",src="/js/bootstrap.datetimepicker/bootstrap-datepicker.zh-CN.js")
+	script(type="text/javascript",src="/js/jquery.nestable/jquery.nestable.js")
+	//- script(src="/js/bootstrap/dist/js/bootstrap.min.js")
+	script(type="text/javascript",src="/js/bootstrap.switch/bootstrap-switch.min.js")
+	script(src="/js/jquery.select2/select2.min.js",type="text/javascript")
+	script(src="/js/bootstrap.slider/js/bootstrap-slider.js",type="text/javascript")
+	script(type="text/javascript",src="/js/jquery.gritter/js/jquery.gritter.min.js")
+	script(type="text/javascript",src="/js/jquery.datatables/jquery.datatables.min.js")
+	script(type="text/javascript",src="/js/behaviour/general.js")
+	script.
+		$(document).ready(function(){
+			App.init();
+		});
+		function searchdate() {
+			if ($("[name=startime]").val() !="" && $("[name=endtime]").val() !="") {
+				//- $("[name=startime]").val()+" 0:0:0"
+				var _s = $("[name=startime]").val()+" 0:0:0";
+				var _e = $("[name=endtime]").val()+" 23:59:59";
+				window.location.href = "/super?startime="+decodeURIComponent(_s)+"&endtime="+decodeURIComponent(_e);
+			}else if($("[name=startime]").val() =="" && $("[name=endtime]").val() ==""){
+				window.location.href = "/super?startime=&endtime=";
+			}else {
+				alert("请选择时间范围后查询.");
+			}
+		}
+		function NewDate(str,hour) { 
+			str = str.split('-');
+			var date = new Date();
+			console.log(str);
+			date.setUTCFullYear(str[0], str[1] - 1, str[2]); 
+			hour = hour.split(':');
+			date.setUTCHours(hour[0], hour[1], hour[2], 0); 
+			return date; 
+		}

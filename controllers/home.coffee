@@ -149,7 +149,7 @@ exports.post = (req,res,next)->
 
 
 
-	console.log "post: ",req.body
+	# console.log "post: ",req.body
 	# res.send {recode:201,reason:"error"}
 	# return ""
 	# if req.body.thir.length < 32
@@ -183,6 +183,11 @@ exports.post = (req,res,next)->
 	if not dealer? or dealer is "" or dealer is "经销商"
 		re.recode = 201
 		re.reason = "请选择经销商"
+	if lot? and lot is "53b18294ecfe820279c03331" and cartype is "5"
+		re.recode = 201
+		re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品."
+
+
 
 	if re.recode is 200
 		ep = new EventProxy.create "count","used","user","tenoffcount", (count,used,user,tenoffcount)->
@@ -208,14 +213,20 @@ exports.post = (req,res,next)->
 					re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品."
 
 			if re.recode is 200
-				console.log "user:",code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir
+				# console.log "user:",code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir
 
 				User.newReg code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir,(err,results)->
-					# console.log err,results
-					content = "【北京现代感恩活动验证码#{code}】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。"
-					sendMSG content,mobile
-				re.reason = code
-				res.send re
+					console.log err,results
+					if results?
+						content = "【北京现代感恩活动验证码#{code}】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。"
+						sendMSG content,mobile
+
+						re.reason = code
+						res.send re
+					else
+						re.recode = 210
+						re.reason = "连接失败,请重试."
+						res.send re
 			else
 				res.send re
 		User.reged mobile,(err,results)->

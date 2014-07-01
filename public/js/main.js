@@ -623,6 +623,7 @@ bindstepbystep = function() {
     }else{
       $(".confirmpc").hide();
     }
+    window.location.hash = "Registration";
 
     if ($("[name=cartype]").val() !== "请选择车型") {
       $("[name=cartypetemp]").val(_car_type[parseInt($("[name=cartype]").val()) - 1].name);
@@ -728,6 +729,7 @@ bindstepbystep = function() {
       $(".confirmpc").show();
     }
     
+    window.location.hash = "Confirm";
     _hmt.push(['_trackEvent', '验证页面', '验证', '']);
     
     return window.scrollTo(0, 1);
@@ -745,6 +747,7 @@ bindstepbystep = function() {
     $(".form-list").show();
     $(".confirm").hide();
     _hmt.push(['_trackEvent', '返回页面', '验证', '']);
+    window.location.hash = "Registration";
     return window.scrollTo(0, 1);
   });
 };
