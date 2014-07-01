@@ -540,7 +540,7 @@ fBindFormBtn = function() {
     if ($('[name=dealer]').val() === "经销商") {
       return alert('请选择经销商');
     }
-    _hmt.push(['_trackEvent', '注册', '提交', '']);
+    
     $.ajax({
       url: $('[name=register]').attr("action"),
       type: 'POST',
@@ -549,6 +549,9 @@ fBindFormBtn = function() {
       context: $('body'),
       success: function(msg) {
         if (msg.recode === 200) {
+          if (_hmt != null) {
+            _hmt.push(['_trackEvent', '注册', '提交', '']);
+          }
           return window.location.href = "/success?code=" + msg.reason;
         } else {
           return alert(msg.reason);
