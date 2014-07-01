@@ -318,9 +318,11 @@ exports.super = (req,res,next)->
 		st = req.query.startime
 		et = req.query.endtime
 
-	ep = new EventProxy.create "users","lots","dealers",(users,lots,dealers)->
+	ep = new EventProxy.create "users","lots","dealers","tenoff","used",(users,lots,dealers,tenoff,used)->
 		
-		res.render "admin/super",{users:users,dealers:dealers,lots:lots}
+		list = getList lots,used
+		
+		res.render "admin/super",{users:users,dealers:dealers,lots:lots,list:list,used:used,tenoff:tenoff}
 
 	User.findAll st,et,(err,users)->
 		# console.log users
@@ -330,6 +332,42 @@ exports.super = (req,res,next)->
 	Lots.count (err,count)->
 		ep.emit "lots",count
 
+	Lots.used (err,used)->
+		ep.emit "used",used
+
+	User.getTenoff (err,results)->
+		console.log err,results
+		ep.emit "tenoff",results
+
+# 
+getList = (count,used)->
+	list = []
+	for d in count
+		list.push {lot:d._id,used:0,count:d.nums[0]} if not d.cartype
+
+	for a in used
+		for b in count
+			# console.log a._id.lot,b._id
+			if a._id.lot+"" is b._id+""
+				if b.cartype
+					if a.total >= b.nums[ parseInt(a._id.cartype)-1 ]
+						a.can = false
+						list.push {lot:a._id.lot,cartype:a._id.cartype,used:a.total,count:b.nums[ parseInt(a._id.cartype)-1 ],can:false}
+					else
+						a.can = true
+						list.push {lot:a._id.lot,cartype:a._id.cartype,used:a.total,count:b.nums[ parseInt(a._id.cartype)-1 ],can:true}
+
+	for a in used
+		continue if a.can?
+		for b in list
+			if b.lot+"" is a._id.lot+""
+				b.used += a.total
+	for a in list
+		if a.used >= a.count
+			a.can = false 
+		else
+			a.can = true
+	return list
 
 
 defaultDealer = ->
@@ -422,7 +460,7 @@ defaultDealer = ->
 		Dealer.new "山东","临沂市","罗庄区","D1027","临沂翔宇","663724"
 		Dealer.new "山东","威海市","环翠区","D1028","威海振洋","852969"
 		Dealer.new "山东","青岛市","崂山区","D1029","青岛润洋","221301"
-		Dealer.new "山东","淄博市","淄川区","D1031","淄博众智源","219400"
+		Dealer.new "山东","淄博市","临淄区","D1031","淄博众智源","219400"
 		Dealer.new "山东","济宁市","市中区","D1033","济宁鸿源","513361"
 		Dealer.new "山东","潍坊市","寿光市","D1034","寿光元润","714932"
 		Dealer.new "山东","潍坊市","诸城市","D1035","诸城佳恒","415747"
@@ -693,13 +731,13 @@ defaultDealer = ->
 		Dealer.new "贵州","安顺市","西秀区","D1608","安顺恒信德龙","166557"
 		Dealer.new "贵州","兴义市","木贾物流园","D1609","兴义林兴","214194"
 		Dealer.new "贵州","凯里市","鸭塘镇","D1610","凯里恒信德龙","272642"
-		Dealer.new "贵州","都匀市","甘糖园区","D1611","都匀恒信华通","892802"
+		Dealer.new "贵州","都匀市","甘塘园区","D1611","都匀恒信华通","892802"
 		Dealer.new "贵州","毕节市","七星关区","D1613","毕节佰润京汉","374812"
 		Dealer.new "四川","成都市","成华区","D1701","四川华星卓越","586535"
 		Dealer.new "四川","成都市","金牛区","D1702","四川明嘉","106714"
 		Dealer.new "四川","成都市","武侯区","D1703","四川港宏","970887"
 		Dealer.new "四川","绵阳市","高新区","D1704","绵阳新川萨","430802"
-		Dealer.new "四川","德阳市","旌阳区","D1706","德阳名帝马","145732"
+		Dealer.new "四川","德阳市","旌阳区","D1706","德阳伯爵","145732"
 		Dealer.new "四川","眉山市","东坡区","D1708","眉山天威","152167"
 		Dealer.new "四川","成都市","武侯区","D1709","成都万吉","764231"
 		Dealer.new "四川","自贡市","贡井区","D1710","自贡新成","676277"
