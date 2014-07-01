@@ -212,7 +212,7 @@ exports.post = (req,res,next)->
 
 				User.newReg code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir,(err,results)->
 					# console.log err,results
-					content = "【北京现代】感恩回馈活动验证码#{code}，请妥善保存。7月16日-8月31日期间凭此验证码到您选择的经销商处参加此次活动。感谢您的参与。"
+					content = "【北京现代感恩活动验证码#{code}】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。"
 					sendMSG content,mobile
 				re.reason = code
 				res.send re
@@ -244,7 +244,7 @@ exports.backcode = (req,res,next)->
 		console.log err,user
 		if user?
 			code = user.code
-			content = "【北京现代】感恩回馈活动验证码#{code}，请妥善保存。7月16日-8月31日期间凭此验证码到您选择的经销商处参加此次活动。感谢您的参与。"
+			content = "【北京现代感恩活动验证码#{code}】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。"
 			sendMSG content,mobile
 			res.send re
 		else

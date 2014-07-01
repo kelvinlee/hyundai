@@ -277,7 +277,7 @@ exports.post = function(req, res, next) {
         console.log("user:", code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir);
         User.newReg(code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir, function(err, results) {
           var content;
-          content = "【北京现代】感恩回馈活动验证码" + code + "，请妥善保存。7月16日-8月31日期间凭此验证码到您选择的经销商处参加此次活动。感谢您的参与。";
+          content = "【北京现代感恩活动验证码" + code + "】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。";
           return sendMSG(content, mobile);
         });
         re.reason = code;
@@ -318,7 +318,7 @@ exports.backcode = function(req, res, next) {
     console.log(err, user);
     if (user != null) {
       code = user.code;
-      content = "【北京现代】感恩回馈活动验证码" + code + "，请妥善保存。7月16日-8月31日期间凭此验证码到您选择的经销商处参加此次活动。感谢您的参与。";
+      content = "【北京现代感恩活动验证码" + code + "】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。";
       sendMSG(content, mobile);
       return res.send(re);
     } else {
