@@ -305,12 +305,21 @@ exports.download = (req,res,next)->
 
 exports.super = (req,res,next)->
 	ep = new EventProxy.create "users","lots",(users,lots)->
-		res.render "admin/super",{users:users,lots:lots}
+		nep = new EventProxy()
+
+		nep.after "dealers",users.length,(dealers)->
+			console.log lots
+			res.render "admin/super",{users:users,dealers:dealers,lots:lots}
+		for a in users
+			Dealer.getbyid a.dealer,(err,dealer)->
+				nep.emit "dealers",dealer
+
 	User.findAll (err,users)->
-		console.log users
+		# console.log users
 		ep.emit "users",users
 	Lots.count (err,count)->
 		ep.emit "lots",count
+
 
 
 defaultDealer = ->
