@@ -12,8 +12,9 @@ block content_here
 					
 					li
 						a(href='/admin/dealer') 客户查询
-					li
-						a(href='/admin/dealer/active') 活动实施 
+					-if(new Date().getDate()>15)
+						li
+							a(href='/admin/dealer/active') 活动实施 
 					li
 						a(href="/admin/password") 修改密码
 					li(style="float:right;")
@@ -30,13 +31,14 @@ block content_here
 						.sub
 							h2  
 							span 客户查询
-							div.stat   
-				.stats_bar
-					a(href="/admin/dealer/active").butpro.butstyle
-						.sub
-							h2  
-							span 活动实施
-							div.stat    
+							div.stat
+				-if(new Date().getDate()>15)
+					.stats_bar
+						a(href="/admin/dealer/active").butpro.butstyle
+							.sub
+								h2  
+								span 活动实施
+								div.stat    
 				.stats_bar
 					a(href="/admin/password").butpro.butstyle
 						.sub

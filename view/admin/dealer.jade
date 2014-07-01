@@ -12,8 +12,9 @@ block content_here
 				ul.nav.navbar-nav(style="width:100%")
 					li.active
 						a(href='/admin/dealer') 客户查询
-					li
-						a(href='/admin/dealer/active') 活动实施 
+					-if(new Date().getDate()>15)
+						li
+							a(href='/admin/dealer/active') 活动实施 
 					li
 						a(href="/admin/password") 修改密码
 					li(style="float:right;")
