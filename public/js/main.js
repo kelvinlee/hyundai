@@ -521,7 +521,7 @@ $(document).ready(function() {
 myK = function(id) {
   return document.getElementById(id);
 };
-
+var _submit = false;
 fBindFormBtn = function() {
   return $('[name=submit]').click(function() {
     if ($('[name=username]').val().length <= 0) {
@@ -542,7 +542,8 @@ fBindFormBtn = function() {
     if ($('[name=dealer]').val() === "店名") {
       return alert('请选择经销商');
     }
-    
+    if (_submit) { alert("已经提交请稍后."); return ""; }
+    _submit = true
     $.ajax({
       url: $('[name=register]').attr("action"),
       type: 'POST',
@@ -554,6 +555,7 @@ fBindFormBtn = function() {
           window.location.href = "/success?code=" + msg.reason;
           _hmt.push(['_trackEvent', '注册', '提交', '']);
         } else {
+          _submit = false
           return alert(msg.reason);
         }
       }
