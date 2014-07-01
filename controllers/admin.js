@@ -379,28 +379,18 @@ exports.download = function(req, res, next) {
 
 exports["super"] = function(req, res, next) {
   var ep;
-  ep = new EventProxy.create("users", "lots", function(users, lots) {
-    var a, nep, _i, _len, _results;
-    nep = new EventProxy();
-    nep.after("dealers", users.length, function(dealers) {
-      console.log(lots);
-      return res.render("admin/super", {
-        users: users,
-        dealers: dealers,
-        lots: lots
-      });
+  ep = new EventProxy.create("users", "lots", "dealers", function(users, lots, dealers) {
+    return res.render("admin/super", {
+      users: users,
+      dealers: dealers,
+      lots: lots
     });
-    _results = [];
-    for (_i = 0, _len = users.length; _i < _len; _i++) {
-      a = users[_i];
-      _results.push(Dealer.getbyid(a.dealer, function(err, dealer) {
-        return nep.emit("dealers", dealer);
-      }));
-    }
-    return _results;
   });
   User.findAll(function(err, users) {
     return ep.emit("users", users);
+  });
+  Dealer.findAll(function(err, dealers) {
+    return ep.emit("dealers", dealers);
   });
   return Lots.count(function(err, count) {
     return ep.emit("lots", count);

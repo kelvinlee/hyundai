@@ -22,6 +22,10 @@ exports.getbyid = function(id, next) {
   }, next);
 };
 
+exports.findAll = function(next) {
+  return Deaker.find({}, next);
+};
+
 exports["new"] = function(province, city, county, id, name, password) {
   var d;
   d = new Dealer();
