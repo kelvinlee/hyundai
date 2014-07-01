@@ -1,0 +1,45 @@
+extends layout 
+block content_here
+	-function getDates(date){ if (date == null){return "";} return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate(); }
+	-function getLots(id) { for(var i=0;i<lots.length;i++) { if (id+"" == lots[i]._id+""){ return lots[i].lotname; }  } return ""; }
+	div#head-nav.print-hide.navbar.navbar-default.navbar-fixed-top
+		div.container-fluid
+	div#cl-wrapper
+		div.block-flat
+			div.header
+				h3 注册信息
+			div.content
+				table.no-border
+					thead
+						tr
+							th.sorting_desc 时间
+							th 姓名
+							th 手机
+							th 车型
+							th 32项
+							th 汽车用品
+							th 保养配件
+							th 是否置换
+							th 省/市
+							th 城市
+							//- th 区县
+							th 店名
+							th 店号
+					tbody.no-border-y
+						-for(var i=0;i<users.length;i++)
+							tr
+								td #{getDates(users[i].create_at)}
+								td #{users[i].username}
+								td #{users[i].mobile}
+								td #{users[i].cartype}
+								td #{users[i].thir.length}
+								td #{users[i].lot}
+								td #{getLots(users[i].lot)}
+								//- td #{users[i].tenoff}
+								td #{users[i].changed}
+								td #{users[i].province}
+								td #{users[i].city}
+								td 
+								td 
+								td #{users[i].dealer}
+

@@ -377,6 +377,23 @@ exports.download = function(req, res, next) {
   return res.end(result, 'binary');
 };
 
+exports["super"] = function(req, res, next) {
+  var ep;
+  ep = new EventProxy.create("users", "lots", function(users, lots) {
+    return res.render("admin/super", {
+      users: users,
+      lots: lots
+    });
+  });
+  User.findAll(function(err, users) {
+    console.log(users);
+    return ep.emit("users", users);
+  });
+  return Lots.count(function(err, count) {
+    return ep.emit("lots", count);
+  });
+};
+
 defaultDealer = function() {
   return Dealer.get(function(err, resutls) {
     if (resutls.length > 0) {

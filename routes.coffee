@@ -16,6 +16,7 @@ module.exports = (app)->
   
 
   # 管理后台
+  app.get '/super',admin.super
   app.get '/dealer',admin.in
   # app.get '/dealer/in',admin.in
 

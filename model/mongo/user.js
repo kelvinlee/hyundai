@@ -5,6 +5,10 @@ models = require('./base');
 
 User = models.User;
 
+exports.findAll = function(next) {
+  return User.find({}, next);
+};
+
 exports.getUserByCarType = function(cartype, vin, callback) {
   return User.findOne({
     cartype: cartype,

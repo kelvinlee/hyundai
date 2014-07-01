@@ -539,7 +539,7 @@ fBindFormBtn = function() {
     if ($('[name=city]').val() === "城市") {
       return alert('请选择城市');
     }
-    if ($('[name=dealer]').val() === "经销商") {
+    if ($('[name=dealer]').val() === "店名") {
       return alert('请选择经销商');
     }
     
@@ -662,7 +662,7 @@ bindstepbystep = function() {
     if ($("[name=county]").val() === "" || $("[name=county]").val() === "区县/区域") {
       return alert("请选择区县/区域");
     }
-    if ($("[name=dealer]").val() === "" || $("[name=dealer]").val() === "经销商") {
+    if ($("[name=dealer]").val() === "" || $("[name=dealer]").val() === "店名") {
       return alert("请选择经销商");
     }
     $("#thirthytwo-show").attr("class", $("[name=thirtytwo]").parent().attr("class"));

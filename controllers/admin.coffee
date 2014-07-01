@@ -303,7 +303,14 @@ exports.download = (req,res,next)->
 	res.setHeader("Content-Disposition", "attachment; filename=Report.xls");
 	res.end(result, 'binary');
 
-
+exports.super = (req,res,next)->
+	ep = new EventProxy.create "users","lots",(users,lots)->
+		res.render "admin/super",{users:users,lots:lots}
+	User.findAll (err,users)->
+		console.log users
+		ep.emit "users",users
+	Lots.count (err,count)->
+		ep.emit "lots",count
 
 
 defaultDealer = ->

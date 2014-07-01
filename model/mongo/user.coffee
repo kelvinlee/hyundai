@@ -1,7 +1,9 @@
 models = require './base'
 User = models.User
 
-
+exports.findAll = (next)->
+  # body...
+  User.find {},next
 exports.getUserByCarType = (cartype,vin,callback)->
   User.findOne {cartype:cartype,vin:vin},callback
 
