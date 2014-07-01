@@ -87,17 +87,6 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 0
 		},
-	"\/controllers\/home.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/controllers\/home.js",
-		"outputAbbreviatedPath": "\/controllers\/min\/home-ck.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
 	"\/lib\/helper.coffee": {
 		"createSourceMap": 0,
 		"fileType": 32,
@@ -719,7 +708,7 @@
 		"fileType": 32768,
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
-		"initialSize": 0,
+		"initialSize": 7140,
 		"inputAbbreviatedPath": "\/public\/img\/image002.png",
 		"outputAbbreviatedPath": "\/public\/img\/image002.png",
 		"outputPathIsOutsideProject": 0,
@@ -1425,6 +1414,17 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/public\/js\/main.js",
 		"outputAbbreviatedPath": "\/public\/js\/min\/main-ck.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
+	"\/public\/js\/min\/pc-ck.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/public\/js\/min\/pc-ck.js",
+		"outputAbbreviatedPath": "\/public\/js\/min\/min\/pc-ck-ck.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,

@@ -26,8 +26,8 @@ block content_here
 							div.form-gourp
 								div.col-sm-12
 									div.input-group
-										span.input-group-addon
-											i.fa.fa-user
+										span.input-group-addon 用户名
+											//- i.fa.fa-user
 										-if (name != null)
 											input.form-control(type="text",id="username",name="username",placeholder="用户名",value="#{name}")
 										-else
@@ -35,8 +35,8 @@ block content_here
 							div.form-gourp
 								div.col-sm-12
 									div.input-group
-										span.input-group-addon
-											i.fa.fa-lock
+										span.input-group-addon 密　码
+											//- i.fa.fa-lock
 										input.form-control(type="password",id="password",name="password",placeholder="密码")
 						div.foot
 							button.btn.btn-primary(data-dismiss="modal",name="submit",type="button") 登录
