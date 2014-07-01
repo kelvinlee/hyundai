@@ -23,7 +23,7 @@ exports.getbyid = function(id, next) {
 };
 
 exports.findAll = function(next) {
-  return Deaker.find({}, next);
+  return Dealer.find({}, next);
 };
 
 exports["new"] = function(province, city, county, id, name, password) {

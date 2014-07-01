@@ -4,6 +4,7 @@ block content_here
 	-function getLots(id) { for(var i=0;i<lots.length;i++) { if (id+"" == lots[i]._id+""){ return lots[i].lotname; }  } return ""; }
 	-function getType(n){ if (n == null){return "";} var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}]; return type[parseInt(n)-1].name; }
 	-function sf(bo) {if (bo){ return "是"; }else{return "否";}}
+	-function getdealer(id) { for(var i=0;i<dealers.length;i++) { if(dealers[i].dealer_id == id) {return dealers[i];} } return null; }
 	div#head-nav.print-hide.navbar.navbar-default.navbar-fixed-top
 		div.container-fluid
 	div#cl-wrapper
@@ -15,6 +16,7 @@ block content_here
 					thead
 						tr
 							th.sorting_desc 时间
+							th 验证码
 							th 姓名
 							th 手机
 							th 车型
@@ -32,6 +34,7 @@ block content_here
 							-if (users[i].dealer != "店名")
 								tr
 									td #{getDates(users[i].create_at)}
+									td #{users[i].code}
 									td #{users[i].username}
 									td #{users[i].mobile}
 									td #{getType(users[i].cartype)}
@@ -42,9 +45,10 @@ block content_here
 									td #{sf(users[i].changed)}
 									td #{users[i].province}
 									td #{users[i].city}
-									-if (dealers[i] != null)
-										td #{dealers[i].county}
-										td #{dealers[i].dealer}
+									-var d = getdealer(users[i].dealer)
+									-if (d != null)
+										td #{d.county}
+										td #{d.dealer}
 									-else
 										td
 										td

@@ -9,7 +9,7 @@ exports.get = (next)->
 exports.getbyid = (id,next)->
 	Dealer.findOne {dealer_id:id},next
 exports.findAll = (next)->
-	Deaker.find {},next
+	Dealer.find {},next
 	
 exports.new = (province,city,county,id,name,password)->
 	d = new Dealer()
