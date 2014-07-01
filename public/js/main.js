@@ -425,7 +425,9 @@ $(document).ready(function() {
   gico.fBindRadio_New($('input[type=radio]'));
 
   $("[name=cartype]")[0].onchange = function() {
-    _hmt.push(['_trackEvent', '选择车型', '车型', '']);
+    if (typeof _hmt != "undefined" && _hmt != null) {
+      _hmt.push(['_trackEvent', '选择车型', '车型', '']);
+    }
   }
 
   $(".backcode").click(function(){
@@ -549,7 +551,7 @@ fBindFormBtn = function() {
       context: $('body'),
       success: function(msg) {
         if (msg.recode === 200) {
-          if (_hmt != null) {
+          if (typeof _hmt != "undefined" && _hmt != null) {
             _hmt.push(['_trackEvent', '注册', '提交', '']);
           }
           return window.location.href = "/success?code=" + msg.reason;
@@ -632,7 +634,9 @@ bindstepbystep = function() {
         $(".form-list").css({"padding-top":0})
       }
       checklots();
+      if (typeof _hmt != "undefined" && _hmt != null) {
       _hmt.push(['_trackEvent', '选择车型', '车型', '']);
+      }
       return window.scrollTo(0, 1);
     }else{
       alert("请选择车型");
@@ -723,7 +727,9 @@ bindstepbystep = function() {
     }else{
       $(".confirmpc").show();
     }
+    if (typeof _hmt != "undefined" && _hmt != null) {
     _hmt.push(['_trackEvent', '验证页面', '验证', '']);
+    }
     return window.scrollTo(0, 1);
   });
   return $(".goback").click(function() {
@@ -738,7 +744,9 @@ bindstepbystep = function() {
     }
     $(".form-list").show();
     $(".confirm").hide();
+    if (typeof _hmt != "undefined" && _hmt != null) {
     _hmt.push(['_trackEvent', '返回页面', '验证', '']);
+    }
     return window.scrollTo(0, 1);
   });
 };
