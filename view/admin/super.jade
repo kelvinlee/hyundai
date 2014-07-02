@@ -52,10 +52,11 @@ block content_here
 						input.form-control.datepicker(type="text",size="16",name="endtime",style="width:140px;display:inline-block;")
 						button.btn.btn-primary(type="button",onclick="searchdate()") 查询
 						a.btn.btn-primary(href="/super/index") 重置
-						-if (st != null && selectype != null)
-							a.btn.btn-primary(href="/download?startime=#{st}&endtime=#{et}&type=#{selectype}",target="_blank") 导出
-						-else
-							a.btn.btn-primary(href="/download",target="_blank") 导出
+						
+						//- -if (st != null && selectype != null)
+						//- 	a.btn.btn-primary(href="/download?startime=#{st}&endtime=#{et}&type=#{selectype}",target="_blank") 导出
+						//- -else
+						//- 	a.btn.btn-primary(href="/download",target="_blank") 导出
 				table#datatable.no-border
 					thead
 						tr
