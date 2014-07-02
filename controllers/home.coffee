@@ -158,92 +158,113 @@ exports.post = (req,res,next)->
 	# if req.body.thir.length < 32
 	# 	re.recode = 203
 	# 	re.reason = "32项检查格式不正确"
-	if not username? or username is ""
-		re.recode = 201
-		re.reason = "用户名不能为空"
-	if not mobile? or mobile is ""
-		re.recode = 201
-		re.reason = "手机号码不能为空"
-	if not changed? or changed is "" or changed is "no"
-		changed = false
-	else
-		changed = true 
-	if not cartype? or cartype is "" or cartype is "请选择车型"
-		re.recode = 201
-		re.reason = "请选择车型"
-	if not lot?
-		lot = ""
-	if not tenoff? or tenoff is "" or tenoff is "false"
-		tenoff = false
-	else
-		tenoff = true
-	if not province? or province is "" or province is "省份"
-		re.recode = 201
-		re.reason = "请选择省份"
-	if not city? or city is "" or city is "城市"
-		re.recode = 201
-		re.reason = "请选择城市"
-	if not dealer? or dealer is "" or dealer is "经销商"
-		re.recode = 201
-		re.reason = "请选择经销商"
-	if lot? and lot is "53b18294ecfe820279c03331" and cartype is "5"
-		re.recode = 201
-		re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品."
-
-
-
-	if re.recode is 200
-		ep = new EventProxy.create "count","used","user","tenoffcount", (count,used,user,tenoffcount)->
-			# console.log count,used,cartype
-			if tenoffcount>=100000
+	# 	
+	User.reged mobile,(err,results)->
+		if results?
+			re.recode = 202
+			re.reason = "此手机号码已经注册过了1."
+			res.send re
+			return ""
+		else
+			if not username? or username is ""
 				re.recode = 201
-				re.reason = "您选择的原厂保养配件已经派发完了"
-				res.send re
-				return ""
-			if user?
-				re.recode = 202
-				re.reason = "此手机号码已经注册过了."
-				res.send re
-				return ""
+				re.reason = "用户名不能为空"
+			if not mobile? or mobile is ""
+				re.recode = 201
+				re.reason = "手机号码不能为空"
+			if not changed? or changed is "" or changed is "no"
+				changed = false
+			else
+				changed = true 
+			if not cartype? or cartype is "" or cartype is "请选择车型"
+				re.recode = 201
+				re.reason = "请选择车型"
+			if not lot?
+				lot = ""
+			if not tenoff? or tenoff is "" or tenoff is "false"
+				tenoff = false
+			else
+				tenoff = true
+			if not province? or province is "" or province is "省份"
+				re.recode = 201
+				re.reason = "请选择省份"
+			if not city? or city is "" or city is "城市"
+				re.recode = 201
+				re.reason = "请选择城市"
+			if not dealer? or dealer is "" or dealer is "经销商"
+				re.recode = 201
+				re.reason = "请选择经销商"
+			if lot? and lot is "53b18294ecfe820279c03331" and cartype is "5"
+				re.recode = 201
+				re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品."
 
-			list = getList count,used
-			for a in list
-				if a.lot+"" is lot+"" and a.cartype is cartype and not a.can
-					re.recode = 210
-					re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品."
-				if a.lot+"" is lot+"" and not a.cartype? and not a.can
-					re.recode = 210
-					re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品."
+
 
 			if re.recode is 200
-				# console.log "user:",code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir
-
-				User.newReg code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir,(err,results)->
-					console.log err,results
-					if results?
-						content = "【北京现代感恩活动验证码#{code}】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。"
-						sendMSG content,mobile
-
-						re.reason = code
+				ep = new EventProxy.create "count","used","user","tenoffcount", (count,used,user,tenoffcount)->
+					# console.log count,used,cartype
+					if tenoffcount>=100000
+						re.recode = 201
+						re.reason = "您选择的原厂保养配件已经派发完了"
 						res.send re
+						return ""
+					if user?
+						re.recode = 202
+						re.reason = "此手机号码已经注册过了."
+						res.send re
+						return ""
+
+					list = getList count,used
+					for a in list
+						if a.lot+"" is lot+"" and a.cartype is cartype and not a.can
+							re.recode = 210
+							re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品."
+						if a.lot+"" is lot+"" and not a.cartype? and not a.can
+							re.recode = 210
+							re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品."
+
+					if re.recode is 200
+						# console.log "user:",code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir
+						# if req.cookies.mobile? and req.cookies.mobile is mobile
+						# 	re.recode = 210
+						# 	re.reason = "此手机号码已经注册过了"
+						# 	res.send re
+						# 	return ""
+						User.reged mobile,(err,results)->
+							if results?
+								re.recode = 210
+								re.reason = "此手机号码已经注册过了"
+								res.send re
+								return ""
+							User.newReg code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir,(err,results)->
+								console.log err,results
+								if results?
+									res.cookie "mobile",mobile
+									res.cookie "code",code
+									content = "【北京现代感恩活动验证码#{code}】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。"
+									sendMSG content,mobile
+
+									re.reason = code
+									res.send re
+									return ""
+								else
+									re.recode = 210
+									re.reason = "连接失败,请重试."
+									res.send re
 					else
-						re.recode = 210
-						re.reason = "连接失败,请重试."
 						res.send re
+				User.reged mobile,(err,results)->
+					ep.emit "user",results
+				Lots.used (err,used)->
+					ep.emit "used",used
+				Lots.count (err,count)->
+					ep.emit "count",count
+				User.getTenoff (err,results)->
+					console.log err,results
+					ep.emit "tenoffcount",results
+
 			else
 				res.send re
-		User.reged mobile,(err,results)->
-			ep.emit "user",results
-		Lots.used (err,used)->
-			ep.emit "used",used
-		Lots.count (err,count)->
-			ep.emit "count",count
-		User.getTenoff (err,results)->
-			console.log err,results
-			ep.emit "tenoffcount",results
-
-	else
-		res.send re
 
 exports.backcode = (req,res,next)->
 	mobile = req.query.mobile

@@ -21,7 +21,7 @@ exports.getTenoff = (next)->
 
 exports.getUserByDealer = (dealer,callback)->
   # 获取经销商用户列表
-  User.find {dealer:dealer},callback
+  User.find({dealer:dealer}).exec callback
 exports.GetUserByTime = (dealer,startime,endtime,type,callback)->
 
   if startime is "" and type is "1"

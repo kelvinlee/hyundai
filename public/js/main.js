@@ -545,6 +545,7 @@ fBindFormBtn = function() {
     if (_submit) { alert("已经提交请稍后."); return ""; }
     _submit = true
     $.ajax({
+      async: false,
       url: $('[name=register]').attr("action"),
       type: 'POST',
       data: $('[name=register]').serializeArray(),

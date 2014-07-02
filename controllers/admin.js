@@ -127,6 +127,7 @@ exports.dealer = function(req, res, next) {
       });
     } else {
       return User.getUserByDealer(req.cookies.user, function(err, resutls) {
+        console.log(resutls);
         return res.render("admin/dealer", {
           list: resutls
         });

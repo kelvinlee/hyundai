@@ -46,7 +46,7 @@ exports.getTenoff = function(next) {
 exports.getUserByDealer = function(dealer, callback) {
   return User.find({
     dealer: dealer
-  }, callback);
+  }).exec(callback);
 };
 
 exports.GetUserByTime = function(dealer, startime, endtime, type, callback) {
