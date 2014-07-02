@@ -55,6 +55,6 @@ body,
 }
 
 .tooltip .tooltip-arrow {
-  display: none!important;
+  *display: none!important;
 }
 
