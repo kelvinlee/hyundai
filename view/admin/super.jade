@@ -51,7 +51,11 @@ block content_here
 						layout   到  
 						input.form-control.datepicker(type="text",size="16",name="endtime",style="width:140px;display:inline-block;")
 						button.btn.btn-primary(type="button",onclick="searchdate()") 查询
-						a.btn.btn-primary(href="/super") 重置
+						a.btn.btn-primary(href="/super/index") 重置
+						-if (st != null && selectype != null)
+							a.btn.btn-primary(href="/download?startime=#{st}&endtime=#{et}&type=#{selectype}",target="_blank") 导出
+						-else
+							a.btn.btn-primary(href="/download",target="_blank") 导出
 				table#datatable.no-border
 					thead
 						tr
@@ -74,7 +78,8 @@ block content_here
 						-for(var i=0;i<users.length;i++)
 							-if (users[i].dealer != "店名")
 								tr
-									td #{getDates(getcode(users[i].code))}
+									//- getcode(users[i].code)
+									td #{getDates(users[i].create_at)}
 									td #{getDate(users[i].reser_at)}
 									td #{users[i].code}
 									td #{users[i].username}
@@ -121,9 +126,9 @@ block js_here
 				//- $("[name=startime]").val()+" 0:0:0"
 				var _s = $("[name=startime]").val()+" 0:0:0";
 				var _e = $("[name=endtime]").val()+" 23:59:59";
-				window.location.href = "/super?startime="+decodeURIComponent(_s)+"&endtime="+decodeURIComponent(_e)+"&type="+$("[name=type]").val();
+				window.location.href = "/super/index?startime="+decodeURIComponent(_s)+"&endtime="+decodeURIComponent(_e)+"&type="+$("[name=type]").val();
 			}else if($("[name=startime]").val() =="" && $("[name=endtime]").val() ==""){
-				window.location.href = "/super?startime=&endtime=&type="+$("[name=type]").val();
+				window.location.href = "/super/index?startime=&endtime=&type="+$("[name=type]").val();
 			}else {
 				alert("请选择时间范围后查询.");
 			}

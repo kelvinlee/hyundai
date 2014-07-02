@@ -245,7 +245,7 @@ exports.post = function(req, res, next) {
       } else {
         tenoff = true;
       }
-      if ((province == null) || province === "" || province === "省份") {
+      if ((province == null) || province === "" || province === "省份/直辖市") {
         re.recode = 201;
         re.reason = "请选择省份";
       }
@@ -253,7 +253,7 @@ exports.post = function(req, res, next) {
         re.recode = 201;
         re.reason = "请选择城市";
       }
-      if ((dealer == null) || dealer === "" || dealer === "经销商") {
+      if ((dealer == null) || dealer === "" || dealer === "店名") {
         re.recode = 201;
         re.reason = "请选择经销商";
       }

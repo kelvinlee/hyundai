@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "express": "4.4.1",
+    "excel-export":"0.3.11",
     "cookie-parser":"*",
     "body-parser":"*",
     "mongoose":"*",

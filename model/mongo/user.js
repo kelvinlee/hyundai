@@ -12,17 +12,17 @@ exports.findAll = function(startime, endtime, type, callback) {
   if (startime === "" && type === "1") {
     return User.find({
       create_at: null
-    }, callback);
+    }).exec(callback);
   }
   if (startime === "" && type === "2") {
     return User.find({
       reser_at: null
-    }, callback);
+    }).exec(callback);
   }
   if (startime === "" && type === "3") {
     return User.find({
       imp_at: null
-    }, callback);
+    }).exec(callback);
   }
   star = new Date(startime);
   end = new Date(endtime);
@@ -32,7 +32,9 @@ exports.findAll = function(startime, endtime, type, callback) {
         $gte: star,
         $lt: end
       }
-    }, callback);
+    }).sort({
+      create_at: 1
+    }).exec(callback);
   }
   if (type === "1") {
     User.find({
@@ -40,7 +42,9 @@ exports.findAll = function(startime, endtime, type, callback) {
         $gte: star,
         $lt: end
       }
-    }, callback);
+    }).sort({
+      create_at: 1
+    }).exec(callback);
   }
   if (type === "2") {
     User.find({
@@ -48,7 +52,9 @@ exports.findAll = function(startime, endtime, type, callback) {
         $gte: star,
         $lt: end
       }
-    }, callback);
+    }).sort({
+      reser_at: 1
+    }).exec(callback);
   }
   if (type === "3") {
     return User.find({
@@ -56,7 +62,9 @@ exports.findAll = function(startime, endtime, type, callback) {
         $gte: star,
         $lt: end
       }
-    }, callback);
+    }).sort({
+      imp_at: 1
+    }).exec(callback);
   }
 };
 

@@ -10,11 +10,11 @@ exports.test = (req,res,next)->
 exports.findAll = (startime,endtime,type,callback)->
   # body...
   if startime is "" and type is "1"
-    return User.find {create_at:null},callback
+    return User.find({create_at:null}).exec callback
   if startime is "" and type is "2"
-    return User.find {reser_at:null},callback
+    return User.find({reser_at:null}).exec callback
   if startime is "" and type is "3"
-    return User.find {imp_at:null},callback
+    return User.find({imp_at:null}).exec callback
 
   star = new Date startime
   end = new Date endtime
@@ -22,13 +22,13 @@ exports.findAll = (startime,endtime,type,callback)->
   # console.log star,end,type,type is ""
 
   if type is "" 
-    return User.find {create_at:{$gte:star,$lt:end}},callback
+    return User.find({create_at:{$gte:star,$lt:end}}).sort({create_at:1}).exec callback
   if type is "1"
-    User.find {create_at:{$gte:star,$lt:end}},callback
+    User.find({create_at:{$gte:star,$lt:end}}).sort({create_at:1}).exec callback
   if type is "2"
-    User.find {reser_at:{$gte:star,$lt:end}},callback
+    User.find({reser_at:{$gte:star,$lt:end}}).sort({reser_at:1}).exec callback
   if type is "3"
-    User.find {imp_at:{$gte:star,$lt:end}},callback
+    User.find({imp_at:{$gte:star,$lt:end}}).sort({imp_at:1}).exec callback
 exports.getUserByCarType = (cartype,vin,callback)->
   User.findOne {cartype:cartype,vin:vin},callback
 

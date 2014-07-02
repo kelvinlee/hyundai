@@ -185,15 +185,16 @@ exports.post = (req,res,next)->
 				tenoff = false
 			else
 				tenoff = true
-			if not province? or province is "" or province is "省份"
+			if not province? or province is "" or province is "省份/直辖市"
 				re.recode = 201
 				re.reason = "请选择省份"
 			if not city? or city is "" or city is "城市"
 				re.recode = 201
 				re.reason = "请选择城市"
-			if not dealer? or dealer is "" or dealer is "经销商"
+			if not dealer? or dealer is "" or dealer is "店名"
 				re.recode = 201
 				re.reason = "请选择经销商"
+				
 			if lot? and lot is "53b18294ecfe820279c03331" and cartype is "5"
 				re.recode = 201
 				re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品."

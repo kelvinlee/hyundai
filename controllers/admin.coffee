@@ -8,6 +8,8 @@ helper = require '../lib/helper'
 # 扩展类库
 EventProxy = require 'eventproxy'
 config = require('../config').config
+nodeExcel = require('excel-export')
+
 
 # 数据库
 User = require("../model/mongo").User
@@ -321,8 +323,122 @@ resetCode = (code)->
 	# code = parseInt(code).toString(32);
 	# var reg = /(\w{1})(\w{6})/;code = code.replace(reg,"d"); return new Date(parseInt(code,32)*100);
 
-
-exports.super = (req,res,next)->
+exports.downloadxml = (req,res,next)->
+	# 
+	_lots = []
+	_dealers = []
+	# 
+	conf ={}
+	conf.stylesXmlFile = path.join(__dirname, 'styles.xml')
+	conf.cols = [
+		{
+			caption:'注册时间',
+			type:'string',
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData?
+					date = new Date(cellData)
+					return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
+				else
+					return cellData
+			width:20
+		}
+		{
+			caption:"预约日期",
+			type:'string',
+			width:20
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData?
+					date = new Date(cellData)
+					return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+				else
+					return ""
+		}
+		{
+			caption:"验证码",
+			type:"string"
+		}
+		{
+			caption:"姓名",
+			type:"string"
+		}
+		{
+			caption:"手机",
+			type:"string",
+			width:28
+		}
+		{
+			caption:"车型",
+			type:"string",
+			beforeCellWrite: (row,cellData,eOpt)->
+				type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}]
+				return type[parseInt(cellData)-1].name
+		}
+		{
+			caption:"32项",
+			type:"string"
+		}
+		{
+			caption:"汽车用品",
+			type:"string",
+			beforeCellWrite: (row,cellData,eOpt)->
+				for i in [0..._lots.length]
+					if cellData+"" is _lots[i]._id+""
+						return _lots[i].lotname
+				return ""
+		}
+		{
+			caption:"保养配件",
+			type:"string",
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData
+					return "是"
+				else
+					return "否"
+		}
+		{
+			caption:"是否置换"
+			type:"string"
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData
+					return "是"
+				else
+					return "否"
+		}
+		{
+			caption:"省/市"
+			type:"string"
+		}
+		{
+			caption:"城市"
+			type:"string"
+		}
+		{
+			caption:"区县"
+			type:"string"
+			beforeCellWrite: (row,cellData,eOpt)->
+				for i in [0..._dealers.length]
+					if cellData is _dealers[i].dealer_id
+						return _dealers[i].county
+		}
+		{
+			caption:"店名"
+			type:"string"
+			beforeCellWrite: (row,cellData,eOpt)->
+				for i in [0..._dealers.length]
+					if cellData is _dealers[i].dealer_id
+						return _dealers[i].dealer
+		}
+		{
+			caption:"店号"
+			type:"string"
+		}
+	]
+	conf.rows = []
+	# conf.rows = [
+	# 	["a","2014-07-01 13:12:32"],
+	# 	["b","2014-07-01 13:12:32"]
+	# ]
+	
 
 	st = new Date().getTime()-(1000*60*60*4)
 	et = new Date().getTime()+(1000*60*60*4)
@@ -334,10 +450,19 @@ exports.super = (req,res,next)->
 		
 
 	ep = new EventProxy.create "users","lots","dealers","tenoff","used",(users,lots,dealers,tenoff,used)->
-		
+		_lots = lots
+		_dealers = dealers
 		list = getList lots,used
 		
-		res.render "admin/super",{selectype:req.query.type,users:users,dealers:dealers,lots:lots,list:list,used:used,tenoff:tenoff}
+		for i in [0...users.length]
+			conf.rows.push [ users[i].create_at , users[i].reser_at, users[i].code, users[i].username, users[i].mobile, users[i].cartype, users[i].thir.length, users[i].lot, users[i].tenoff, users[i].changed, users[i].province, users[i].city, users[i].dealer, users[i].dealer, users[i].dealer] 
+
+		result = nodeExcel.execute(conf);
+		res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+		res.setHeader("Content-Disposition", "attachment; filename=" + "hyundai.xlsx");
+		res.end(result, 'binary');
+
+		# res.render "admin/super",{selectype:req.query.type,users:users,dealers:dealers,lots:lots,list:list,used:used,tenoff:tenoff}
 
 	User.findAll st,et,type,(err,users)->
 		# console.log users
@@ -353,6 +478,51 @@ exports.super = (req,res,next)->
 	User.getTenoff (err,results)->
 		console.log err,results
 		ep.emit "tenoff",results
+
+
+
+exports.superlogin = (req,res,next)->
+	res.render "admin/superlogin"
+exports.superloginpost = (req,res,next)->
+	re = new helper.recode()
+	if req.body.username is "admin" and req.body.password is "759432"
+		res.send re
+	else
+		re.recode = 201
+		re.reason = "用户名或密码错误"
+		res.send re
+exports.super = (req,res,next)->
+
+	st = new Date().getTime()-(1000*60*60*4)
+	et = new Date().getTime()+(1000*60*60*4)
+	type = ""
+	if req.query.startime? and req.query.endtime?
+		st = req.query.startime
+		et = req.query.endtime
+		type = req.query.type
+		
+
+	ep = new EventProxy.create "users","lots","dealers","tenoff","used",(users,lots,dealers,tenoff,used)->
+		
+		list = getList lots,used
+		
+		res.render "admin/super",{st:st,et:et,selectype:req.query.type,users:users,dealers:dealers,lots:lots,list:list,used:used,tenoff:tenoff}
+
+	User.findAll st,et,type,(err,users)->
+		# console.log users
+		ep.emit "users",users
+	Dealer.findAll (err,dealers)->
+		ep.emit "dealers",dealers
+	Lots.count (err,count)->
+		ep.emit "lots",count
+
+	Lots.used (err,used)->
+		ep.emit "used",used
+
+	User.getTenoff (err,results)->
+		console.log err,results
+		ep.emit "tenoff",results
+
 
 # 
 getList = (count,used)->

@@ -1,0 +1,65 @@
+extends layout 
+block content_here
+	//- div.main
+		form(action="/sign/in",method="POST")
+			input(type="text",name="username")
+			input(type="password",name="password")
+			input(type="submit",value="登录")
+	div.login-container(id="cl-wrapper")
+		div.middle-login
+			div.block-flat
+				div.header
+					h3.text-center
+						//- img(src="/images/logo.png",alt="logo")
+						| 北京现代 - 超级帐号
+				div
+					form(id="login",method="post",action="/super",style="margin-bottom: 0px !important;")
+						div.content
+							h4.title 登录信息
+							div.form-group.hide
+								div.col-sm-12
+									select.form-control(name="usertype")
+										option(value="1") 经销商
+										option(value="2") 客服
+										option(value="3") 管理员
+
+							div.form-gourp
+								div.col-sm-12
+									div.input-group
+										span.input-group-addon 用户名
+											//- i.fa.fa-user
+										-if (name != null)
+											input.form-control(type="text",id="username",name="username",placeholder="用户名",value="#{name}")
+										-else
+											input.form-control(type="text",id="username",name="username",placeholder="用户名")
+							div.form-gourp
+								div.col-sm-12
+									div.input-group
+										span.input-group-addon 密　码
+											//- i.fa.fa-lock
+										input.form-control(type="password",id="password",name="password",placeholder="密码")
+						div.foot
+							button.btn.btn-primary(data-dismiss="modal",name="submit",type="button") 登录
+
+			div.text-center.out-links
+				a(href="#") &copy; 2014 北京现代感恩置换活动 - 管理后台
+
+block js_here
+	script.
+		$(document).ready(function(){
+			$('[name=submit]').click(function() {
+				return $.ajax({
+					url: $("#login").attr('action'),
+					dataType: "json",
+					type: "POST",
+					data: $("#login").serializeArray(),
+					success: function(msg) {
+						if (msg.recode === 200) {
+							return window.location.href = "/super/index";
+						} else {
+							return alert(msg.reason);
+						}
+					}
+				});
+			});
+		});

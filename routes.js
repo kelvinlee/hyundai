@@ -10,7 +10,10 @@ module.exports = function(app) {
   app.get('/success', home.success);
   app.get('/backcode', home.backcode);
   app.post("/regs", home.post);
-  app.get('/super', admin["super"]);
+  app.get('/super', admin.superlogin);
+  app.post('/super', admin.superloginpost);
+  app.get('/super/index', admin["super"]);
+  app.get('/download', admin.downloadxml);
   app.get('/dealer', admin["in"]);
   app.get('/admin/*', admin.before);
   app.get('/admin/index', admin.index);
