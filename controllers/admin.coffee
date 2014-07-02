@@ -16,6 +16,18 @@ Dealer = require("../model/mongo").Dealer
 
 str="qwertyuiopasdfghjklmnbvcxz1234567890"
 
+unique = (data)->
+	data = data or []
+	a = {}
+	for i in [0...data.length]
+		v = data[i].mobile
+		if not a[v]?
+			a[v] = data[i]
+	data.length = 0
+	for i of a
+		data[data.length] = a[i]
+
+	return data
 
 exports.first = (req,res,next)->
 	# if req.cookies.login? and req.cookies.login is "in" and req.cookies.user?
@@ -102,14 +114,11 @@ exports.dealer = (req,res,next)->
 		if startime? and endtime? and type?
 			User.GetUserByTime req.cookies.user,startime,endtime,type,(err,resutls)->
 				# console.log err,resutls
-				res.render "admin/dealer",{list:resutls,selectype:type}
+				res.render "admin/dealer",{list:unique(resutls),selectype:type}
 		else
 			User.getUserByDealer req.cookies.user,(err,resutls)->
-				console.log resutls
-
-				
-
-				res.render "admin/dealer",{list:resutls}
+				console.log resutls.length,unique(resutls)
+				res.render "admin/dealer",{list:unique(resutls)}
 	else
 		res.redirect "/admin/in"
 exports.dealerreser = (req,res,next)->
