@@ -1,0 +1,29 @@
+/*useless*/
+html,
+body,
+.body,
+.homepage {
+  zoom: 1;
+}
+
+/* background-size not supported in ie678 */
+.homepage .banner {
+  *width: 477px;
+}
+
+.col-sm-6 {
+  *width: 40%!important;
+  /*todo: use calc*/
+}
+
+.col-sm-4 {
+  /*todo: use calc*/
+  *width: 30.5%!important;
+}
+
+
+.form .select-group .select-parent {
+  *display: inline!important;
+  *zoom: 1!important;
+  *width: 43%!important;
+}
