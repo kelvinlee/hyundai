@@ -205,7 +205,6 @@ Giccoo = (function() {
       }
       return $(this).change(function() {
         var $o;
-        alert('change')
         $o = $(this);
         var tempradio = null;
         $('[name=' + $o.attr('name') + ']').parent().removeClass('on');
