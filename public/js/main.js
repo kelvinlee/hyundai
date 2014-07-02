@@ -7,19 +7,25 @@
  */
 var DMHandler, Giccoo, SHAKE_THRESHOLD, bindstepbystep, checklots, deviceMotionHandler, fBindFormBtn, gico, last_update, last_x, last_y, last_z, myK, setCartype, _x, _y, _z;
 
+var oldIE = /msie [5-8]/i.test(navigator.userAgent)
+
 Giccoo = (function() {
   function Giccoo(name) {
     this.name = name;
   }
 
   Giccoo.prototype.weixin = function(callback) {
-    return document.addEventListener('WeixinJSBridgeReady', callback);
+    if (!oldIE) {
+      return document.addEventListener('WeixinJSBridgeReady', callback);
+    }
   };
 
   Giccoo.prototype.weixinHide = function() {
-    return document.addEventListener('WeixinJSBridgeReady', function() {
-      return WeixinJSBridge.call('hideToolbar');
-    });
+    if (!oldIE) {
+      return document.addEventListener('WeixinJSBridgeReady', function() {
+        return WeixinJSBridge.call('hideToolbar');
+      });
+    }
   };
 
   Giccoo.prototype.cWeek = function(week, pre) {
@@ -186,7 +192,7 @@ Giccoo = (function() {
   Giccoo.prototype.fBindRadio_New = function(e) {
     var $e;
     $e = this;
-    
+
     return e.each(function(i) {
       var $div, $i;
       $div = $('<div>').addClass('radio-parent ' + $(this).attr('class'));
@@ -200,7 +206,7 @@ Giccoo = (function() {
       return $(this).change(function() {
         var $o;
         $o = $(this);
-        var tempradio= null;
+        var tempradio = null;
         $('[name=' + $o.attr('name') + ']').parent().removeClass('on');
         return setTimeout(function() {
           if ($o.is(':checked')) {
@@ -421,13 +427,19 @@ $(document).ready(function() {
     };
   }
   gico.fBindSelect($('select'));
-  gico.fBindCheckBox($('input[type=checkbox]'));
-  gico.fBindRadio_New($('input[type=radio]'));
+
+  var ieFakeCheckbox = 'input[name=tenoff]'
+  if (!oldIE) {
+    gico.fBindCheckBox($('input:checkbox'));
+  } else {
+    gico.fBindCheckBox($(ieFakeCheckbox));
+  }
+  gico.fBindRadio_New($('input:radio'));
 
   $("[name=cartype]")[0].onchange = function() {
-    
+
       _hmt.push(['_trackEvent', '选择车型', '车型', '']);
-    
+
   }
 
   $(".backcode").click(function(){
@@ -441,7 +453,10 @@ $(document).ready(function() {
     });
   });
 
-  $(".newcheckbox").bind("click",function(){
+  $(".newcheckbox").bind("click",function(e){
+    if (e.target.nodeName === 'I') {
+      return
+    }
     if ($(this).parents(".lot-item").is(".readonly")) {return false;}
     var _data = $(this).data("lot_id");
     if($(this).hasClass('on')){
@@ -454,7 +469,10 @@ $(document).ready(function() {
     }
   });
 
-  $(".newradio").bind("click",function(){
+  $(".newradio").bind("click",function(e){
+    if (e.target.nodeName === 'I') {
+      return
+    }
     var _data = $(this).data("changed_id");
     if($(this).hasClass('on')){
       $(this).removeClass("on");
@@ -466,22 +484,35 @@ $(document).ready(function() {
     }
   })
 
+  if (oldIE) {
+    // fix label behavior
+    //$('label:has(input:radio), label:has(input:checkbox)').on('click', function(e) {
+    $(ieFakeCheckbox).closest('label').on('click', function(e) {
+      if (e.target.nodeName.toLowerCase() == 'i' ) {
+        return
+      }
+      var target = $(e.currentTarget)
+      var input = target.find('input')
+      input.prop('checked', !input.is(':checked')).change()
+    }).find('input:radio, input:checkbox').css('left', '-30px')
+  }
+
   //全选
   $("[name=thirtytwo]:checked").click(function(){
 
-    if ($("[name=thirtytwo]:checked").val() !== "all") {  
-        $(".select32 input").each(function() { 
+    if ($("[name=thirtytwo]:checked").val() !== "all") {
+        $(".select32 input").each(function() {
             $(this).parent().removeClass('on');
-            $(this).attr("checked", false);  
-        });  
+            $(this).attr("checked", false);
+        });
     }else{
         // alert("s")
         $(".select32 input").each(function() {
           // console.log($(this).parent());
            $(this).parent().addClass('on');
-           $(this).attr("checked", true);  
+           $(this).attr("checked", true);
            // $(this).click();
-        });  
+        });
     }
     // alert($("[name=thirtytwo]:checked").val())
   });
@@ -503,10 +534,10 @@ $(document).ready(function() {
     return $(this).next().removeClass("hidden");
   });
 */
-  
+
   $(".m-btn").each(function(index, val) {
      $(this).bind("click",function(){
-      
+
       if($(".m-content").eq(index).hasClass('hidden')){
         $(".m-content").addClass("hidden");
         $(".m-content").eq(index).removeClass("hidden");
@@ -637,9 +668,9 @@ bindstepbystep = function() {
         $(".form-list").css({"padding-top":0})
       }
       checklots();
-      
+
       _hmt.push(['_trackEvent', '选择车型', '车型', '']);
-      
+
       return window.scrollTo(0, 1);
     }else{
       alert("请选择车型");
@@ -730,10 +761,10 @@ bindstepbystep = function() {
     }else{
       $(".confirmpc").show();
     }
-    
+
     window.location.hash = "Confirm";
     _hmt.push(['_trackEvent', '验证页面', '验证', '']);
-    
+
     return window.scrollTo(0, 1);
   });
   return $(".goback").click(function() {

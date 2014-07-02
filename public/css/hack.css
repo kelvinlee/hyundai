@@ -1,0 +1,60 @@
+/*useless*/
+html,
+body,
+.body,
+.homepage {
+  zoom: 1;
+}
+
+/* background-size not supported in ie678 */
+.homepage .banner {
+  *width: 477px;
+}
+
+.col-sm-6 {
+  *width: 40%!important;
+  /*todo: use calc*/
+}
+
+.col-sm-4 {
+  /*todo: use calc*/
+  *width: 30.1%!important;
+}
+
+
+.form .select-group .select-parent {
+  *display: inline!important;
+  *zoom: 1!important;
+  *width: 40%!important;
+  vertical-align: top;
+}
+
+.confirm-btns.btns .nextstep {
+  *display: inline!important;
+  *zoom: 1!important;
+  *width: 40%!important;
+  vertical-align: top;
+  margin: 0!important;
+}
+
+.btns .nextstep.last {
+  margin-left: 10px!important;
+}
+
+.form .select-group .city-show {
+  _margin-left: 20px!important;
+}
+
+.checkbox-parent,
+.radio-parent{
+  background: #fff;
+}
+
+.tooltip {
+  *width: 200px!important;
+}
+
+.tooltip .tooltip-arrow {
+  display: none!important;
+}
+
