@@ -454,7 +454,10 @@ $(document).ready(function() {
     });
   });
 
-  $(".newcheckbox").bind("click",function(){
+  $(".newcheckbox").bind("click",function(e){
+    if (e.target.nodeName === 'I') {
+      return
+    }
     if ($(this).parents(".lot-item").is(".readonly")) {return false;}
     var _data = $(this).data("lot_id");
     if($(this).hasClass('on')){
@@ -467,7 +470,10 @@ $(document).ready(function() {
     }
   });
 
-  $(".newradio").bind("click",function(){
+  $(".newradio").bind("click",function(e){
+    if (e.target.nodeName === 'I') {
+      return
+    }
     var _data = $(this).data("changed_id");
     if($(this).hasClass('on')){
       $(this).removeClass("on");
@@ -481,6 +487,7 @@ $(document).ready(function() {
 
   if (oldIE) {
     // fix label behavior
+    //$('label:has(input:radio), label:has(input:checkbox)').on('click', function(e) {
     $(ieFakeCheckbox).closest('label').on('click', function(e) {
       if (e.target.nodeName.toLowerCase() == 'i' ) {
         return
