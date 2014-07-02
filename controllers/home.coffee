@@ -243,7 +243,6 @@ exports.post = (req,res,next)->
 									res.cookie "code",code
 									content = "【北京现代感恩活动验证码#{code}】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。"
 									sendMSG content,mobile
-
 									re.reason = code
 									res.send re
 									return ""

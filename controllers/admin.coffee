@@ -106,6 +106,9 @@ exports.dealer = (req,res,next)->
 		else
 			User.getUserByDealer req.cookies.user,(err,resutls)->
 				console.log resutls
+
+				
+
 				res.render "admin/dealer",{list:resutls}
 	else
 		res.redirect "/admin/in"

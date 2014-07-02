@@ -5,6 +5,8 @@ models = require('./base');
 
 User = models.User;
 
+exports.test = function(req, res, next) {};
+
 exports.findAll = function(startime, endtime, next) {
   var end, star;
   star = new Date(startime);

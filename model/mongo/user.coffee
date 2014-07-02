@@ -1,6 +1,12 @@
 models = require './base'
 User = models.User
 
+
+exports.test = (req,res,next)->
+  # 和组
+  # group({keyf:{username:true},key:{mobile:true},initial:{num:0},$reduce:function(doc,prev){ prev.num++ }})
+
+
 exports.findAll = (startime,endtime,next)->
   # body...
   star = new Date startime
