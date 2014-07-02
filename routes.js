@@ -27,7 +27,8 @@ module.exports = function(app) {
   app.post('/admin/dealer/nine', admin.ninepost);
   app.post('/admin/dealer/infopost', admin.dealerinfopost);
   app.post('/admin/in', admin.inpost);
-  return app.get('/admin/download', admin.download);
+  app.get('/admin/download', admin.download);
+  return app.get('*', home.notfind);
 };
 
 console.log("routes loaded.");

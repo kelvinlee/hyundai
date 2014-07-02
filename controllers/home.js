@@ -124,6 +124,10 @@ exports.success = function(req, res, next) {
   });
 };
 
+exports.notfind = function(req, res, next) {
+  return res.render("404");
+};
+
 addNewUser = function() {
   var cartype, changed, city, code, dealer, dealer_id, list, lot, mobile, province, tenoff, thirtytwo, username;
   list = ["53a7ea6a09b0d22c2ad93ee2", "53a7ea6a09b0d22c2ad93ee1", "53a7ea6a09b0d22c2ad93ee4", "53a7ea6a09b0d22c2ad93ee3"];
@@ -279,6 +283,7 @@ exports.post = function(req, res, next) {
       if (re.recode === 200) {
         return User.newReg(code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir, function(err, results) {
           var content;
+          console.log(err, results);
           if (results != null) {
             content = "【北京现代感恩活动验证码" + code + "】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。";
             sendMSG(content, mobile);

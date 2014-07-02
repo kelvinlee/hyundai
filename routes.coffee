@@ -47,6 +47,6 @@ module.exports = (app)->
   # app.get '/admin/home',dealer.homepage
 
 
-  # app.get '*', note.notfind
+  app.get '*', home.notfind
 
 console.log "routes loaded."

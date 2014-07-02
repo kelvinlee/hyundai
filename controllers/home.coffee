@@ -83,6 +83,9 @@ exports.index = (req,res,next)->
 exports.success = (req,res,next)->
 	res.render "success",{code:req.query.code}
 
+exports.notfind = (req,res,next)->
+
+	res.render "404"
 
 # 测试用
 addNewUser = ->
