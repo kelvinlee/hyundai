@@ -7,7 +7,7 @@
  */
 var DMHandler, Giccoo, SHAKE_THRESHOLD, bindstepbystep, checklots, deviceMotionHandler, fBindFormBtn, gico, last_update, last_x, last_y, last_z, myK, setCartype, _x, _y, _z;
 
-var oldIE = /msie [5-7]/i.test(navigator.userAgent)
+var oldIE = /msie [5-7]/i.test(navigator.userAgent);
 
 Giccoo = (function() {
   function Giccoo(name) {
@@ -435,13 +435,13 @@ $(document).ready(function() {
     gico.fBindCheckBox($(ieFakeCheckbox));
   }
   gico.fBindRadio_New($('input:radio'));
-
+  if ($("[name=cartype]").length>0) {
   $("[name=cartype]")[0].onchange = function() {
 
       _hmt.push(['_trackEvent', '选择车型', '车型', '']);
 
   }
-
+  }
   $(".backcode").click(function(){
     $(".backcodepop").show();
     $(".backcodepop").click(function(evt){
@@ -585,7 +585,7 @@ fBindFormBtn = function() {
       context: $('body'),
       success: function(msg) {
         if (msg.recode === 200) {
-          window.location.href = "/success?code=" + msg.reason;
+          window.location.href = "/success";
           _hmt.push(['_trackEvent', '注册', '提交', '']);
         } else {
           _submit = false
