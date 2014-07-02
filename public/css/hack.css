@@ -27,3 +27,9 @@ body,
   *zoom: 1!important;
   *width: 43%!important;
 }
+
+.checkbox-parent,
+.radio-parent{
+  background: #fff;
+}
+
