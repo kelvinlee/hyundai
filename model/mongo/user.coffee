@@ -7,12 +7,28 @@ exports.test = (req,res,next)->
   # group({keyf:{username:true},key:{mobile:true},initial:{num:0},$reduce:function(doc,prev){ prev.num++ }})
 
 
-exports.findAll = (startime,endtime,next)->
+exports.findAll = (startime,endtime,type,callback)->
   # body...
+  if startime is "" and type is "1"
+    return User.find {create_at:null},callback
+  if startime is "" and type is "2"
+    return User.find {reser_at:null},callback
+  if startime is "" and type is "3"
+    return User.find {imp_at:null},callback
+
   star = new Date startime
   end = new Date endtime
-  console.log star,end
-  User.find {create_at:{$gte:star,$lt:end}},next
+  # User.find {create_at:{$gte:star,$lt:end}},callback
+  # console.log star,end,type,type is ""
+
+  if type is "" 
+    return User.find {create_at:{$gte:star,$lt:end}},callback
+  if type is "1"
+    User.find {create_at:{$gte:star,$lt:end}},callback
+  if type is "2"
+    User.find {reser_at:{$gte:star,$lt:end}},callback
+  if type is "3"
+    User.find {imp_at:{$gte:star,$lt:end}},callback
 exports.getUserByCarType = (cartype,vin,callback)->
   User.findOne {cartype:cartype,vin:vin},callback
 
@@ -94,7 +110,7 @@ exports.newUserNice = (code,dealer,thir,cartype,othername,othermobile,vin,mileag
 exports.newReg = (code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir,callback)->
   reged mobile,(err,results)->
     if results?
-      callback null,{}
+      callback null,null
     else
       user = new User()
       user.code = code

@@ -275,47 +275,49 @@ exports.post = function(req, res, next) {
             re.reason = "此手机号码已经注册过了.";
             res.send(re);
             return "";
-          }
-          list = getList(count, used);
-          for (_i = 0, _len = list.length; _i < _len; _i++) {
-            a = list[_i];
-            if (a.lot + "" === lot + "" && a.cartype === cartype && !a.can) {
-              re.recode = 210;
-              re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品.";
-            }
-            if (a.lot + "" === lot + "" && (a.cartype == null) && !a.can) {
-              re.recode = 210;
-              re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品.";
-            }
-          }
-          if (re.recode === 200) {
-            return User.reged(mobile, function(err, results) {
-              if (results != null) {
+          } else {
+            list = getList(count, used);
+            for (_i = 0, _len = list.length; _i < _len; _i++) {
+              a = list[_i];
+              if (a.lot + "" === lot + "" && a.cartype === cartype && !a.can) {
                 re.recode = 210;
-                re.reason = "此手机号码已经注册过了";
-                res.send(re);
-                return "";
+                re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品.";
               }
-              return User.newReg(code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir, function(err, results) {
-                var content;
-                console.log(err, results);
+              if (a.lot + "" === lot + "" && (a.cartype == null) && !a.can) {
+                re.recode = 210;
+                re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品.";
+              }
+            }
+            if (re.recode === 200) {
+              return User.reged(mobile, function(err, results) {
                 if (results != null) {
-                  res.cookie("mobile", mobile);
-                  res.cookie("code", code);
-                  content = "【北京现代感恩活动验证码" + code + "】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。";
-                  sendMSG(content, mobile);
-                  re.reason = code;
+                  re.recode = 210;
+                  re.reason = "此手机号码已经注册过了";
                   res.send(re);
                   return "";
                 } else {
-                  re.recode = 210;
-                  re.reason = "连接失败,请重试.";
-                  return res.send(re);
+                  return User.newReg(code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir, function(err, results) {
+                    var content;
+                    console.log(err, results);
+                    if (results != null) {
+                      res.cookie("mobile", mobile);
+                      res.cookie("code", code);
+                      content = "【北京现代感恩活动验证码" + code + "】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。";
+                      sendMSG(content, mobile);
+                      re.reason = code;
+                      res.send(re);
+                      return "";
+                    } else {
+                      re.recode = 210;
+                      re.reason = "连接失败,请重试.";
+                      return res.send(re);
+                    }
+                  });
                 }
               });
-            });
-          } else {
-            return res.send(re);
+            } else {
+              return res.send(re);
+            }
           }
         });
         User.reged(mobile, function(err, results) {

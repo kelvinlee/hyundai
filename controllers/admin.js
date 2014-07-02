@@ -381,17 +381,20 @@ exports.download = function(req, res, next) {
 resetCode = function(code) {};
 
 exports["super"] = function(req, res, next) {
-  var ep, et, st;
+  var ep, et, st, type;
   st = new Date().getTime() - (1000 * 60 * 60 * 4);
   et = new Date().getTime() + (1000 * 60 * 60 * 4);
+  type = "";
   if ((req.query.startime != null) && (req.query.endtime != null)) {
     st = req.query.startime;
     et = req.query.endtime;
+    type = req.query.type;
   }
   ep = new EventProxy.create("users", "lots", "dealers", "tenoff", "used", function(users, lots, dealers, tenoff, used) {
     var list;
     list = getList(lots, used);
     return res.render("admin/super", {
+      selectype: req.query.type,
       users: users,
       dealers: dealers,
       lots: lots,
@@ -400,7 +403,7 @@ exports["super"] = function(req, res, next) {
       tenoff: tenoff
     });
   });
-  User.findAll(st, et, function(err, users) {
+  User.findAll(st, et, type, function(err, users) {
     return ep.emit("users", users);
   });
   Dealer.findAll(function(err, dealers) {

@@ -516,6 +516,7 @@ $(document).ready(function() {
       }
      });
   });
+  _hmt.push(['_trackEvent', '页面加载完成', '完成', '']);
 });
 
 myK = function(id) {

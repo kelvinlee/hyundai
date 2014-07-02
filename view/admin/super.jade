@@ -2,6 +2,7 @@ extends layout
 block content_here
 	-function getType(n){ if (n == null){return "";} var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}]; return type[parseInt(n)-1].name; }
 	-function getDates(date){ if (date == null){return "";} return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds(); }
+	-function getDate(date){ if (date == null){return "";} return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate(); }
 	-function getLots(id) { for(var i=0;i<lots.length;i++) { if (id+"" == lots[i]._id+""){ return lots[i].lotname; }  } return ""; }
 	-function getType(n){ if (n == null){return "";} var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}]; return type[parseInt(n)-1].name; }
 	-function sf(bo) {if (bo){ return "是"; }else{return "否";}}
@@ -28,6 +29,23 @@ block content_here
 					p 默认返回最新4个小时的注册数据. 如果需要查询所有则选择日期从7月1日到今天.
 				div.table-responsive
 					div.table-ctrl
+						-var at = bt = ct = "";
+						-if (selectype == "1") {at = "selected";}
+						-if (selectype == "2") {bt = "selected";}
+						-if (selectype == "3") {ct = "selected";}
+						select.form-control(name="type",style="width:140px;display:inline-block;")
+							-if (selectype == "1")
+								option(value="1",selected="selected") 注册时间
+							-else
+								option(value="1") 注册时间
+							-if (selectype == "2")
+								option(value="2",selected="selected") 预约日期
+							-else
+								option(value="2") 预约日期
+							-if (selectype == "3")
+								option(value="3",selected="selected") 实施时间
+							-else
+								option(value="3") 实施时间
 						layout   从  
 						input.form-control.datepicker(type="text",size="16",name="startime",style="width:140px;display:inline-block;")
 						layout   到  
@@ -51,11 +69,12 @@ block content_here
 							th 区县
 							th 店名
 							th 店号
-					tbody.no-border-y
+					tbody.no-border-y 
 						-for(var i=0;i<users.length;i++)
 							-if (users[i].dealer != "店名")
 								tr
 									td #{getDates(getcode(users[i].code))}
+									td #{getDate(users[i].reser_at)}
 									td #{users[i].code}
 									td #{users[i].username}
 									td #{users[i].mobile}
@@ -101,9 +120,9 @@ block js_here
 				//- $("[name=startime]").val()+" 0:0:0"
 				var _s = $("[name=startime]").val()+" 0:0:0";
 				var _e = $("[name=endtime]").val()+" 23:59:59";
-				window.location.href = "/super?startime="+decodeURIComponent(_s)+"&endtime="+decodeURIComponent(_e);
+				window.location.href = "/super?startime="+decodeURIComponent(_s)+"&endtime="+decodeURIComponent(_e)+"&type="+$("[name=type]").val();
 			}else if($("[name=startime]").val() =="" && $("[name=endtime]").val() ==""){
-				window.location.href = "/super?startime=&endtime=";
+				window.location.href = "/super?startime=&endtime=&type="+$("[name=type]").val();
 			}else {
 				alert("请选择时间范围后查询.");
 			}

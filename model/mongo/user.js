@@ -7,17 +7,57 @@ User = models.User;
 
 exports.test = function(req, res, next) {};
 
-exports.findAll = function(startime, endtime, next) {
+exports.findAll = function(startime, endtime, type, callback) {
   var end, star;
+  if (startime === "" && type === "1") {
+    return User.find({
+      create_at: null
+    }, callback);
+  }
+  if (startime === "" && type === "2") {
+    return User.find({
+      reser_at: null
+    }, callback);
+  }
+  if (startime === "" && type === "3") {
+    return User.find({
+      imp_at: null
+    }, callback);
+  }
   star = new Date(startime);
   end = new Date(endtime);
-  console.log(star, end);
-  return User.find({
-    create_at: {
-      $gte: star,
-      $lt: end
-    }
-  }, next);
+  if (type === "") {
+    return User.find({
+      create_at: {
+        $gte: star,
+        $lt: end
+      }
+    }, callback);
+  }
+  if (type === "1") {
+    User.find({
+      create_at: {
+        $gte: star,
+        $lt: end
+      }
+    }, callback);
+  }
+  if (type === "2") {
+    User.find({
+      reser_at: {
+        $gte: star,
+        $lt: end
+      }
+    }, callback);
+  }
+  if (type === "3") {
+    return User.find({
+      imp_at: {
+        $gte: star,
+        $lt: end
+      }
+    }, callback);
+  }
 };
 
 exports.getUserByCarType = function(cartype, vin, callback) {
@@ -165,7 +205,7 @@ exports.newReg = function(code, username, mobile, changed, cartype, lot, tenoff,
   return reged(mobile, function(err, results) {
     var user;
     if (results != null) {
-      return callback(null, {});
+      return callback(null, null);
     } else {
       user = new User();
       user.code = code;
