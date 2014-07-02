@@ -7,7 +7,7 @@
  */
 var DMHandler, Giccoo, SHAKE_THRESHOLD, bindstepbystep, checklots, deviceMotionHandler, fBindFormBtn, gico, last_update, last_x, last_y, last_z, myK, setCartype, _x, _y, _z;
 
-var oldIE = /msie [5-8]/i.test(navigator.userAgent)
+var oldIE = /msie [5-7]/i.test(navigator.userAgent)
 
 Giccoo = (function() {
   function Giccoo(name) {
