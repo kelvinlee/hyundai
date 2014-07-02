@@ -481,8 +481,10 @@ $(document).ready(function() {
 
   if (oldIE) {
     // fix label behavior
-    //$('label:has(input:radio), label:has(input:checkbox)').on('click', function(e) {
     $(ieFakeCheckbox).closest('label').on('click', function(e) {
+      if (e.target.nodeName.toLowerCase() == 'i' ) {
+        return
+      }
       var target = $(e.currentTarget)
       var input = target.find('input')
       input.prop('checked', !input.is(':checked')).change()
