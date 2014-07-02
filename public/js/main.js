@@ -7,7 +7,7 @@
  */
 var DMHandler, Giccoo, SHAKE_THRESHOLD, bindstepbystep, checklots, deviceMotionHandler, fBindFormBtn, gico, last_update, last_x, last_y, last_z, myK, setCartype, _x, _y, _z;
 
-var oldIE = !/msie [5-8]/i.test(navigator.userAgent)
+var oldIE = /msie [5-8]/i.test(navigator.userAgent)
 
 Giccoo = (function() {
   function Giccoo(name) {
@@ -205,6 +205,7 @@ Giccoo = (function() {
       }
       return $(this).change(function() {
         var $o;
+        alert('change')
         $o = $(this);
         var tempradio = null;
         $('[name=' + $o.attr('name') + ']').parent().removeClass('on');
@@ -427,7 +428,13 @@ $(document).ready(function() {
     };
   }
   gico.fBindSelect($('select'));
-  gico.fBindCheckBox($('input:checkbox'));
+
+  var ieFakeCheckbox = 'input[name=tenoff]'
+  if (!oldIE) {
+    gico.fBindCheckBox($('input:checkbox'));
+  } else {
+    gico.fBindCheckBox($(ieFakeCheckbox));
+  }
   gico.fBindRadio_New($('input:radio'));
 
   $("[name=cartype]")[0].onchange = function() {
@@ -471,6 +478,16 @@ $(document).ready(function() {
       $(this).addClass("on");
     }
   })
+
+  if (oldIE) {
+    // fix label behavior
+    //$('label:has(input:radio), label:has(input:checkbox)').on('click', function(e) {
+    $(ieFakeCheckbox).closest('label').on('click', function(e) {
+      var target = $(e.currentTarget)
+      var input = target.find('input')
+      input.prop('checked', !input.is(':checked')).change()
+    }).find('input:radio, input:checkbox').css('left', '-30px')
+  }
 
   //全选
   $("[name=thirtytwo]:checked").click(function(){
