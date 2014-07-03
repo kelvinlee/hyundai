@@ -327,7 +327,7 @@ exports.downloadxml = (req,res,next)->
 	# 
 	_lots = []
 	_dealers = []
-
+	_s = new Date().getTime()
 	# 
 	conf ={}
 	conf.stylesXmlFile = path.join(__dirname, 'styles.xml')
@@ -449,10 +449,10 @@ exports.downloadxml = (req,res,next)->
 		type = req.query.type
 		
 
-	ep = new EventProxy.create "users","lots","dealers","tenoff","used",(users,lots,dealers,tenoff,used)->
+	ep = new EventProxy.create "users","lots","dealers",(users,lots,dealers)->
 		_lots = lots
 		_dealers = dealers
-		list = getList lots,used
+		# list = getList lots,used
 		
 		for i in [0...lots.length]
 			_lots[lots[i]._id+""] = lots[i]
@@ -465,7 +465,7 @@ exports.downloadxml = (req,res,next)->
 		res.setHeader('Content-Type', 'application/vnd.openxmlformats');
 		res.setHeader("Content-Disposition", "attachment; filename=" + "hyundai.xlsx");
 		res.end(result, 'binary');
-
+		console.log "download used:",((new Date().getTime()-_s)/1000)+"s"
 		# res.render "admin/super",{selectype:req.query.type,users:users,dealers:dealers,lots:lots,list:list,used:used,tenoff:tenoff}
 
 	Dealer.findAll (err,dealers)->
@@ -473,12 +473,16 @@ exports.downloadxml = (req,res,next)->
 	Lots.count (err,count)->
 		ep.emit "lots",count
 
-	Lots.used (err,used)->
-		ep.emit "used",used
+	User.findAll st,et,type,(err,users)->
+		# console.log users
+		ep.emit "users",users
+		console.log "user used:",((new Date().getTime() - _s)/1000)+"s"
+	# Lots.used (err,used)->
+		# ep.emit "used",used
 
-	User.getTenoff (err,results)->
-		console.log err,results
-		ep.emit "tenoff",results
+	# User.getTenoff (err,results)->
+		# console.log err,results
+		# ep.emit "tenoff",results
 
 
 

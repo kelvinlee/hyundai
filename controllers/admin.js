@@ -392,9 +392,10 @@ exports.pocp = function(req, res, next) {
 resetCode = function(code) {};
 
 exports.downloadxml = function(req, res, next) {
-  var conf, ep, et, st, type, _dealers, _lots;
+  var conf, ep, et, st, type, _dealers, _lots, _s;
   _lots = [];
   _dealers = [];
+  _s = new Date().getTime();
   conf = {};
   conf.stylesXmlFile = path.join(__dirname, 'styles.xml');
   conf.cols = [
@@ -514,11 +515,10 @@ exports.downloadxml = function(req, res, next) {
     et = req.query.endtime;
     type = req.query.type;
   }
-  ep = new EventProxy.create("users", "lots", "dealers", "tenoff", "used", function(users, lots, dealers, tenoff, used) {
-    var i, list, result, _i, _j, _ref, _ref1;
+  ep = new EventProxy.create("users", "lots", "dealers", function(users, lots, dealers) {
+    var i, result, _i, _j, _ref, _ref1;
     _lots = lots;
     _dealers = dealers;
-    list = getList(lots, used);
     for (i = _i = 0, _ref = lots.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
       _lots[lots[i]._id + ""] = lots[i];
     }
@@ -528,7 +528,8 @@ exports.downloadxml = function(req, res, next) {
     result = nodeExcel.execute(conf);
     res.setHeader('Content-Type', 'application/vnd.openxmlformats');
     res.setHeader("Content-Disposition", "attachment; filename=" + "hyundai.xlsx");
-    return res.end(result, 'binary');
+    res.end(result, 'binary');
+    return console.log("download used:", ((new Date().getTime() - _s) / 1000) + "s");
   });
   Dealer.findAll(function(err, dealers) {
     return ep.emit("dealers", dealers);
@@ -536,12 +537,9 @@ exports.downloadxml = function(req, res, next) {
   Lots.count(function(err, count) {
     return ep.emit("lots", count);
   });
-  Lots.used(function(err, used) {
-    return ep.emit("used", used);
-  });
-  return User.getTenoff(function(err, results) {
-    console.log(err, results);
-    return ep.emit("tenoff", results);
+  return User.findAll(st, et, type, function(err, users) {
+    ep.emit("users", users);
+    return console.log("user used:", ((new Date().getTime() - _s) / 1000) + "s");
   });
 };
 
