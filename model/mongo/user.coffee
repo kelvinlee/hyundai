@@ -6,7 +6,9 @@ exports.test = (req,res,next)->
   # 和组
   # group({keyf:{username:true},key:{mobile:true},initial:{num:0},$reduce:function(doc,prev){ prev.num++ }})
 
+exports.usercount = (next)->
 
+  User.find({}).count().exec next
 exports.findAll = (startime,endtime,type,callback)->
   # body...
   if startime is "" and type is "1"

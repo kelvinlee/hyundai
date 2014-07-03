@@ -7,6 +7,10 @@ User = models.User;
 
 exports.test = function(req, res, next) {};
 
+exports.usercount = function(next) {
+  return User.find({}).count().exec(next);
+};
+
 exports.findAll = function(startime, endtime, type, callback) {
   var end, star;
   if (startime === "" && type === "1") {

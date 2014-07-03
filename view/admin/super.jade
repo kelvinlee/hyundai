@@ -26,8 +26,10 @@ block content_here
 				h3 注册信息
 			div.content
 				div
-					p 默认返回最新4个小时的注册数据. 如果需要查询所有则选择日期从7月1日至今天.
+					//- p 默认返回最新4个小时的注册数据. 如果需要查询所有则选择日期从7月1日至今天.
 				div.table-responsive
+					p 注册总用户量: #{users}
+				//- div.table-responsive
 					div.table-ctrl
 						-var at = bt = ct = "";
 						-if (selectype == "1") {at = "selected";}
@@ -57,7 +59,7 @@ block content_here
 						//- 	a.btn.btn-primary(href="/download?startime=#{st}&endtime=#{et}&type=#{selectype}",target="_blank") 导出
 						//- -else
 						//- 	a.btn.btn-primary(href="/download",target="_blank") 导出
-				table#datatable.no-border
+				//- table#datatable.no-border
 					thead
 						tr
 							th.sorting_desc 时间

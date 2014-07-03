@@ -589,8 +589,8 @@ exports["super"] = function(req, res, next) {
       tenoff: tenoff
     });
   });
-  User.findAll(st, et, type, function(err, users) {
-    return ep.emit("users", users);
+  User.usercount(function(err, results) {
+    return ep.emit("users", results);
   });
   Dealer.findAll(function(err, dealers) {
     return ep.emit("dealers", dealers);
