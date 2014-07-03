@@ -512,24 +512,24 @@ exports.super = (req,res,next)->
 		
 		list = getList lots,used
 		
-		res.render "admin/super",{st:st,et:et,selectype:req.query.type,users:users,dealers:dealers,lots:lots,list:list,used:used,tenoff:tenoff}
+		res.render "admin/super",{st:st,et:et,selectype:req.query.type,users:users,dealers:dealers,lots:lots,list:list,used:used,tenoff:tenoff,userscount:userscount}
 		console.log "all used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 
 	User.findAll st,et,type,(err,users)->
 		# console.log users
 		ep.emit "users",users
-		console.log "user used:",((new Date().getTime() - _s.getTime())/1000)+"s"
+		# console.log "user used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 
 	User.usercount (err,results)->
 		ep.emit "userscount",results
-		console.log "userscount used:",((new Date().getTime() - _s.getTime())/1000)+"s"
+		# console.log "userscount used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 
 	Dealer.findAll (err,dealers)->
 		ep.emit "dealers",dealers
-		console.log "dealers used:",((new Date().getTime() - _s.getTime())/1000)+"s"
+		# console.log "dealers used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 	Lots.count (err,count)->
 		ep.emit "lots",count
-		console.log "lots used:",((new Date().getTime() - _s.getTime())/1000)+"s"
+		# console.log "lots used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 
 	Lots.used (err,used)->
 		ep.emit "used",used

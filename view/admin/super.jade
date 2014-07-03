@@ -29,7 +29,7 @@ block content_here
 				h3 注册信息
 			div.content
 				div
-					p 默认返回最新4个小时的注册. 如果需要查询所有则选择日期从7月1日至今天. [* 查询注册时间的时候只会返回一天的数据.]
+					p 默认返回最新4个小时的注册. [* 查询注册时间的时候只会返回一天的数据.]
 
 				div.table-responsive
 					div.table-ctrl
@@ -61,7 +61,7 @@ block content_here
 						//- 	a.btn.btn-primary(href="/download?startime=#{st}&endtime=#{et}&type=#{selectype}",target="_blank") 导出
 						//- -else
 						//- 	a.btn.btn-primary(href="/download",target="_blank") 导出
-						a.btn.btn-primary(fd="hyundai.xls",href="#",onclick="return ExcellentExport.excel(this, 'datatable', 'Sheet1');") 导出
+						//- a.btn.btn-primary(download="hyundai.xls",href="#",onclick="return ExcellentExport.excel(this, 'datatable', 'Sheet1');") 导出
 				div.table-responsive
 					br
 					p 注册总用户量: #{userscount}

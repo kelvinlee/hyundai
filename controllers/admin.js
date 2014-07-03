@@ -582,25 +582,22 @@ exports["super"] = function(req, res, next) {
       lots: lots,
       list: list,
       used: used,
-      tenoff: tenoff
+      tenoff: tenoff,
+      userscount: userscount
     });
     return console.log("all used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
   });
   User.findAll(st, et, type, function(err, users) {
-    ep.emit("users", users);
-    return console.log("user used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
+    return ep.emit("users", users);
   });
   User.usercount(function(err, results) {
-    ep.emit("userscount", results);
-    return console.log("userscount used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
+    return ep.emit("userscount", results);
   });
   Dealer.findAll(function(err, dealers) {
-    ep.emit("dealers", dealers);
-    return console.log("dealers used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
+    return ep.emit("dealers", dealers);
   });
   Lots.count(function(err, count) {
-    ep.emit("lots", count);
-    return console.log("lots used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
+    return ep.emit("lots", count);
   });
   Lots.used(function(err, used) {
     ep.emit("used", used);
