@@ -502,19 +502,19 @@ exports.super = (req,res,next)->
 		type = req.query.type
 		
 
-	ep = new EventProxy.create "users","lots","dealers","tenoff","used",(users,lots,dealers,tenoff,used)->
+	ep = new EventProxy.create "users","lots","dealers","tenoff","used","userscount",(users,lots,dealers,tenoff,used,userscount)->
 		
 		list = getList lots,used
 		
 		res.render "admin/super",{st:st,et:et,selectype:req.query.type,users:users,dealers:dealers,lots:lots,list:list,used:used,tenoff:tenoff}
 
-	# User.findAll st,et,type,(err,users)->
-	# 	# console.log users
-	# 	ep.emit "users",users
+	User.findAll st,et,type,(err,users)->
+		# console.log users
+		ep.emit "users",users
 
 	User.usercount st,et,type,(err,results)->
-		ep.emit "users",results
-		
+		ep.emit "userscount",results
+
 	Dealer.findAll (err,dealers)->
 		ep.emit "dealers",dealers
 	Lots.count (err,count)->

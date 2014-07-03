@@ -574,7 +574,7 @@ exports["super"] = function(req, res, next) {
     et = req.query.endtime;
     type = req.query.type;
   }
-  ep = new EventProxy.create("users", "lots", "dealers", "tenoff", "used", function(users, lots, dealers, tenoff, used) {
+  ep = new EventProxy.create("users", "lots", "dealers", "tenoff", "used", "userscount", function(users, lots, dealers, tenoff, used, userscount) {
     var list;
     list = getList(lots, used);
     return res.render("admin/super", {
@@ -589,8 +589,11 @@ exports["super"] = function(req, res, next) {
       tenoff: tenoff
     });
   });
+  User.findAll(st, et, type, function(err, users) {
+    return ep.emit("users", users);
+  });
   User.usercount(st, et, type, function(err, results) {
-    return ep.emit("users", results);
+    return ep.emit("userscount", results);
   });
   Dealer.findAll(function(err, dealers) {
     return ep.emit("dealers", dealers);
