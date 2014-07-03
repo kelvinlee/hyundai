@@ -16,7 +16,9 @@ if (cluster.isMaster)
 	cpuCount = require('os').cpus().length
 	for i in [0..cpuCount]
 		cluster.fork()
-
+	cluster.on 'exit', (worker)->
+		console.log "worker" + worker.id + " died :("
+		cluster.fork()
 else
 	app = express()
 

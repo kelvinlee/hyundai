@@ -18,6 +18,10 @@ if (cluster.isMaster) {
   for (i = _i = 0; 0 <= cpuCount ? _i <= cpuCount : _i >= cpuCount; i = 0 <= cpuCount ? ++_i : --_i) {
     cluster.fork();
   }
+  cluster.on('exit', function(worker) {
+    console.log("worker" + worker.id + " died :(");
+    return cluster.fork();
+  });
 } else {
   app = express();
   cookieParser = require('cookie-parser');
