@@ -766,12 +766,12 @@ bindstepbystep = function() {
     _hmt.push(['_trackEvent', '验证页面', '验证', '']);
 
     // 
-    $.ajax({
-      url: "http://log2.air.yoyi.com.cn/air/t?s=469&m="+$('[name=mobile]').val(),
-      type: 'post',
-      dataType: 'json',
-      success: function(msg) {}
-    });
+    // $.ajax({
+    //   url: "http://log2.air.yoyi.com.cn/air/t?s=469&m="+$('[name=mobile]').val(),
+    //   type: 'post',
+    //   dataType: 'json',
+    //   success: function(msg) {}
+    // });
     return window.scrollTo(0, 1);
   });
   return $(".goback").click(function() {

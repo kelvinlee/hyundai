@@ -327,6 +327,7 @@ exports.downloadxml = (req,res,next)->
 	# 
 	_lots = []
 	_dealers = []
+
 	# 
 	conf ={}
 	conf.stylesXmlFile = path.join(__dirname, 'styles.xml')
@@ -381,9 +382,8 @@ exports.downloadxml = (req,res,next)->
 			caption:"汽车用品",
 			type:"string",
 			beforeCellWrite: (row,cellData,eOpt)->
-				for i in [0..._lots.length]
-					if cellData+"" is _lots[i]._id+""
-						return _lots[i].lotname
+				if cellData?
+					return _lots[cellData].lotname
 				return ""
 		}
 		{
@@ -454,6 +454,10 @@ exports.downloadxml = (req,res,next)->
 		_dealers = dealers
 		list = getList lots,used
 		
+		for i in [0...lots.length]
+			_lots[lots[i]._id+""] = lots[i]
+
+
 		for i in [0...users.length]
 			conf.rows.push [ users[i].create_at , users[i].reser_at, users[i].code, users[i].username, users[i].mobile, users[i].cartype, users[i].thir.length, users[i].lot, users[i].tenoff, users[i].changed, users[i].province, users[i].city, users[i].dealer] 
 
@@ -464,9 +468,6 @@ exports.downloadxml = (req,res,next)->
 
 		# res.render "admin/super",{selectype:req.query.type,users:users,dealers:dealers,lots:lots,list:list,used:used,tenoff:tenoff}
 
-	User.findAll st,et,type,(err,users)->
-		# console.log users
-		ep.emit "users",users
 	Dealer.findAll (err,dealers)->
 		ep.emit "dealers",dealers
 	Lots.count (err,count)->

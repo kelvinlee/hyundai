@@ -469,11 +469,8 @@ exports.downloadxml = function(req, res, next) {
       caption: "汽车用品",
       type: "string",
       beforeCellWrite: function(row, cellData, eOpt) {
-        var i, _i, _ref;
-        for (i = _i = 0, _ref = _lots.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-          if (cellData + "" === _lots[i]._id + "") {
-            return _lots[i].lotname;
-          }
+        if (cellData != null) {
+          return _lots[cellData].lotname;
         }
         return "";
       }
@@ -518,20 +515,20 @@ exports.downloadxml = function(req, res, next) {
     type = req.query.type;
   }
   ep = new EventProxy.create("users", "lots", "dealers", "tenoff", "used", function(users, lots, dealers, tenoff, used) {
-    var i, list, result, _i, _ref;
+    var i, list, result, _i, _j, _ref, _ref1;
     _lots = lots;
     _dealers = dealers;
     list = getList(lots, used);
-    for (i = _i = 0, _ref = users.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+    for (i = _i = 0, _ref = lots.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
+      _lots[lots[i]._id + ""] = lots[i];
+    }
+    for (i = _j = 0, _ref1 = users.length; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
       conf.rows.push([users[i].create_at, users[i].reser_at, users[i].code, users[i].username, users[i].mobile, users[i].cartype, users[i].thir.length, users[i].lot, users[i].tenoff, users[i].changed, users[i].province, users[i].city, users[i].dealer]);
     }
     result = nodeExcel.execute(conf);
     res.setHeader('Content-Type', 'application/vnd.openxmlformats');
     res.setHeader("Content-Disposition", "attachment; filename=" + "hyundai.xlsx");
     return res.end(result, 'binary');
-  });
-  User.findAll(st, et, type, function(err, users) {
-    return ep.emit("users", users);
   });
   Dealer.findAll(function(err, dealers) {
     return ep.emit("dealers", dealers);

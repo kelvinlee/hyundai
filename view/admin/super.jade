@@ -29,7 +29,7 @@ block content_here
 				h3 注册信息
 			div.content
 				div
-					p 默认返回最新4个小时的注册. 如果需要查询所有则选择日期从7月1日至今天.
+					p 默认返回最新4个小时的注册. 如果需要查询所有则选择日期从7月1日至今天. [* 查询注册时间的时候只会返回一天的数据.]
 
 				div.table-responsive
 					div.table-ctrl
@@ -130,6 +130,14 @@ block js_here
 			App.init();
 		});
 		function searchdate() {
+
+			if ($("[name=startime]").val() !="" && $("[name=type]").val()) {
+					var _s = $("[name=startime]").val()+" 0:0:0";
+					var _e = $("[name=startime]").val()+" 23:59:59";
+					window.location.href = "/super/index?startime="+decodeURIComponent(_s)+"&endtime="+decodeURIComponent(_e)+"&type="+$("[name=type]").val();
+					return ""
+			}
+
 			if ($("[name=startime]").val() !="" && $("[name=endtime]").val() !="") {
 				//- $("[name=startime]").val()+" 0:0:0"
 				var _s = $("[name=startime]").val()+" 0:0:0";
