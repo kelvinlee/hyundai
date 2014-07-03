@@ -168,7 +168,7 @@ exports.post = (req,res,next)->
 	User.reged mobile,(err,results)->
 		if results?
 			re.recode = 202
-			re.reason = "此手机号码已经注册过了1."
+			re.reason = "此手机号码已经注册过了."
 			res.send re
 			return ""
 		else
