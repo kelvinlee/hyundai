@@ -512,7 +512,7 @@ exports.super = (req,res,next)->
 	# 	# console.log users
 	# 	ep.emit "users",users
 
-	User.usercount (err,results)->
+	User.usercount st,et,type,(err,results)->
 		ep.emit "users",results
 		
 	Dealer.findAll (err,dealers)->

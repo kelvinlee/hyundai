@@ -6,9 +6,30 @@ exports.test = (req,res,next)->
   # 和组
   # group({keyf:{username:true},key:{mobile:true},initial:{num:0},$reduce:function(doc,prev){ prev.num++ }})
 
-exports.usercount = (next)->
+exports.usercount = (startime,endtime,type,callback)->
 
-  User.find({}).count().exec next
+  if startime is "" and type is "1"
+    return User.find({create_at:null}).count().exec callback
+  if startime is "" and type is "2"
+    return User.find({reser_at:null}).count().exec callback
+  if startime is "" and type is "3"
+    return User.find({imp_at:null}).count().exec callback
+
+  star = new Date startime
+  end = new Date endtime
+  # User.find {create_at:{$gte:star,$lt:end}},callback
+  # console.log star,end,type,type is ""
+
+  if type is "" 
+    return User.find({create_at:{$gte:star,$lt:end}}).count().exec callback
+  if type is "1"
+    User.find({create_at:{$gte:star,$lt:end}}).count().exec callback
+  if type is "2"
+    User.find({reser_at:{$gte:star,$lt:end}}).count().exec callback
+  if type is "3"
+    User.find({imp_at:{$gte:star,$lt:end}}).count().exec callback
+    
+  # User.find({}).exec next
 exports.findAll = (startime,endtime,type,callback)->
   # body...
   if startime is "" and type is "1"
