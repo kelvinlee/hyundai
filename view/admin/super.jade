@@ -57,10 +57,11 @@ block content_here
 						button.btn.btn-primary(type="button",onclick="searchdate()") 查询
 						a.btn.btn-primary(href="/super/index") 重置
 						
-						-if (st != null && selectype != null)
-							a.btn.btn-primary(href="/download?startime=#{st}&endtime=#{et}&type=#{selectype}",target="_blank") 导出
-						-else
-							a.btn.btn-primary(href="/download",target="_blank") 导出
+						//- -if (st != null && selectype != null)
+						//- 	a.btn.btn-primary(href="/download?startime=#{st}&endtime=#{et}&type=#{selectype}",target="_blank") 导出
+						//- -else
+						//- 	a.btn.btn-primary(href="/download",target="_blank") 导出
+						a.btn.btn-primary(fd="hyundai.xls",href="#",onclick="return ExcellentExport.excel(this, 'datatable', 'Sheet1');") 导出
 				div.table-responsive
 					br
 					p 注册总用户量: #{userscount}
@@ -112,6 +113,7 @@ block css_here
 	link(rel="stylesheet",type="text/css",href="/js/bootstrap.datetimepicker/datepicker.css" )
 block js_here
 	script(type="text/javascript",src="/js/jquery.nanoscroller/jquery.nanoscroller.js")
+	script(type="text/javascript",src="/js/exportxls.js")
 	script(type="text/javascript",src="/js/jquery.sparkline/jquery.sparkline.min.js")
 	script(type="text/javascript",src="/js/jquery.easypiechart/jquery.easy-pie-chart.js")
 	script(type="text/javascript",src="/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js")
