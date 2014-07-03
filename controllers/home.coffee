@@ -77,7 +77,7 @@ exports.index = (req,res,next)->
 		# console.log results
 
 	User.getTenoff (err,results)->
-		console.log err,results
+		# console.log err,results
 		ep.emit "tenoff",results
 
 exports.success = (req,res,next)->

@@ -44,7 +44,7 @@ module.exports = (app)->
   app.post '/admin/in',admin.inpost
 
 
-  app.get '/admin/download',admin.download
+  # app.get '/admin/download',admin.download
   
   # app.get '/admin/dealer',dealer.homepage
   # app.get '/admin/dealer',dealer.homepage

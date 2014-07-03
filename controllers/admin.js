@@ -389,14 +389,6 @@ exports.pocp = function(req, res, next) {
   });
 };
 
-exports.download = function(req, res, next) {
-  var result;
-  result = 'a,b,c';
-  res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-  res.setHeader("Content-Disposition", "attachment; filename=Report.xls");
-  return res.end(result, 'binary');
-};
-
 resetCode = function(code) {};
 
 exports.downloadxml = function(req, res, next) {
@@ -512,28 +504,6 @@ exports.downloadxml = function(req, res, next) {
       caption: "城市",
       type: "string"
     }, {
-      caption: "区县",
-      type: "string",
-      beforeCellWrite: function(row, cellData, eOpt) {
-        var i, _i, _ref;
-        for (i = _i = 0, _ref = _dealers.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-          if (cellData === _dealers[i].dealer_id) {
-            return _dealers[i].county;
-          }
-        }
-      }
-    }, {
-      caption: "店名",
-      type: "string",
-      beforeCellWrite: function(row, cellData, eOpt) {
-        var i, _i, _ref;
-        for (i = _i = 0, _ref = _dealers.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-          if (cellData === _dealers[i].dealer_id) {
-            return _dealers[i].dealer;
-          }
-        }
-      }
-    }, {
       caption: "店号",
       type: "string"
     }
@@ -553,7 +523,7 @@ exports.downloadxml = function(req, res, next) {
     _dealers = dealers;
     list = getList(lots, used);
     for (i = _i = 0, _ref = users.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-      conf.rows.push([users[i].create_at, users[i].reser_at, users[i].code, users[i].username, users[i].mobile, users[i].cartype, users[i].thir.length, users[i].lot, users[i].tenoff, users[i].changed, users[i].province, users[i].city, users[i].dealer, users[i].dealer, users[i].dealer]);
+      conf.rows.push([users[i].create_at, users[i].reser_at, users[i].code, users[i].username, users[i].mobile, users[i].cartype, users[i].thir.length, users[i].lot, users[i].tenoff, users[i].changed, users[i].province, users[i].city, users[i].dealer]);
     }
     result = nodeExcel.execute(conf);
     res.setHeader('Content-Type', 'application/vnd.openxmlformats');

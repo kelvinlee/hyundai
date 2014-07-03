@@ -113,7 +113,6 @@ exports.index = function(req, res, next) {
     return ep.emit("count", count);
   });
   return User.getTenoff(function(err, results) {
-    console.log(err, results);
     return ep.emit("tenoff", results);
   });
 };

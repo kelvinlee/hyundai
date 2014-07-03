@@ -311,11 +311,11 @@ exports.pocp = (req,res,next)->
 			re.reason = "现用密码错误,无法修改."
 			res.send re
 
-exports.download = (req,res,next)->
-	result = 'a,b,c'
-	res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-	res.setHeader("Content-Disposition", "attachment; filename=Report.xls");
-	res.end(result, 'binary');
+# exports.download = (req,res,next)->
+# 	result = 'a,b,c'
+# 	res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+# 	res.setHeader("Content-Disposition", "attachment; filename=Report.xls");
+# 	res.end(result, 'binary');
 
 
 resetCode = (code)->
@@ -412,22 +412,22 @@ exports.downloadxml = (req,res,next)->
 			caption:"城市"
 			type:"string"
 		}
-		{
-			caption:"区县"
-			type:"string"
-			beforeCellWrite: (row,cellData,eOpt)->
-				for i in [0..._dealers.length]
-					if cellData is _dealers[i].dealer_id
-						return _dealers[i].county
-		}
-		{
-			caption:"店名"
-			type:"string"
-			beforeCellWrite: (row,cellData,eOpt)->
-				for i in [0..._dealers.length]
-					if cellData is _dealers[i].dealer_id
-						return _dealers[i].dealer
-		}
+		# {
+		# 	caption:"区县"
+		# 	type:"string"
+		# 	beforeCellWrite: (row,cellData,eOpt)->
+		# 		for i in [0..._dealers.length]
+		# 			if cellData is _dealers[i].dealer_id
+		# 				return _dealers[i].county
+		# }
+		# {
+		# 	caption:"店名"
+		# 	type:"string"
+		# 	beforeCellWrite: (row,cellData,eOpt)->
+		# 		for i in [0..._dealers.length]
+		# 			if cellData is _dealers[i].dealer_id
+		# 				return _dealers[i].dealer
+		# }
 		{
 			caption:"店号"
 			type:"string"
@@ -455,7 +455,7 @@ exports.downloadxml = (req,res,next)->
 		list = getList lots,used
 		
 		for i in [0...users.length]
-			conf.rows.push [ users[i].create_at , users[i].reser_at, users[i].code, users[i].username, users[i].mobile, users[i].cartype, users[i].thir.length, users[i].lot, users[i].tenoff, users[i].changed, users[i].province, users[i].city, users[i].dealer, users[i].dealer, users[i].dealer] 
+			conf.rows.push [ users[i].create_at , users[i].reser_at, users[i].code, users[i].username, users[i].mobile, users[i].cartype, users[i].thir.length, users[i].lot, users[i].tenoff, users[i].changed, users[i].province, users[i].city, users[i].dealer] 
 
 		result = nodeExcel.execute(conf);
 		res.setHeader('Content-Type', 'application/vnd.openxmlformats');

@@ -53,10 +53,10 @@ block content_here
 						button.btn.btn-primary(type="button",onclick="searchdate()") 查询
 						a.btn.btn-primary(href="/super/index") 重置
 						
-						//- -if (st != null && selectype != null)
-						//- 	a.btn.btn-primary(href="/download?startime=#{st}&endtime=#{et}&type=#{selectype}",target="_blank") 导出
-						//- -else
-						//- 	a.btn.btn-primary(href="/download",target="_blank") 导出
+						-if (st != null && selectype != null)
+							a.btn.btn-primary(href="/download?startime=#{st}&endtime=#{et}&type=#{selectype}",target="_blank") 导出
+						-else
+							a.btn.btn-primary(href="/download",target="_blank") 导出
 				table#datatable.no-border
 					thead
 						tr
@@ -72,8 +72,8 @@ block content_here
 							th 是否置换
 							th 省/市
 							th 城市
-							th 区县
-							th 店名
+							//- th 区县
+							//- th 店名
 							th 店号
 					tbody.no-border-y 
 						-for(var i=0;i<users.length;i++)
@@ -93,13 +93,13 @@ block content_here
 									td #{sf(users[i].changed)}
 									td #{users[i].province}
 									td #{users[i].city}
-									-var d = getdealer(users[i].dealer)
-									-if (d != null)
-										td #{d.county}
-										td #{d.dealer}
-									-else
-										td
-										td
+									//- -var d = getdealer(users[i].dealer)
+									//- -if (d != null)
+									//- 	td #{d.county}
+									//- 	td #{d.dealer}
+									//- -else
+									//- 	td
+									//- 	td
 									td #{users[i].dealer}
 block css_here
 	link(rel="stylesheet",type="text/css",href="/js/bootstrap.datetimepicker/datepicker.css" )
