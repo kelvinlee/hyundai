@@ -492,6 +492,7 @@ exports.superloginpost = (req,res,next)->
 		re.reason = "用户名或密码错误"
 		res.send re
 exports.super = (req,res,next)->
+	_s = new Date()
 
 	st = new Date().getTime()-(1000*60*60*4)
 	et = new Date().getTime()+(1000*60*60*4)
@@ -507,25 +508,32 @@ exports.super = (req,res,next)->
 		list = getList lots,used
 		
 		res.render "admin/super",{st:st,et:et,selectype:req.query.type,users:users,dealers:dealers,lots:lots,list:list,used:used,tenoff:tenoff}
+		console.log "all used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 
 	User.findAll st,et,type,(err,users)->
 		# console.log users
 		ep.emit "users",users
+		console.log "user used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 
-	User.usercount st,et,type,(err,results)->
+	User.usercount (err,results)->
 		ep.emit "userscount",results
+		console.log "userscount used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 
 	Dealer.findAll (err,dealers)->
 		ep.emit "dealers",dealers
+		console.log "dealers used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 	Lots.count (err,count)->
 		ep.emit "lots",count
+		console.log "lots used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 
 	Lots.used (err,used)->
 		ep.emit "used",used
+		console.log "used used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 
 	User.getTenoff (err,results)->
 		console.log err,results
 		ep.emit "tenoff",results
+		console.log "tenoff used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 
 
 # 

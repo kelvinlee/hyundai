@@ -7,57 +7,8 @@ User = models.User;
 
 exports.test = function(req, res, next) {};
 
-exports.usercount = function(startime, endtime, type, callback) {
-  var end, star;
-  if (startime === "" && type === "1") {
-    return User.find({
-      create_at: null
-    }).count().exec(callback);
-  }
-  if (startime === "" && type === "2") {
-    return User.find({
-      reser_at: null
-    }).count().exec(callback);
-  }
-  if (startime === "" && type === "3") {
-    return User.find({
-      imp_at: null
-    }).count().exec(callback);
-  }
-  star = new Date(startime);
-  end = new Date(endtime);
-  if (type === "") {
-    return User.find({
-      create_at: {
-        $gte: star,
-        $lt: end
-      }
-    }).count().exec(callback);
-  }
-  if (type === "1") {
-    User.find({
-      create_at: {
-        $gte: star,
-        $lt: end
-      }
-    }).count().exec(callback);
-  }
-  if (type === "2") {
-    User.find({
-      reser_at: {
-        $gte: star,
-        $lt: end
-      }
-    }).count().exec(callback);
-  }
-  if (type === "3") {
-    return User.find({
-      imp_at: {
-        $gte: star,
-        $lt: end
-      }
-    }).count().exec(callback);
-  }
+exports.usercount = function(next) {
+  return User.find({}).count().exec(next);
 };
 
 exports.findAll = function(startime, endtime, type, callback) {

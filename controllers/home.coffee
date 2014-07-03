@@ -158,7 +158,13 @@ exports.post = (req,res,next)->
 	# if req.body.thir.length < 32
 	# 	re.recode = 203
 	# 	re.reason = "32项检查格式不正确"
-	# 	
+	#
+	#
+	check = /^[1][3-8]\d{9}$/
+	if not check.test mobile
+		re.recode = 201
+		re.reason = "请验证手机号码格式"
+		return res.send re
 	User.reged mobile,(err,results)->
 		if results?
 			re.recode = 202

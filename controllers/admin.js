@@ -565,7 +565,8 @@ exports.superloginpost = function(req, res, next) {
 };
 
 exports["super"] = function(req, res, next) {
-  var ep, et, st, type;
+  var ep, et, st, type, _s;
+  _s = new Date();
   st = new Date().getTime() - (1000 * 60 * 60 * 4);
   et = new Date().getTime() + (1000 * 60 * 60 * 4);
   type = "";
@@ -577,7 +578,7 @@ exports["super"] = function(req, res, next) {
   ep = new EventProxy.create("users", "lots", "dealers", "tenoff", "used", "userscount", function(users, lots, dealers, tenoff, used, userscount) {
     var list;
     list = getList(lots, used);
-    return res.render("admin/super", {
+    res.render("admin/super", {
       st: st,
       et: et,
       selectype: req.query.type,
@@ -588,25 +589,32 @@ exports["super"] = function(req, res, next) {
       used: used,
       tenoff: tenoff
     });
+    return console.log("all used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
   });
   User.findAll(st, et, type, function(err, users) {
-    return ep.emit("users", users);
+    ep.emit("users", users);
+    return console.log("user used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
   });
-  User.usercount(st, et, type, function(err, results) {
-    return ep.emit("userscount", results);
+  User.usercount(function(err, results) {
+    ep.emit("userscount", results);
+    return console.log("userscount used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
   });
   Dealer.findAll(function(err, dealers) {
-    return ep.emit("dealers", dealers);
+    ep.emit("dealers", dealers);
+    return console.log("dealers used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
   });
   Lots.count(function(err, count) {
-    return ep.emit("lots", count);
+    ep.emit("lots", count);
+    return console.log("lots used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
   });
   Lots.used(function(err, used) {
-    return ep.emit("used", used);
+    ep.emit("used", used);
+    return console.log("used used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
   });
   return User.getTenoff(function(err, results) {
     console.log(err, results);
-    return ep.emit("tenoff", results);
+    ep.emit("tenoff", results);
+    return console.log("tenoff used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
   });
 };
 

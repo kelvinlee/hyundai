@@ -197,7 +197,7 @@ getCode = function() {
 };
 
 exports.post = function(req, res, next) {
-  var cartype, changed, city, code, dealer, lot, mobile, province, re, tenoff, thir, thirtytwo, username;
+  var cartype, changed, check, city, code, dealer, lot, mobile, province, re, tenoff, thir, thirtytwo, username;
   re = new helper.recode();
   code = getCode();
   username = req.body.username;
@@ -211,6 +211,12 @@ exports.post = function(req, res, next) {
   city = req.body.city;
   dealer = req.body.dealer;
   thir = req.body.thir;
+  check = /^[1][3-8]\d{9}$/;
+  if (!check.test(mobile)) {
+    re.recode = 201;
+    re.reason = "请验证手机号码格式";
+    return res.send(re);
+  }
   return User.reged(mobile, function(err, results) {
     var ep;
     if (results != null) {

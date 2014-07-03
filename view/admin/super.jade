@@ -1,9 +1,12 @@
 extends layout 
 block content_here
+	-var defaultlot = {}
+	-for(var i=0;i<lots.length;i++) { defaultlot[lots[i]._id+""] = lots[i] }
+
 	-function getType(n){ if (n == null){return "";} var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}]; return type[parseInt(n)-1].name; }
 	-function getDates(date){ if (date == null){return "";} return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds(); }
 	-function getDate(date){ if (date == null){return "";} return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate(); }
-	-function getLots(id) { for(var i=0;i<lots.length;i++) { if (id+"" == lots[i]._id+""){ return lots[i].lotname; }  } return ""; }
+	-function getLots(id) { if (id != null){ return defaultlot[id].lotname; }else{return ""} }
 	-function getType(n){ if (n == null){return "";} var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}]; return type[parseInt(n)-1].name; }
 	-function sf(bo) {if (bo){ return "是"; }else{return "否";}}
 	-function getdealer(id) { for(var i=0;i<dealers.length;i++) { if(dealers[i].dealer_id == id) {return dealers[i];} } return null; }
