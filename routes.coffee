@@ -20,7 +20,7 @@ module.exports = (app)->
   app.post '/super',admin.superloginpost
   app.get '/super/index',admin.super
   app.get '/super/page',admin.super_page
-  # app.get '/download',admin.downloadxml
+  app.get '/download',admin.downloadxml
   
   app.get '/dealer',admin.in
   # app.get '/dealer/in',admin.in

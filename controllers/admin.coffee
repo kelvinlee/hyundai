@@ -443,6 +443,7 @@ exports.downloadxml = (req,res,next)->
 	st = new Date().getTime()-(1000*60*60*4)
 	et = new Date().getTime()+(1000*60*60*4)
 	type = ""
+	console.log "download start"
 	if req.query.startime? and req.query.endtime?
 		st = req.query.startime
 		et = req.query.endtime
@@ -462,10 +463,14 @@ exports.downloadxml = (req,res,next)->
 			conf.rows.push [ users[i].create_at , users[i].reser_at, users[i].code, users[i].username, users[i].mobile, users[i].cartype, users[i].thir.length, users[i].lot, users[i].tenoff, users[i].changed, users[i].province, users[i].city, users[i].dealer] 
 
 		result = nodeExcel.execute(conf);
-		res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-		res.setHeader("Content-Disposition", "attachment; filename=" + "hyundai.xlsx");
-		res.end(result, 'binary');
+		# res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+		# res.setHeader("Content-Disposition", "attachment; filename=" + "hyundai.xlsx");
+		# res.end(result, 'binary');
+		# 
+		# fs.writeFileSync(__dirname+'/hyundai.xlsx', result, 'binary');
+		
 		console.log "download used:",((new Date().getTime()-_s)/1000)+"s"
+		res.send {}
 		# res.render "admin/super",{selectype:req.query.type,users:users,dealers:dealers,lots:lots,list:list,used:used,tenoff:tenoff}
 
 	Dealer.findAll (err,dealers)->

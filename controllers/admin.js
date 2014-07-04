@@ -510,6 +510,7 @@ exports.downloadxml = function(req, res, next) {
   st = new Date().getTime() - (1000 * 60 * 60 * 4);
   et = new Date().getTime() + (1000 * 60 * 60 * 4);
   type = "";
+  console.log("download start");
   if ((req.query.startime != null) && (req.query.endtime != null)) {
     st = req.query.startime;
     et = req.query.endtime;
@@ -526,10 +527,8 @@ exports.downloadxml = function(req, res, next) {
       conf.rows.push([users[i].create_at, users[i].reser_at, users[i].code, users[i].username, users[i].mobile, users[i].cartype, users[i].thir.length, users[i].lot, users[i].tenoff, users[i].changed, users[i].province, users[i].city, users[i].dealer]);
     }
     result = nodeExcel.execute(conf);
-    res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-    res.setHeader("Content-Disposition", "attachment; filename=" + "hyundai.xlsx");
-    res.end(result, 'binary');
-    return console.log("download used:", ((new Date().getTime() - _s) / 1000) + "s");
+    console.log("download used:", ((new Date().getTime() - _s) / 1000) + "s");
+    return res.send({});
   });
   Dealer.findAll(function(err, dealers) {
     return ep.emit("dealers", dealers);
