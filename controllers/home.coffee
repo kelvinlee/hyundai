@@ -127,7 +127,9 @@ setDefaultLots = ->
 			Lots.new {lotname:"汽油清净剂",description:"偏重于节油性能的超短期添加剂，改善气缸摩擦，1.提高动力性，燃油经济性；2.保持进气阀、喷油嘴、燃烧室清洁。",cartype:false,nums:[100000]},(err,results)->
 				console.log results
 
-
+getNewCode = (mobile)->
+	code = parseInt(mobile).toString(32);
+	return code
 getCode = ->
 	code = parseInt(new Date().getTime()/100)
 	code = parseInt(code).toString(32);
@@ -138,7 +140,7 @@ _mobile = {}
 
 exports.post = (req,res,next)->
 	re = new helper.recode()
-	code = getCode()
+	# code = getCode()
 	username = req.body.username
 	mobile = req.body.mobile
 	changed = req.body.changed
@@ -246,6 +248,7 @@ exports.post = (req,res,next)->
 										re.reason = "此手机号码已经注册过了"
 										res.send re
 										return ""
+									code = getNewCode mobile
 									User.newReg code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir,(err,results)->
 										console.log err,results
 										if results?
