@@ -19,6 +19,7 @@ str="qwertyuiopasdfghjklmnbvcxz1234567890"
 
 
 getList = (count,used)->
+	_s = new Date()
 	list = []
 	for d in count
 		list.push {lot:d._id,used:0,count:d.nums[0]} if not d.cartype
@@ -45,10 +46,11 @@ getList = (count,used)->
 			a.can = false 
 		else
 			a.can = true
+	console.log "used:",((new Date().getTime()-_s.getTime())/1000)+"s"
 	return list
 
 exports.index = (req,res,next)->
-	
+	_s = new Date()
 	# sendMSG "Code:test,这是一条测试短信,试试中文好使么?",18610508726
 
 	code = getCode()
@@ -65,19 +67,19 @@ exports.index = (req,res,next)->
 		# 如果can是false表示已经发放完了.
 		can = true
 		can = false if tenoff>=100000
+		console.log "all used:",((new Date().getTime()-_s.getTime())/1000)+"s"
 		res.render "homepage",{code:code,list:list,count:count,tenoffcan:can}
 
 
 	Lots.used (err,used)->
 		ep.emit "used",used 
+		console.log "used:",((new Date().getTime()-_s.getTime())/1000)+"s"
 	Lots.count (err,count)->
-		ep.emit "count",count 
-
-	# User.getUserByCode code,(err,results)->
-		# console.log results
-
+		ep.emit "count",count
+		console.log "count:",((new Date().getTime()-_s.getTime())/1000)+"s"
 	User.getTenoff (err,results)->
 		# console.log err,results
+		console.log "tenoff:",((new Date().getTime()-_s.getTime())/1000)+"s"
 		ep.emit "tenoff",results
 
 exports.success = (req,res,next)->
@@ -132,6 +134,7 @@ getCode = ->
 	reg = /(\w{1})(\w{6})/
 	code = code.replace reg,str[helper.random(1,36)]+"$2"
 
+_mobile = {}
 
 exports.post = (req,res,next)->
 	re = new helper.recode()
@@ -238,9 +241,15 @@ exports.post = (req,res,next)->
 									res.send re
 									return ""
 								else
+									if _mobile[mobile]? and _mobile[mobile]
+										re.recode = 210
+										re.reason = "此手机号码已经注册过了"
+										res.send re
+										return ""
 									User.newReg code,username,mobile,changed,cartype,lot,tenoff,thirtytwo,province,city,dealer,thir,(err,results)->
 										console.log err,results
 										if results?
+											_mobile[mobile] = true
 											res.cookie "mobile",mobile
 											res.cookie "code",code
 											content = "【北京现代感恩活动验证码#{code}】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。"
