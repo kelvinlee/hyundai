@@ -10,6 +10,7 @@ EventProxy = require 'eventproxy'
 config = require('../config').config
 nodeExcel = require('excel-export')
 csv = require "fast-csv"
+Iconv = require('iconv').Iconv
 
 # 数据库
 User = require("../model/mongo").User
@@ -353,7 +354,7 @@ exportCSV = (startime,endtime,count,callback)->
 		.fromPath(__dirname+"/../public/down/download.csv")
 		.on "record", (data)->
 			if data[0] is "create_at"
-				_bklist.push data
+				_bklist.push ["时间","预约时间","验证码","姓名","手机","车型","32项","汽车用品","保养配件","是否置换","省/市","城市","店号"]
 				return data 
 			bk = []
 			date = new Date data[0]+"" 
@@ -375,9 +376,14 @@ exportCSV = (startime,endtime,count,callback)->
 			console.log "create used:",((now-_s)/1000)+"s"
 			# console.log __dirname+"../public/down/#{now}.csv"
 			ws = fs.createWriteStream(__dirname+"/../public/down/#{now}.csv");
+
+			# ws.write(new Buffer('\xEF\xBB\xBF\x6A\x6F\x68\x6E\x2C\x32\x33\x2C\xE5\x9F\x8E\xE5\xB8\x82\x0A\x6A\x6F\x68\x6E\x32\x2C\x31\x32\x33\x2C\x6D\x61\x6C\x65\x0A\x6A\x6F\x68\x6E\x33\x2C\x32\x33\x34\x2C\x66\x65\x6D\x61\x6C\x65','binary'))
 			csv
 			.write _bklist, {headers: true}
 			.pipe(ws)
+			
+			
+			
 			callback null,"#{now}.csv"
 
 		
