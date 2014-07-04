@@ -30,6 +30,7 @@ exports.findAll = function(startime, endtime, type, callback) {
   }
   star = new Date(startime);
   end = new Date(endtime);
+  console.log(star, end);
   if (type === "") {
     return User.find({
       create_at: {

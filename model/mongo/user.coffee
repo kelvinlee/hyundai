@@ -23,6 +23,9 @@ exports.findAll = (startime,endtime,type,callback)->
   # User.find {create_at:{$gte:star,$lt:end}},callback
   # console.log star,end,type,type is ""
 
+  console.log star,end
+  # {create_at:{$gte:"Fri Jul 04 2014 00:00:00 GMT+0800 (CST)",$lt:"Fri Jul 04 2014 23:59:59 GMT+0800 (CST)"}}
+
   if type is "" 
     return User.find({create_at:{$gte:star,$lt:end}}).sort({create_at:1}).exec callback
   if type is "1"
