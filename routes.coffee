@@ -16,9 +16,9 @@ module.exports = (app)->
   
 
   # 管理后台
-  # app.get '/super',admin.superlogin
-  # app.post '/super',admin.superloginpost
-  # app.get '/super/index',admin.super
+  app.get '/super',admin.superlogin
+  app.post '/super',admin.superloginpost
+  app.get '/super/index',admin.super
   # app.get '/download',admin.downloadxml
   
   app.get '/dealer',admin.in

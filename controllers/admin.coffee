@@ -499,8 +499,8 @@ exports.superloginpost = (req,res,next)->
 exports.super = (req,res,next)->
 	_s = new Date()
 
-	st = new Date().getTime()-(1000*60*60*4)
-	et = new Date().getTime()+(1000*60*60*4)
+	st = new Date().getTime()-(1000*60*15)
+	et = new Date().getTime()+(1000*60*15)
 	type = ""
 	if req.query.startime? and req.query.endtime?
 		st = req.query.startime

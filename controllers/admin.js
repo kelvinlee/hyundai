@@ -562,8 +562,8 @@ exports.superloginpost = function(req, res, next) {
 exports["super"] = function(req, res, next) {
   var ep, et, st, type, _s;
   _s = new Date();
-  st = new Date().getTime() - (1000 * 60 * 60 * 4);
-  et = new Date().getTime() + (1000 * 60 * 60 * 4);
+  st = new Date().getTime() - (1000 * 60 * 15);
+  et = new Date().getTime() + (1000 * 60 * 15);
   type = "";
   if ((req.query.startime != null) && (req.query.endtime != null)) {
     st = req.query.startime;
