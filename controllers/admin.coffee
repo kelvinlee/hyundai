@@ -10,7 +10,7 @@ EventProxy = require 'eventproxy'
 config = require('../config').config
 nodeExcel = require('excel-export')
 csv = require "fast-csv"
-Iconv = require('iconv').Iconv
+# Iconv = require('iconv').Iconv
 
 # 数据库
 User = require("../model/mongo").User
