@@ -72,6 +72,33 @@ exports.findAll = function(startime, endtime, type, callback) {
   }
 };
 
+exports.findPages = function(startime, endtime, type, callback) {
+  var end, star;
+  star = new Date(startime);
+  end = new Date(endtime);
+  return User.find({
+    create_at: {
+      $gte: star,
+      $lt: end
+    }
+  }).count().exec(callback);
+};
+
+exports.findPage = function(startime, endtime, type, page, callback) {
+  var end, size, star;
+  star = new Date(startime);
+  end = new Date(endtime);
+  size = 100;
+  return User.find({
+    create_at: {
+      $gte: star,
+      $lt: end
+    }
+  }).sort({
+    create_at: 1
+  }).skip(size * page).limit(size).exec(callback);
+};
+
 exports.getUserByCarType = function(cartype, vin, callback) {
   return User.findOne({
     cartype: cartype,

@@ -13,6 +13,8 @@ block content_here
 	-function getcode(code) { var reg = /(\w{1})(\w{6})/; code = code.replace(reg,"d$2"); return new Date(parseInt(code,32)*100); }
 	div#head-nav.print-hide.navbar.navbar-default.navbar-fixed-top
 		div.container-fluid
+	div#loading(style="display:none;position:fixed;width:100%;height:100%;background:url('/img/backcode-bg.png') repeat center center;") 
+		div(style="position:absolute;top:40%;width:100%;height30px;font-size:20px;color:#fff;text-align:center;") 加载中...
 
 	div#cl-wrapper
 		div.block-flat
@@ -71,7 +73,7 @@ block content_here
 							th.sorting_desc 时间
 							th.sorting_desc 预约时间
 							th 验证码
-							th 姓名
+							th(width="100") 姓名
 							th 手机
 							th 车型
 							th 32项
@@ -83,8 +85,8 @@ block content_here
 							//- th 区县
 							//- th 店名
 							th 店号
-					tbody.no-border-y 
-						-for(var i=0;i<users.length;i++)
+					tbody#tbody.no-border-y 
+						//- -for(var i=0;i<users.length;i++)
 							-if (users[i].dealer != "店名")
 								tr
 									//- getcode(users[i].code)
@@ -128,9 +130,77 @@ block js_here
 	script(type="text/javascript",src="/js/jquery.datatables/jquery.datatables.min.js")
 	script(type="text/javascript",src="/js/behaviour/general.js")
 	script.
+		var defaultlot = !{JSON.stringify(defaultlot)};
+		var startime = "!{st}";
+		var endtime = "!{et}";
+		var type = "!{selectype}";
+		var nowpage = 1;
+		var pagecount = !{users};
 		$(document).ready(function(){
 			App.init();
+			if (startime != "" && endtime != "") {
+				pagestar();
+				$("#loading").show();
+			}
 		});
+		function pagestar(){
+			$.ajax({
+				url: "/super/page",
+				type: 'get',
+				data: [{name:"startime",value:startime},{name:"endtime",value:endtime},{name:"type",value:type},{name:"page",value:nowpage}],
+				dataType: 'json',
+				success: function(msg) {
+					console.log(msg);
+					if (msg.length>0) {
+						//- if (nowpage*100 > 300 ) {$("#loading").hide(); return false;}
+						createTR(msg);
+						nowpage += 1;
+
+						if ((nowpage*100)>pagecount) {
+							$("#loading div").html("加载中 "+pagecount+"/"+pagecount);
+							$("#loading").hide();
+						}else{
+							$("#loading div").html("加载中 "+(nowpage*100)+"/"+pagecount);
+							pagestar();
+						}
+						
+					}else{
+						$("#loading").hide();
+					}
+				}
+			});
+		}
+		function getType(n){ if (n == null){return "";} var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}]; return type[parseInt(n)-1].name; }
+		function getDates(date){ date = new Date(date); if (date == null){return "";} return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds(); }
+		function sf(bo) {if (bo){ return "是"; }else{return "否";}}
+		function createTR(list) {
+			//- html = ""
+			for(var i=0;i<list.length;i++) {
+				var a = list[i];
+				var html = "<td>"+getDates(a.create_at)+"</td>";
+				if (a.reser_at != null) {
+					html += "<td>"+getDates(a.reser_at)+"</td>";
+				}else{
+					html += "<td></td>";
+				}
+				html += "<td>"+a.code+"</td>";
+				html += "<td>"+a.username+"</td>";
+				html += "<td>"+a.mobile+"</td>";
+				html += "<td>"+getType(a.cartype)+"</td>";
+				html += "<td>"+a.thir.length+"</td>";
+				if (a.lot != null) {
+					html += "<td>"+defaultlot[a.lot].lotname+"</td>";
+				}else{
+					html += "<td></td>";
+				}
+				html += "<td>"+sf(a.tenoff)+"</td>";
+				html += "<td>"+sf(a.changed)+"</td>";
+				html += "<td>"+a.province+"</td>";
+				html += "<td>"+a.city+"</td>";
+				html += "<td>"+a.dealer+"</td>";
+				$("#tbody").append("<tr>"+html+"</tr>");
+			}
+		}
 		function searchdate() {
 
 			if ($("[name=startime]").val() !="" && $("[name=type]").val()) {

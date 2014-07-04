@@ -31,6 +31,20 @@ exports.findAll = (startime,endtime,type,callback)->
     User.find({reser_at:{$gte:star,$lt:end}}).sort({reser_at:1}).exec callback
   if type is "3"
     User.find({imp_at:{$gte:star,$lt:end}}).sort({imp_at:1}).exec callback
+
+exports.findPages = (startime,endtime,type,callback)->
+  star = new Date startime
+  end = new Date endtime
+  User.find({create_at:{$gte:star,$lt:end}}).count().exec callback
+exports.findPage = (startime,endtime,type,page,callback)->
+  star = new Date startime
+  end = new Date endtime
+  size = 100
+  # console.log size,page,size*page
+
+  User.find({create_at:{$gte:star,$lt:end}}).sort({create_at:1}).skip(size*page).limit(size).exec callback
+
+
 exports.getUserByCarType = (cartype,vin,callback)->
   User.findOne {cartype:cartype,vin:vin},callback
 

@@ -496,17 +496,37 @@ exports.superloginpost = (req,res,next)->
 		re.recode = 201
 		re.reason = "用户名或密码错误"
 		res.send re
-exports.super = (req,res,next)->
-	_s = new Date()
-
-	st = new Date().getTime()-(1000*60*60*1000)
-	et = new Date().getTime()-(1000*60*60*500)
-	type = ""
+exports.super_page = (req,res,next)->
+	_t = new Date()
 	if req.query.startime? and req.query.endtime?
 		st = req.query.startime
 		et = req.query.endtime
 		type = req.query.type
-		
+		page = if req.query.page? then parseInt(req.query.page) else 1
+		page -= 1
+		# console.log page,req.query.page
+		User.findPage st,et,type,page,(err,users)->
+			res.send users
+			console.log "page:",(new Date().getTime()-_t.getTime())/1000
+
+	else
+		res.send []
+
+exports.super = (req,res,next)->
+	_s = new Date()
+
+	st = ""
+	et = ""
+	type = ""
+	if req.query.startime? and req.query.endtime?
+		st = req.query.startime
+		et = req.query.endtime
+		type = req.query.type 
+
+
+		# User.findPage st,et,type,(err,users)->
+		# 	# console.log users
+		# 	ep.emit "users",users
 
 	ep = new EventProxy.create "users","lots","dealers","tenoff","used","userscount",(users,lots,dealers,tenoff,used,userscount)->
 		
@@ -515,7 +535,7 @@ exports.super = (req,res,next)->
 		res.render "admin/super",{st:st,et:et,selectype:req.query.type,users:users,dealers:dealers,lots:lots,list:list,used:used,tenoff:tenoff,userscount:userscount}
 		console.log "all used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 
-	User.findAll st,et,type,(err,users)->
+	User.findPages st,et,type,(err,users)->
 		# console.log users
 		ep.emit "users",users
 		# console.log "user used:",((new Date().getTime() - _s.getTime())/1000)+"s"
@@ -533,12 +553,12 @@ exports.super = (req,res,next)->
 
 	Lots.used (err,used)->
 		ep.emit "used",used
-		console.log "used used:",((new Date().getTime() - _s.getTime())/1000)+"s"
+		# console.log "used used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 
 	User.getTenoff (err,results)->
 		console.log err,results
 		ep.emit "tenoff",results
-		console.log "tenoff used:",((new Date().getTime() - _s.getTime())/1000)+"s"
+		# console.log "tenoff used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 
 
 # 

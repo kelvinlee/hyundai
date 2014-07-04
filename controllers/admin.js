@@ -559,11 +559,29 @@ exports.superloginpost = function(req, res, next) {
   }
 };
 
+exports.super_page = function(req, res, next) {
+  var et, page, st, type, _t;
+  _t = new Date();
+  if ((req.query.startime != null) && (req.query.endtime != null)) {
+    st = req.query.startime;
+    et = req.query.endtime;
+    type = req.query.type;
+    page = req.query.page != null ? parseInt(req.query.page) : 1;
+    page -= 1;
+    return User.findPage(st, et, type, page, function(err, users) {
+      res.send(users);
+      return console.log("page:", (new Date().getTime() - _t.getTime()) / 1000);
+    });
+  } else {
+    return res.send([]);
+  }
+};
+
 exports["super"] = function(req, res, next) {
   var ep, et, st, type, _s;
   _s = new Date();
-  st = new Date().getTime() - (1000 * 60 * 60 * 1000);
-  et = new Date().getTime() - (1000 * 60 * 60 * 500);
+  st = "";
+  et = "";
   type = "";
   if ((req.query.startime != null) && (req.query.endtime != null)) {
     st = req.query.startime;
@@ -587,7 +605,7 @@ exports["super"] = function(req, res, next) {
     });
     return console.log("all used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
   });
-  User.findAll(st, et, type, function(err, users) {
+  User.findPages(st, et, type, function(err, users) {
     return ep.emit("users", users);
   });
   User.usercount(function(err, results) {
@@ -600,13 +618,11 @@ exports["super"] = function(req, res, next) {
     return ep.emit("lots", count);
   });
   Lots.used(function(err, used) {
-    ep.emit("used", used);
-    return console.log("used used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
+    return ep.emit("used", used);
   });
   return User.getTenoff(function(err, results) {
     console.log(err, results);
-    ep.emit("tenoff", results);
-    return console.log("tenoff used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
+    return ep.emit("tenoff", results);
   });
 };
 
