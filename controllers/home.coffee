@@ -215,7 +215,7 @@ exports.post = (req,res,next)->
 			if re.recode is 200
 				ep = new EventProxy.create "count","used","user","tenoffcount", (count,used,user,tenoffcount)->
 					# console.log count,used,cartype
-					if tenoffcount>=100000
+					if tenoffcount>=100000 and tenoff
 						re.recode = 201
 						re.reason = "您选择的原厂保养配件已经派发完了"
 						res.send re
