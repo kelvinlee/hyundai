@@ -372,6 +372,7 @@ exportCSV = (startime,endtime,count,callback)->
 			data[3] = data[3].replace "\t",""
 			data[3] = data[3].replace "	",""
 			data[3] = data[3].replace "	",""
+			data[3] = data[3].replace(/\s/g,"")
 			data[5] = getType data[5]
 			data[6] = [eval(data[6])]
 			data[6] = (data[6]+"").split(",").length
