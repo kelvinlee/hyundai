@@ -435,6 +435,7 @@ getlots = function(n) {
   if (n === "ObjectID(53b18294ecfe820279c03333)") {
     return "汽油清净剂";
   }
+  return "";
 };
 
 gettf = function(n) {
@@ -467,6 +468,9 @@ exportCSV = function(startime, endtime, count, callback) {
         date = new Date(data[1]);
         data[1] = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
       }
+      data[3] = data[3].replace("\t", "");
+      data[3] = data[3].replace("	", "");
+      data[3] = data[3].replace("	", "");
       data[5] = getType(data[5]);
       data[6] = [eval(data[6])];
       data[6] = (data[6] + "").split(",").length;
@@ -478,7 +482,6 @@ exportCSV = function(startime, endtime, count, callback) {
       var now, ws;
       console.log("done list");
       now = new Date().getTime();
-      console.log("create used:", ((now - _s) / 1000) + "s");
       ws = fs.createWriteStream(__dirname + ("/../public/down/" + now + ".csv"));
       csv.write(_bklist, {
         headers: true
@@ -487,6 +490,8 @@ exportCSV = function(startime, endtime, count, callback) {
     });
   });
 };
+
+exports.event = function(req, res, next) {};
 
 exports.downloadxml = function(req, res, next) {
   var et, st, type, _dealers, _lots, _s;

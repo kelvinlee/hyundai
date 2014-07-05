@@ -11,6 +11,8 @@ config = require('../config').config
 nodeExcel = require('excel-export')
 csv = require "fast-csv"
 # Iconv = require('iconv').Iconv
+# nodexlsx = require "node-xlsx"
+
 
 # 数据库
 User = require("../model/mongo").User
@@ -338,16 +340,20 @@ getlots = (n)->
 		return "室内消毒剂"
 	if n is "ObjectID(53b18294ecfe820279c03333)"
 		return "汽油清净剂"
+	return ""
 gettf = (n)->
 	if n is "true"
 		return "是"
 	return "否"
+
+
 exportCSV = (startime,endtime,count,callback)->
 	_s = new Date().getTime()
 	# mongoexport -h 127.0.0.1 --db hyunday --collection users --csv --fields username,mobile --query '{create_at:{$gte:new Date(1404403200000),$lt:new Date(1404489599000)}}' --out rec.csv
 	fields = "create_at,reser_at,code,username,mobile,cartype,thir,lot,tenoff,changed,province,city,dealer"
 	exec = require("child_process").exec
 	exec "mongoexport -h 127.0.0.1 --db hyunday --collection users --csv --fields #{fields} --query \'{create_at:{$gte:new Date(#{startime}),$lt:new Date(#{endtime})}}\' --out #{__dirname}/../public/down/download.csv", (err, stdout, stderr)->
+		# exec "mongoexport -h 127.0.0.1 --db hyunday --collection users --csv --fields #{fields} --query \'{mobile:\"15344003172\"}}\' --out #{__dirname}/../public/down/download.csv", (err, stdout, stderr)->
 		console.log stdout
 		_bklist = []
 		csv
@@ -363,6 +369,9 @@ exportCSV = (startime,endtime,count,callback)->
 			if data[1] isnt null and data[1] isnt ""
 				date = new Date data[1]
 				data[1] = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
+			data[3] = data[3].replace "\t",""
+			data[3] = data[3].replace "	",""
+			data[3] = data[3].replace "	",""
 			data[5] = getType data[5]
 			data[6] = [eval(data[6])]
 			data[6] = (data[6]+"").split(",").length
@@ -373,21 +382,25 @@ exportCSV = (startime,endtime,count,callback)->
 		.on "end", ->
 			console.log("done list")
 			now = new Date().getTime()
-			console.log "create used:",((now-_s)/1000)+"s"
+			
 			# console.log __dirname+"../public/down/#{now}.csv"
 			ws = fs.createWriteStream(__dirname+"/../public/down/#{now}.csv");
-
-			# ws.write(new Buffer('\xEF\xBB\xBF\x6A\x6F\x68\x6E\x2C\x32\x33\x2C\xE5\x9F\x8E\xE5\xB8\x82\x0A\x6A\x6F\x68\x6E\x32\x2C\x31\x32\x33\x2C\x6D\x61\x6C\x65\x0A\x6A\x6F\x68\x6E\x33\x2C\x32\x33\x34\x2C\x66\x65\x6D\x61\x6C\x65','binary'))
 			csv
 			.write _bklist, {headers: true}
 			.pipe(ws)
 			
+			# obj = nodexlsx.parse(__dirname + '/myFile.xlsx')
+			# obj = nodexlsx.parse(fs.readFileSync(__dirname + '/myFile.xlsx'))
+			# console.log _bklist[4]
 			
-			
+
 			callback null,"#{now}.csv"
 
-		
-		
+			# z
+
+exports.event = (req,res,next)->
+	# body...
+
 
 
 
