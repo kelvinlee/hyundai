@@ -352,7 +352,9 @@ exportCSV = (startime,endtime,count,callback)->
 	# mongoexport -h 127.0.0.1 --db hyunday --collection users --csv --fields username,mobile --query '{create_at:{$gte:new Date(1404403200000),$lt:new Date(1404489599000)}}' --out rec.csv
 	fields = "create_at,reser_at,code,username,mobile,cartype,thir,lot,tenoff,changed,province,city,dealer"
 	exec = require("child_process").exec
-	exec "mongoexport -h 127.0.0.1 --db hyunday --collection users --csv --fields #{fields} --query \'{create_at:{$gte:new Date(#{startime}),$lt:new Date(#{endtime})}}\' --out #{__dirname}/../public/down/download.csv", (err, stdout, stderr)->
+	# 127.0.0.1
+	_ip = "101.251.239.82"
+	exec "mongoexport -h #{_ip} --db hyunday --collection users --csv --fields #{fields} --query \'{create_at:{$gte:new Date(#{startime}),$lt:new Date(#{endtime})}}\' --out #{__dirname}/../public/down/download.csv", (err, stdout, stderr)->
 		# exec "mongoexport -h 127.0.0.1 --db hyunday --collection users --csv --fields #{fields} --query \'{mobile:\"15344003172\"}}\' --out #{__dirname}/../public/down/download.csv", (err, stdout, stderr)->
 		console.log stdout
 		_bklist = []

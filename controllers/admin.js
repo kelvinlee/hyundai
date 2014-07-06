@@ -446,11 +446,12 @@ gettf = function(n) {
 };
 
 exportCSV = function(startime, endtime, count, callback) {
-  var exec, fields, _s;
+  var exec, fields, _ip, _s;
   _s = new Date().getTime();
   fields = "create_at,reser_at,code,username,mobile,cartype,thir,lot,tenoff,changed,province,city,dealer";
   exec = require("child_process").exec;
-  return exec("mongoexport -h 127.0.0.1 --db hyunday --collection users --csv --fields " + fields + " --query \'{create_at:{$gte:new Date(" + startime + "),$lt:new Date(" + endtime + ")}}\' --out " + __dirname + "/../public/down/download.csv", function(err, stdout, stderr) {
+  _ip = "101.251.239.82";
+  return exec("mongoexport -h " + _ip + " --db hyunday --collection users --csv --fields " + fields + " --query \'{create_at:{$gte:new Date(" + startime + "),$lt:new Date(" + endtime + ")}}\' --out " + __dirname + "/../public/down/download.csv", function(err, stdout, stderr) {
     var _bklist;
     console.log(stdout);
     _bklist = [];
