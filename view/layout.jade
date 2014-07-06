@@ -80,7 +80,8 @@ html(lang="en").no-js
 			d.onload = function() {d.onload = null;}
 			};
 			function YoRegTrack(){
-				YoTrack("http://logs2.air.yoyi.com.cn/air/t?s=469");
+				mobile = $("#mobile").val();
+				YoTrack("http://logs2.air.yoyi.com.cn/air/t?s=469&m="+mobile);
 			}
 
 		//- div(style="display:none;")
