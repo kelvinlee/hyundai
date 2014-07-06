@@ -324,13 +324,14 @@ exports.post = function(req, res, next) {
                   }
                   code = getNewCode(mobile);
                   return User.newReg(code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir, function(err, results) {
-                    var content;
+                    var content, msgcode;
                     console.log(err, results);
                     if (results != null) {
                       _mobile[mobile] = true;
                       res.cookie("mobile", mobile);
                       res.cookie("code", code);
-                      content = "【北京现代感恩活动验证码" + code + "】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。";
+                      msgcode = code.split("").join(" ");
+                      content = "【北京现代感恩活动验证码" + msgcode + "】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。";
                       sendMSG(content, mobile);
                       re.reason = code;
                       res.send(re);
@@ -378,11 +379,12 @@ exports.backcode = function(req, res, next) {
     return res.send(re);
   }
   return User.getUserByMobile(mobile, function(err, user) {
-    var code, content;
+    var code, content, msgcode;
     console.log(err, user);
     if (user != null) {
       code = user.code;
-      content = "【北京现代感恩活动验证码" + code + "】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。";
+      msgcode = code.split("").join(" ");
+      content = "【北京现代感恩活动验证码" + msgcode + "】请妥善保存。7月16日-8月31日期间凭此码到您选择的经销商处参加此次活动。感谢您的参与。";
       sendMSG(content, mobile);
       return res.send(re);
     } else {
