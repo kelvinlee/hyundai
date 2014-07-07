@@ -46,7 +46,7 @@ getList = (count,used)->
 			a.can = false 
 		else
 			a.can = true
-	console.log "used:",((new Date().getTime()-_s.getTime())/1000)+"s"
+	# console.log "lots used:",((new Date().getTime()-_s.getTime())/1000)+"s"
 	return list
 
 exports.index = (req,res,next)->
@@ -66,14 +66,14 @@ exports.index = (req,res,next)->
 		# list 查看是否可以使用此奖品.
 		# 如果can是false表示已经发放完了.
 		can = true
-		can = false if tenoff>=100000
+		can = false if tenoff>=101305
 		console.log "all used:",((new Date().getTime()-_s.getTime())/1000)+"s"
 		res.render "homepage",{code:code,list:list,count:count,tenoffcan:can}
 
 
 	Lots.used (err,used)->
 		ep.emit "used",used 
-		console.log "used:",((new Date().getTime()-_s.getTime())/1000)+"s"
+		console.log "lot used:",((new Date().getTime()-_s.getTime())/1000)+"s"
 	Lots.count (err,count)->
 		ep.emit "count",count
 		console.log "count:",((new Date().getTime()-_s.getTime())/1000)+"s"

@@ -86,7 +86,6 @@ getList = function(count, used) {
       a.can = true;
     }
   }
-  console.log("used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
   return list;
 };
 
@@ -99,7 +98,7 @@ exports.index = function(req, res, next) {
     var can, list;
     list = getList(count, used);
     can = true;
-    if (tenoff >= 100000) {
+    if (tenoff >= 101305) {
       can = false;
     }
     console.log("all used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
@@ -112,7 +111,7 @@ exports.index = function(req, res, next) {
   });
   Lots.used(function(err, used) {
     ep.emit("used", used);
-    return console.log("used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
+    return console.log("lot used:", ((new Date().getTime() - _s.getTime()) / 1000) + "s");
   });
   Lots.count(function(err, count) {
     ep.emit("count", count);
