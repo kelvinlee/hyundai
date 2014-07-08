@@ -585,7 +585,7 @@ fBindFormBtn = function() {
       context: $('body'),
       success: function(msg) {
         if (msg.recode === 200) {
-          pyAp();
+          // pyAp();
           window.location.href = "/success";
           _hmt.push(['_trackEvent', '注册', '提交', '']);
         } else {
@@ -762,7 +762,7 @@ bindstepbystep = function() {
     }else{
       $(".confirmpc").show();
     }
-
+    
     window.location.hash = "Confirm";
     _hmt.push(['_trackEvent', '验证页面', '验证', '']);
 
