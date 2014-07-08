@@ -585,6 +585,7 @@ fBindFormBtn = function() {
       context: $('body'),
       success: function(msg) {
         if (msg.recode === 200) {
+          pyAp();
           window.location.href = "/success";
           _hmt.push(['_trackEvent', '注册', '提交', '']);
         } else {
@@ -790,4 +791,22 @@ bindstepbystep = function() {
     window.location.hash = "Registration";
     return window.scrollTo(0, 1);
   });
+};
+
+
+function pyAp(){
+  var w = window,d = document,e = encodeURIComponent,u = location.href,r = d.referrer,t;
+  parent != w && (t = u, u = r, r = t);
+  var a = arguments,
+    action = '1',
+    extData = 'mobile:'+$('.mobilestep2 #mobile').val();
+  var f = 'https:' == location.protocol;
+  var url = (f ? 'https' : 'http') +'://stats.ipinyou.com/ap?agid=9&aid=27&pid=2014070301&cid=2014070304' + '&u=' + e(u) + '&r=' + e(r) + '&a=' + e(action) + '&ext=' + e(extData) + '&d=' + new Date().getTime();
+  -function _() {
+    if (!d.body) {
+      setTimeout(_, 100);
+      return;
+    };
+    new Image().src = url;
+  }();
 };
