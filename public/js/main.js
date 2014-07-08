@@ -794,6 +794,7 @@ bindstepbystep = function() {
 };
 
 
+
 function pyAp(){
   var w = window,d = document,e = encodeURIComponent,u = location.href,r = d.referrer,t;
   parent != w && (t = u, u = r, r = t);
