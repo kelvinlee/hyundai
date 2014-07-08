@@ -282,7 +282,7 @@ exports.post = function(req, res, next) {
       if (re.recode === 200) {
         ep = new EventProxy.create("count", "used", "user", "tenoffcount", function(count, used, user, tenoffcount) {
           var a, list, _i, _len;
-          if (tenoffcount >= 100000 && tenoff) {
+          if (tenoffcount >= 101305 && tenoff) {
             re.recode = 201;
             re.reason = "您选择的原厂保养配件已经派发完了";
             res.send(re);
