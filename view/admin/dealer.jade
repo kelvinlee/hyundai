@@ -63,7 +63,8 @@ block content_here
 										a.btn.btn-default(href="/admin/dealer") 重置
 										button.btn.btn-primary(type="button",onclick="printtable()") 打印
 									div
-										p 使用shift+点击,可以使用多项排序.
+										input.form-control(type="text",size="16",name="mobile",style="width:140px;display:inline-block;")
+										button.btn.btn-primary(type="button",onclick="searchmobile()") 查询手机号
 									table#datatable.table.table-bordered
 										thead
 											tr
@@ -76,7 +77,7 @@ block content_here
 												th 是否置换
 												th 操作
 										tbody
-											-for (var i=0;i<list.length;i++)
+											//- -for (var i=0;i<list.length;i++)
 												tr.odd.gradeX
 													-var a = new Date(list[i].create_at);
 													td #{a.getFullYear()}-#{a.getMonth()+1}-#{a.getDate()}
@@ -135,18 +136,165 @@ block js_here
 	script(type="text/javascript",src="/js/jquery.datatables/bootstrap-adapter/js/datatables.js")
 	//- script(type="text/javascript",src="/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js")
 	script.
+		$.fn.dataTable.pipeline = function ( opts ) {
+		// Configuration options
+		var conf = $.extend( {
+		pages: 5,     // number of pages to cache
+		url: '',      // script url
+		data: null,   // function or object with parameters to send to the server
+		// matching how `ajax.data` works in DataTables
+		method: 'GET' // Ajax HTTP method
+		}, opts );
+
+		// Private variables for storing the cache
+		var cacheLower = -1;
+		var cacheUpper = null;
+		var cacheLastRequest = null;
+		var cacheLastJson = null;
+
+		return function ( request, drawCallback, settings ) {
+		var ajax          = false;
+		var requestStart  = request.start;
+		var drawStart     = request.start;
+		var requestLength = request.length;
+		var requestEnd    = requestStart + requestLength;
+
+		if ( settings.clearCache ) {
+		// API requested that the cache be cleared
+		ajax = true;
+		settings.clearCache = false;
+		}
+		else if ( cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper ) {
+		// outside cached data - need to make a request
+		ajax = true;
+		}
+		else if ( JSON.stringify( request.order )   !== JSON.stringify( cacheLastRequest.order ) ||
+		JSON.stringify( request.columns ) !== JSON.stringify( cacheLastRequest.columns ) ||
+		JSON.stringify( request.search )  !== JSON.stringify( cacheLastRequest.search )
+		) {
+		// properties changed (ordering, columns, searching)
+		ajax = true;
+		}
+
+		// Store the request for checking next time around
+		cacheLastRequest = $.extend( true, {}, request );
+
+		if ( ajax ) {
+		// Need data from the server
+		if ( requestStart < cacheLower ) {
+		requestStart = requestStart - (requestLength*(conf.pages-1));
+
+		if ( requestStart < 0 ) {
+		requestStart = 0;
+		}
+		}
+
+		cacheLower = requestStart;
+		cacheUpper = requestStart + (requestLength * conf.pages);
+
+		request.start = requestStart;
+		request.length = requestLength*conf.pages;
+
+		// Provide the same `data` options as DataTables.
+		if ( $.isFunction ( conf.data ) ) {
+		// As a function it is executed with the data object as an arg
+		// for manipulation. If an object is returned, it is used as the
+		// data object to submit
+		var d = conf.data( request );
+		if ( d ) {
+		$.extend( request, d );
+		}
+		}
+		else if ( $.isPlainObject( conf.data ) ) {
+		// As an object, the data given extends the default
+		$.extend( request, conf.data );
+		}
+
+		settings.jqXHR = $.ajax( {
+		"type":     conf.method,
+		"url":      conf.url,
+		"data":     request,
+		"dataType": "json",
+		"cache":    false,
+		"success":  function ( json ) {
+		cacheLastJson = $.extend(true, {}, json);
+
+		if ( cacheLower != drawStart ) {
+		json.data.splice( 0, drawStart-cacheLower );
+		}
+		json.data.splice( requestLength, json.data.length );
+
+		drawCallback( json );
+		}
+		} );
+		}
+		else {
+		json = $.extend( true, {}, cacheLastJson );
+		json.draw = request.draw; // Update the echo for each response
+		json.data.splice( 0, requestStart-cacheLower );
+		json.data.splice( requestLength, json.data.length );
+
+		drawCallback(json);
+		}
+		}
+		};
+		//- $.fn.dataTable.Api.register( 'clearPipeline()', function () {
+		//- 	return this.iterator( 'table', function ( settings ) {
+		//- 		settings.clearCache = true;
+		//- 	});
+		//- });
 		$(document).ready(function(){
 		//initialize the javascript
 			App.init();
-			App.dataTables();
-			$("[placeholder=Search]").attr("placeholder","查询");
-		}); 
+			//- App.dataTables();
+			
+			var newtable = $("#datatable").dataTable({
+				aLengthMenu:[[10, 25, 50, 100, 100000000],[10, 25, 50, 100, "所有"]],
+				"bProcessing": true,  
+				"bServerSide": true, 
+				"aaSorting" : [
+					[ 0, "desc" ]
+				],
+				"fnServerData": fnDataTablesPipeline  
+			});
+			$("[aria-controls]").attr("placeholder","查询手机号");
+			//- newtable.fnSort([[0,'desc']]);
+		});
+		function fnDataTablesPipeline(sUrl, aoData, fnCallback) {
+			//- console.log(aoData);
+			var newurl = sUrl;
+			var st = "#{startime}";
+			var et = "#{endtime}";
+			var type = "#{selectype}";
+			if (type != "" && st != "") {
+				//- newurl += "?startime="+startime+"&endtime="+endtime+"&type="+type;
+				aoData.push({name:"startime",value:st});
+				aoData.push({name:"endtime",value:et});
+				aoData.push({name:"type",value:type});
+			}
+			console.log(aoData);
+			$.ajax({
+			dataType: "json",
+			type: 'POST',
+			url: newurl,
+			data: aoData,
+			success: callback,
+			cache: false
+			});
+			function callback(data) {
+				fnCallback(data);
+				App.init();	
+			}
+		}
+		//- function fnCallback(err,data) {
+		//- 	console.log(err,data);
+		//- }
 		function searchdate() {
 			if ($("[name=startime]").val() !="" && $("[name=endtime]").val() !="") {
 				//- $("[name=startime]").val()+" 0:0:0"
-				var _s = NewDate($("[name=startime]").val(),"0:0:0");
-				var _e = NewDate($("[name=endtime]").val(),"23:59:59");
-				window.location.href = "/admin/dealer?startime="+(_s.getTime())+"&endtime="+(_e.getTime())+"&type="+$("[name=type]").val();
+				var _s = $("[name=startime]").val()+" 0:0:0";
+				var _e = $("[name=startime]").val()+" 23:59:59";
+				window.location.href = "/admin/dealer?startime="+decodeURIComponent(_s)+"&endtime="+decodeURIComponent(_e)+"&type="+$("[name=type]").val();
 			}else if($("[name=startime]").val() =="" && $("[name=endtime]").val() ==""){
 				window.location.href = "/admin/dealer?startime=&endtime=&type="+$("[name=type]").val();
 			}else {
@@ -184,13 +332,25 @@ block js_here
 			window.print();
 		}
 		function NewDate(str,hour) { 
-			str = str.split('-'); 
-			var date = new Date(); 
+			str = str.split('-');
+			var date = new Date();
+			console.log(str);
 			date.setUTCFullYear(str[0], str[1] - 1, str[2]); 
 			hour = hour.split(':');
 			date.setUTCHours(hour[0], hour[1], hour[2], 0); 
 			return date; 
-		} 
+		}
+		function searchmobile() {
+			$.ajax({
+				url:"/admin/dealer/check",
+				type: 'POST',
+				data: [{name:"mobile",value:$("[name=mobile]").val()}],
+				dataType: 'json',
+				success: function(msg){
+					alert(msg.reason);
+				}
+			});
+		}
     
 	script(src="/js/bootstrap/dist/js/bootstrap.min.js")
 	script(type="text/javascript",src="/js/jquery.flot/jquery.flot.js")
@@ -199,7 +359,7 @@ block js_here
 	script(type="text/javascript",src="/js/jquery.flot/jquery.flot.labels.js")
 	script(type="text/javascript",src="/js/bootstrap.datetimepicker/bootstrap-datepicker.js")
 	script(type="text/javascript",src="/js/bootstrap.datetimepicker/bootstrap-datepicker.zh-CN.js")
-
+	
 
 
 

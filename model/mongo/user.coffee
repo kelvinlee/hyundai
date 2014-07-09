@@ -60,9 +60,28 @@ exports.getUserByMobile = (mobile,next)->
 exports.getTenoff = (next)->
   User.find({tenoff:true}).count().exec next
 
-exports.getUserByDealer = (dealer,callback)->
+exports.getUserByDealer = (dealer,star,size,sortfield,startime,endtime,type,search,callback)->
   # 获取经销商用户列表
-  User.find({dealer:dealer}).exec callback
+  data = {dealer:dealer}
+  if type? and startime?
+    st = new Date startime
+    et = new Date endtime
+    data.create_at = {$gte:st,$lt:et} if type is "1"
+    data.reser_at = {$gte:st,$lt:et} if type is "2"
+    data.imp_at = {$gte:st,$lt:et} if type is "3"
+  if search? and search isnt ""
+    eval "data.mobile = /^"+search+"/"
+
+
+  console.log data,type?,startime?,type
+  User.find(data).count().exec (err,count)->
+    console.log count
+    # ).skip(star).limit(size).exec
+    # , {'group': 'mobile'}
+    # ,["_id","create_at","username","mobile","cartype","reser_at","imp_at","changed"]
+    User.find data,'_id create_at username mobile cartype reser_at imp_at changed',{sort:sortfield,skip:star,limit:size}, (err,users)->
+      callback err,count,users
+
 exports.GetUserByTime = (dealer,startime,endtime,type,callback)->
 
   if startime is "" and type is "1"

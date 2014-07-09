@@ -125,10 +125,47 @@ exports.getTenoff = function(next) {
   }).count().exec(next);
 };
 
-exports.getUserByDealer = function(dealer, callback) {
-  return User.find({
+exports.getUserByDealer = function(dealer, star, size, sortfield, startime, endtime, type, search, callback) {
+  var data, et, st;
+  data = {
     dealer: dealer
-  }).exec(callback);
+  };
+  if ((type != null) && (startime != null)) {
+    st = new Date(startime);
+    et = new Date(endtime);
+    if (type === "1") {
+      data.create_at = {
+        $gte: st,
+        $lt: et
+      };
+    }
+    if (type === "2") {
+      data.reser_at = {
+        $gte: st,
+        $lt: et
+      };
+    }
+    if (type === "3") {
+      data.imp_at = {
+        $gte: st,
+        $lt: et
+      };
+    }
+  }
+  if ((search != null) && search !== "") {
+    eval("data.mobile = /^" + search + "/");
+  }
+  console.log(data, type != null, startime != null, type);
+  return User.find(data).count().exec(function(err, count) {
+    console.log(count);
+    return User.find(data, '_id create_at username mobile cartype reser_at imp_at changed', {
+      sort: sortfield,
+      skip: star,
+      limit: size
+    }, function(err, users) {
+      return callback(err, count, users);
+    });
+  });
 };
 
 exports.GetUserByTime = function(dealer, startime, endtime, type, callback) {

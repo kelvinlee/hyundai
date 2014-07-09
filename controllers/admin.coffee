@@ -114,18 +114,85 @@ exports.dealer = (req,res,next)->
 		startime = req.query.startime
 		endtime = req.query.endtime
 		type = req.query.type
-		console.log startime,endtime,type
+		# console.log startime,endtime,type
 		# if startime
+		res.render "admin/dealer",{list:[],startime:startime,endtime:endtime,selectype:type}
+		return ""
 		if startime? and endtime? and type?
 			User.GetUserByTime req.cookies.user,startime,endtime,type,(err,resutls)->
 				# console.log err,resutls
 				res.render "admin/dealer",{list:unique(resutls),selectype:type}
 		else
-			User.getUserByDealer req.cookies.user,(err,resutls)->
-				console.log resutls.length,unique(resutls)
-				res.render "admin/dealer",{list:unique(resutls)}
+			# User.getUserByDealer req.cookies.user,(err,resutls)->
+				# console.log resutls.length,unique(resutls)
+				
 	else
 		res.redirect "/admin/in"
+
+exports.dealercheck = (req,res,next)->
+	mobile = req.body.mobile
+	re = new helper.recode()
+	User.getUserByMobile mobile,(err,user)->
+		if user?
+			if user.dealer isnt req.cookies.user
+				re.reason = "用户注册的不是本经销商"
+			else
+				re.reason = "用户验证码:"+user.code
+		else
+			re.reason = "用户不存在"
+		res.send re
+
+exports.dealerpage = (req,res,next)->
+	console.log req.body
+	pageSize = req.body.iDisplayLength
+	pageStar = req.body.iDisplayStart
+	startime = req.body.startime
+	endtime = req.body.endtime
+	type = req.body.type
+	search = req.body.sSearch
+
+	# console.log pageStar,pageSize
+	sortfield = {}
+	sortcols = parseInt req.body.iSortingCols
+	for i in [0...sortcols]
+		t = parseInt req.body["iSortCol_#{i}"]
+		ad = if req.body["sSortDir_#{i}"] is "asc" then 1 else -1
+		sortfield.create_at = ad if t is 0
+		sortfield.username = ad if t is 1
+		sortfield.mobile = ad if t is 2
+		sortfield.cartype = ad if t is 3
+		sortfield.reser_at = ad if t is 4
+		sortfield.imp_at = ad if t is 5
+		sortfield.changed = ad if t is 6
+
+	User.getUserByDealer req.cookies.user,pageStar,pageSize,sortfield,startime,endtime,type,search,(err,count,resutls)->
+		# res.render "admin/dealer",{list:unique(resutls)}
+		poback = []
+		for a in unique(resutls)
+			poback.push [getDates(a.create_at),a.username,a.mobile,getType(a.cartype),getReser(a.reser_at),getDates(a.imp_at),getChanged(a.changed),getCtrl(a.reser_at,a._id)]
+		# (pageStar/pageSize+1)
+		res.send {"mData":(pageStar/pageSize+1),"iTotalRecords":poback.length,"iTotalDisplayRecords":count,"aaData":poback}
+
+getType = (n)-> 
+	return "" if n is null
+	type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"},{name:"其他",type:"7"}]
+	return type[parseInt(n)-1].name
+getChanged = (n)->
+	return "是" if n is true
+	return "否"
+getDates = (date) -> 
+	if not date?
+		return ""
+	return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
+getReser = (date)->
+	if not date?
+		return '<div style="margin-bottom:0px;" class="input-group date datepickerh col-sm-3"><input type="text" size="16" data-format="yy-mm-dd" name="reser" style="width:140px" readonly="" class="form-control"><span class="input-group-addon btn btn-primary"><span class="glyphicon glyphicon-th"></span></span></div>'
+	return getDates date
+getCtrl = (date,_id)->
+	if not date?
+		return '<a href="/admin/dealer/reser/'+_id+'" onclick="setTimepost(this); return false;">确定</a>'
+	return ""
+
 exports.dealerreser = (req,res,next)->
 	console.log req.params.user_id,req.body.timer
 	re = new helper.recode()
@@ -347,14 +414,19 @@ gettf = (n)->
 	return "否"
 
 
-exportCSV = (startime,endtime,count,callback)->
+exportCSV = (startime,endtime,count,type,callback)->
 	_s = new Date().getTime()
 	# mongoexport -h 127.0.0.1 --db hyunday --collection users --csv --fields username,mobile --query '{create_at:{$gte:new Date(1404403200000),$lt:new Date(1404489599000)}}' --out rec.csv
+	type = "create_at" if type is "1"
+	type = "reser_at" if type is "2"
+	type = "imp_at" if type is "3"
+
+
 	fields = "create_at,reser_at,code,username,mobile,cartype,thir,lot,tenoff,changed,province,city,dealer"
 	exec = require("child_process").exec
 	# 127.0.0.1
 	_ip = "101.251.239.82"
-	exec "mongoexport -h #{_ip} --db hyunday --collection users --csv --fields #{fields} --query \'{create_at:{$gte:new Date(#{startime}),$lt:new Date(#{endtime})}}\' --out #{__dirname}/../public/down/download.csv", (err, stdout, stderr)->
+	exec "mongoexport -h #{_ip} --db hyunday --collection users --csv --fields #{fields} --query \'{"+type+":{$gte:new Date(#{startime}),$lt:new Date(#{endtime})}}\' --out #{__dirname}/../public/down/download.csv", (err, stdout, stderr)->
 		# exec "mongoexport -h 127.0.0.1 --db hyunday --collection users --csv --fields #{fields} --query \'{mobile:\"15344003172\"}}\' --out #{__dirname}/../public/down/download.csv", (err, stdout, stderr)->
 		console.log stdout
 		_bklist = []
@@ -417,15 +489,17 @@ exports.downloadxml = (req,res,next)->
 
 	st = new Date().getTime()-(1000*60*60*4)
 	et = new Date().getTime()+(1000*60*60*4)
-	type = ""
+	type = "1"
 	console.log "download start"
 	if req.query.startime? and req.query.endtime?
 		st = new Date(req.query.startime).getTime()
 		et = new Date(req.query.endtime).getTime()
 		type = req.query.type
 
+
+
 	Lots.count (err,count)->
-		exportCSV st,et,count, (err,list)->
+		exportCSV st,et,count,type, (err,list)->
 			res.redirect "/down/#{list}"
 	# User.findAll st,et,type,(err,users)->
 		# console.log users

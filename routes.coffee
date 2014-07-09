@@ -16,11 +16,11 @@ module.exports = (app)->
   
 
   # 管理后台
-  # app.get '/super',admin.superlogin
-  # app.post '/super',admin.superloginpost
-  # app.get '/super/index',admin.super
-  # app.get '/super/page',admin.super_page
-  # app.get '/download',admin.downloadxml
+  app.get '/super',admin.superlogin
+  app.post '/super',admin.superloginpost
+  app.get '/super/index',admin.super
+  app.get '/super/page',admin.super_page
+  app.get '/download',admin.downloadxml
   
   app.get '/dealer',admin.in
   # app.get '/dealer/in',admin.in
@@ -30,6 +30,8 @@ module.exports = (app)->
   
   app.get '/admin/next',admin.next
   app.get '/admin/dealer',admin.dealer
+  app.post '/admin/dealer',admin.dealerpage
+  app.post '/admin/dealer/check',admin.dealercheck
   app.get '/admin/password',admin.changepassword
   app.get '/admin/out',admin.out
   app.post '/admin/password',admin.pocp
