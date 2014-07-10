@@ -272,7 +272,7 @@ block js_here
 				aoData.push({name:"endtime",value:et});
 				aoData.push({name:"type",value:type});
 			}
-			console.log(aoData);
+			//- console.log(aoData);
 			$.ajax({
 			dataType: "json",
 			type: 'POST',
@@ -334,7 +334,7 @@ block js_here
 		function NewDate(str,hour) { 
 			str = str.split('-');
 			var date = new Date();
-			console.log(str);
+			//- console.log(str);
 			date.setUTCFullYear(str[0], str[1] - 1, str[2]); 
 			hour = hour.split(':');
 			date.setUTCHours(hour[0], hour[1], hour[2], 0); 
