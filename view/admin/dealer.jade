@@ -62,7 +62,7 @@ block content_here
 										button.btn.btn-primary(type="button",onclick="searchdate()") 查询
 										a.btn.btn-default(href="/admin/dealer") 重置
 										button.btn.btn-primary(type="button",onclick="printtable()") 打印
-									div
+									//- div
 										input.form-control(type="text",size="16",name="mobile",style="width:140px;display:inline-block;")
 										button.btn.btn-primary(type="button",onclick="searchmobile()") 查询手机号
 									table#datatable.table.table-bordered
@@ -293,7 +293,7 @@ block js_here
 			if ($("[name=startime]").val() !="" && $("[name=endtime]").val() !="") {
 				//- $("[name=startime]").val()+" 0:0:0"
 				var _s = $("[name=startime]").val()+" 0:0:0";
-				var _e = $("[name=startime]").val()+" 23:59:59";
+				var _e = $("[name=endtime]").val()+" 23:59:59";
 				window.location.href = "/admin/dealer?startime="+decodeURIComponent(_s)+"&endtime="+decodeURIComponent(_e)+"&type="+$("[name=type]").val();
 			}else if($("[name=startime]").val() =="" && $("[name=endtime]").val() ==""){
 				window.location.href = "/admin/dealer?startime=&endtime=&type="+$("[name=type]").val();
