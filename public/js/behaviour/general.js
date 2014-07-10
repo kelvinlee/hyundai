@@ -1266,7 +1266,7 @@ var App = function () {
         });
         $(".datepickerh").datepicker({
             format: "yyyy-mm-dd",
-            startDate: "2014-07-16",
+            startDate: "2014-07-12",
             endDate: "2014-08-31",
             language: "zh-CN",
             autoclose: true
