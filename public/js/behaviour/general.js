@@ -631,7 +631,7 @@ var App = function () {
   var dataTables = function(){
   	//Basic Instance
     var newtable = $("#datatable").dataTable({
-      aLengthMenu:[[10, 25, 50, 100, 100000000],[10, 25, 50, 100, "所有"]]
+      aLengthMenu:[[10, 25, 50, 100],[10, 25, 50, 100]]
       
     });
     newtable.fnSort([[0,'desc']]);
