@@ -327,7 +327,8 @@ exports.dealeractive = function(req, res, next) {
 };
 
 exports.nine = function(req, res, next) {
-  return res.render("admin/nine", {
+  return res.render("temp/nine.ejs", {
+    user: null,
     dealer: req.cookies.dealer,
     dealer_id: req.cookies.user
   });
@@ -371,7 +372,7 @@ exports.ninepost = function(req, res, next) {
   }
   return User.getUserByCarType(cartype, vin, function(err, uvin) {
     console.log("vin", uvin);
-    if (uvin != null) {
+    if ((uvin != null) && cartype !== "7") {
       re.recode = 201;
       re.reason = "此VIN码在此车型下已经存在";
       return res.send(re);
@@ -398,7 +399,7 @@ exports.nineid = function(req, res, next) {
   id = req.params.id;
   return User.getUserById(id, function(err, user) {
     if (user != null) {
-      return res.render("admin/nine", {
+      return res.render("temp/nine.ejs", {
         user: user,
         dealer: req.cookies.dealer,
         dealer_id: req.cookies.user

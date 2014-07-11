@@ -244,7 +244,7 @@ swfobject.embedSWF("/swf/print.swf", "swfContent", "100", "50", "10.0.0","expres
 		bk.imp_at = getDates(new Date(bk.imp_at));
 		bk.reser_at = getDates(new Date(bk.reser_at));
 		bk.create_at = getDates(new Date(bk.create_at));
-		return bk;
+		return JSON.stringify(bk);
 	}
 	$(document).ready(function(){
 		$(".print-btn").click(function(){window.print()});

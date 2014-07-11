@@ -1483,6 +1483,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/public\/js\/swfobject.js": {
+		"fileType": 64,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/public\/js\/swfobject.js",
+		"outputAbbreviatedPath": "\/public\/js\/min\/swfobject-ck.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/public\/less\/ie.less": {
 		"allowInsecureImports": 0,
 		"createSourceMap": 0,

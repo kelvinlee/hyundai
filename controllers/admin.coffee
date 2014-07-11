@@ -229,7 +229,9 @@ exports.dealeractive = (req,res,next)->
 
 exports.nine = (req,res,next)->
 
-	res.render "admin/nine",{dealer:req.cookies.dealer,dealer_id:req.cookies.user}
+	# res.render "admin/nine",{dealer:req.cookies.dealer,dealer_id:req.cookies.user}
+	res.render "temp/nine.ejs",{user:null,dealer:req.cookies.dealer,dealer_id:req.cookies.user}
+
 exports.ninepost = (req,res,next)->
 	re = new helper.recode()
 
@@ -266,7 +268,7 @@ exports.ninepost = (req,res,next)->
 		return false
 	User.getUserByCarType cartype,vin,(err,uvin)->
 		console.log "vin",uvin
-		if uvin?
+		if uvin? and cartype isnt "7"
 			re.recode = 201
 			re.reason = "此VIN码在此车型下已经存在"
 			res.send re
@@ -286,7 +288,8 @@ exports.nineid = (req,res,next)->
 
 	User.getUserById id,(err,user)->
 		if user?
-			res.render "admin/nine",{user:user,dealer:req.cookies.dealer,dealer_id:req.cookies.user}
+			# res.render "admin/nine",{user:user,dealer:req.cookies.dealer,dealer_id:req.cookies.user}
+			res.render "temp/nine.ejs",{user:user,dealer:req.cookies.dealer,dealer_id:req.cookies.user}
 
 
 exports.dealerinfo = (req,res,next)->
