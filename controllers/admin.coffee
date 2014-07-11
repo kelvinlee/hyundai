@@ -10,6 +10,7 @@ EventProxy = require 'eventproxy'
 config = require('../config').config
 nodeExcel = require('excel-export')
 csv = require "fast-csv"
+ejs = require "ejs"
 # Iconv = require('iconv').Iconv
 # nodexlsx = require "node-xlsx"
 
@@ -18,6 +19,9 @@ csv = require "fast-csv"
 User = require("../model/mongo").User
 Lots = require("../model/mongo").Lots
 Dealer = require("../model/mongo").Dealer
+
+
+# @codekit-append "cache.coffee";
 
 str="qwertyuiopasdfghjklmnbvcxz1234567890"
 
@@ -280,21 +284,31 @@ exports.nineid = (req,res,next)->
 
 
 exports.dealerinfo = (req,res,next)->
-	console.log req.query.code
-
+	# console.log req.query.code
+	t = new Date()
 	if req.query.code is "9999999"
 		return res.redirect "/admin/dealer/nine"
 
 	code = req.query.code.toLowerCase()
-	console.log code
+	# console.log code
 
-
+	
+	# User.getUserByCode code,req.cookies.user,(err,user)->
+	# 	if user?
+	# 		Dealer.getbyid user.dealer,(err,dealer)->
+	# 			getLot user.lot,(lot)-> 
+	# 				res.render "temp/info.ejs",{user:user,code:code,lot:lot,dealer_id:req.cookies.user,dealer:req.cookies.dealer,dl:dealer}
+	# 				console.log (new Date().getTime()-t.getTime())/1000 
+	# 	else
+	# 		res.render "temp/info.ejs",{user:null}
+	# return ""
 	User.getUserByCode code,req.cookies.user,(err,user)->
 		# console.log resutls
 		if user?
 			Dealer.getbyid user.dealer,(err,dealer)->
-				Lots.getById user.lot,(err,lot)->
+				getLot user.lot,(lot)->
 					res.render "admin/info",{user:user,code:code,lot:lot,dealer_id:req.cookies.user,dealer:req.cookies.dealer,dl:dealer}
+					console.log (new Date().getTime()-t.getTime())/1000
 		else
 			res.render "admin/info",{user:null}
 

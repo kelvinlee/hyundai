@@ -1,0 +1,221 @@
+<% include header %>
+<% function getType(n){ if (n == null){return "";} var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}]; return type[parseInt(n)-1].name; } %>
+<% function getDates(date){ if (date == null){return "";} return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate(); } %>
+<div id="head-nav" class="print-hide navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="fa fa-gear"></span></button>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul style="width:100%;" class="nav navbar-nav">
+        <li><a href="/admin/dealer">客户查询</a></li>
+        <% if (openmenu) { %>
+        <li class="active"><a href="/admin/dealer/active">活动实施</a></li>
+        <% } %>
+        <li><a href="/admin/password">修改密码</a></li>
+        <li style="float:right;"><a href="/admin/out">退出</a></li>
+        <li style="float:right;"><a href="/admin/index">返回</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div id="cl-wrapper" class="print-hide">
+	<% if (user == null) {%>
+  <div id="pcont" style="margin:0px;" class="container-fluid">
+    <div class="page-head">
+      <h2>您输入的7位验证码有误，请重新输入。提示！请确认您在活动网站中选择的4S店。</h2>
+    </div>
+  </div>
+	<% }else{ %>
+	<div id="pcont" style="margin:0px;" class="container-fluid">
+	  <div class="page-head">
+	    <h2>活动实施</h2>
+	    <ol class="breadcrumb">
+	      <li><a href="/admin/index">首页</a></li>
+	      <li class="active">活动实施</li>
+	    </ol>
+	  </div>
+	  <div class="cl-mcont">
+		  <div class="row">
+		    <div class="col-sm-4 col-print-4">
+		      <div class="block-flat">
+		        <div class="header">
+		          <h3>32项检测项目 [已实施]</h3>
+		        </div>
+		        <div class="content">
+		          <ul style="list-style:none;margin:0px;padding:0px;">
+		          	<% var thirlist = ["1.	发动机/变速箱机油是否正常","2.	发动机冷却液是否正常","3.	制动油/离合器油是否正常","4.	动力转向油是否正常","5.	空气滤清器状态是否正常","6.	驱动皮带状态","7.	蓄电池工作状态及桩头紧固检查","8.	玻璃水是否正常","9.	发动机舱内进气管是否有涉水痕迹","10.	线路（插头）连接及工作状态是否正常","11.	检查车辆各种灯光是否齐全","12.	检查灯内是否有水迹","13.	检查雨刮喷水效果及胶片性能","14.	检查雨刮胶片性能是否正常","15.	车窗密封胶条是否变形","16.	冷凝器及散热器清洁及工作状况检查","17.	显示工作状态是否正常","18.	空调&暖风工作状态","19.	空调空气滤清器更换或清洁","20.	驻车制动器工作状态","21.	制动踏板/离合器踏板工作状态","22.	天窗槽是否积水","23.	室内地毯、顶棚是否有水迹","24.	电脑检测（故障代码）","25.	转向系统工作性能检查","26.	转向机防尘套是否破碎，是否有涉水","27.	刹车系统工作情况是否正常","28.	制动片&盘生锈及磨损情况","29.	传动轴防尘套是否损坏，是否涉水","30.	减震器工作状态","31.	底盘螺栓紧固检查","32.	轮胎胎压及磨损情况"]; %>
+		          	<% for (var i = 0; i < user.thir.length; i++) {%>
+		          	<li><%= thirlist[parseInt(user.thir[i])] %></li>
+		          	<%}; %>
+		          </ul>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="col-sm-4 col-print-4">
+				  <div class="block-flat">
+				    <div class="header">
+				      <h3>免费赠送礼品</h3>
+				    </div>
+				    <div class="content"><%= lot.lotname %></div>
+				  </div>
+				  <% if (user.lot && lot != null) {%>
+				  <div class="block-flat">
+				    <div class="header">
+				      <h3>原厂保养配件9折优惠<span>*机油（5W-20/30SM），机油滤芯，空气滤清器3种</span></h3>
+				    </div>
+				    <div class="content">已选</div>
+				  </div>
+				  <%}%>
+				  <div class="block-flat">
+				    <div class="header">
+				      <h3>近一年内是否有购买或换车意向</h3>
+				      <% if (user.changed == null) {%>
+				      <div class="content">空</div>
+				      <%}%>
+				      <% if (user.changed == true) {%>
+				      <div class="content">是</div>
+				      <%}%>
+				      <% if (user.changed == false) {%>
+				      <div class="content">否</div>
+				      <%}%>
+				    </div>
+				  </div>
+				  <div class="block-flat">
+					  <div class="header">
+					    <h3>注册信息</h3>
+					  </div>
+					  <div class="content">
+					    <table class="no-border">
+					      <tbody class="no-border-y">
+					        <tr>
+					          <td>姓名</td>
+					          <td><%= user.username%></td>
+					        </tr>
+					        <tr>
+					          <td>手机</td>
+					          <td><%= user.mobile%></td>
+					        </tr>
+					        <tr>
+					          <td>预约日期</td>
+					          <td><%= getDates(user.reser_at)%></td>
+					        </tr>
+					        <tr>
+					          <td>省份</td>
+					          <td><%= user.province%></td>
+					        </tr>
+					        <tr>
+					          <td>城市</td>
+					          <td><%= user.city%></td>
+					        </tr>
+					        <tr>
+					          <td>区/县</td>
+					          <td><%= dl.county%></td>
+					        </tr>
+					        <tr>
+					          <td>经销商</td>
+					          <td><%= dealer%></td>
+					        </tr>
+					      </tbody>
+					    </table>
+					  </div>
+					</div>
+				</div>
+				<div class="col-sm-4 col-print-4">
+				  <div class="block-flat">
+				    <div class="header">
+				      <h3>实际到店用户信息</h3>
+				    </div>
+				    <% if (user.othername) {%>
+				    <div class="content">
+				      <table class="no-border">
+				        <tbody class="no-border-y">
+				          <tr>
+				            <td>姓名</td>
+				            <td><%= user.othername%></td>
+				          </tr>
+				          <tr>
+				            <td>手机号</td>
+				            <td><%=user.othermobile%></td>
+				          </tr>
+				          <tr>
+				            <td>车架号(后6位)</td>
+				            <td><%=user.vin%></td>
+				          </tr>
+				          <tr>
+				            <td>行驶里程</td>
+				            <td><%=user.mileage%></td>
+				          </tr>
+				          <tr>
+				            <td>客服代表</td>
+				            <td><%=user.customer%></td>
+				          </tr>
+				          <tr>
+				            <td>车型</td>
+				            <td><%=getType(user.cartype)%></td>
+				          </tr>
+				          <tr>
+				            <td>实施时间</td>
+				            <td><%=getDates(user.imp_at)%></td>
+				          </tr>
+				        </tbody>
+				      </table>
+				      <div>
+				        <button type="button" class="btn btn-default print-btn">打印</button>
+				      </div>
+				    </div>
+				    <%}%>
+				    <div class="content">
+						  <form name="register" action="/admin/dealer/infopost" method="POST" class="form-horizontal group-border-dashed">
+						    <input type="hidden" name="code" value="code"/>
+						    <input type="hidden" name="dealer" value="<%=user.dealer%>"/>
+						    <div class="form-group">
+						      <label class="col-sm-3 control-label">姓名</label>
+						      <div class="col-sm-9">
+						        <input type="text" name="othername" value="<%=user.username%>" placeholder="到店用户姓名" class="form-control"/>
+						      </div>
+						    </div>
+						    <div class="form-group">
+						      <label class="col-sm-3 control-label">手机号码</label>
+						      <div class="col-sm-9">
+						        <input type="text" maxlength="11" name="othermobile" value="<%=user.mobile%>" placeholder="到店用户手机号码" class="form-control"/>
+						      </div>
+						    </div>
+						    <div class="form-group">
+						      <label class="col-sm-3 control-label">车架号(后六位)</label>
+						      <div class="col-sm-9">
+						        <input type="text" maxlength="6" name="vin" placeholder="VIN码" class="form-control"/>
+						      </div>
+						    </div>
+						    <div class="form-group">
+						      <label class="col-sm-3 control-label">行驶里程</label>
+						      <div class="col-sm-9">
+						        <input type="text" maxlength="6" name="mileage" placeholder="行驶里程" class="form-control"/>
+						      </div>
+						    </div>
+						    <div class="form-group">
+						      <label class="col-sm-3 control-label">客服代表</label>
+						      <div class="col-sm-9">
+						        <input type="text" name="customer" placeholder="客服代表姓名" class="form-control"/>
+						      </div>
+						    </div>
+						    <div class="form-group">
+						      <label class="col-sm-3 control-label">车型</label>
+						      <div class="col-sm-9">
+						        <input type="text" name="cartyperead" value="<%=getType(user.cartype)%>" readonly="readonly" class="form-control"/>
+						      </div>
+						    </div>
+						    <button type="button" class="btn btn-primary submit">提交</button>
+						  </form>
+						</div>
+				  </div>
+				</div>
+		  </div>
+		</div>
+	</div>
+	<% }%>
+</div>
+
+
+
+<% include footer %>
