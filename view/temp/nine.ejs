@@ -16,7 +16,7 @@ var attributes = {
   id: "myDynamicContent",  
   name: "myDynamicContent"  
 };  
-swfobject.embedSWF("/swf/print3.swf?v=2", "swfContent", "100", "50", "10.0.0","expressInstall.swf", flashvars, params, attributes); </script>
+swfobject.embedSWF("/swf/print4.swf?v=2", "swfContent", "100", "50", "10.0.0","expressInstall.swf", flashvars, params, attributes); </script>
 <div id="head-nav" class="print-hide navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -187,13 +187,13 @@ swfobject.embedSWF("/swf/print3.swf?v=2", "swfContent", "100", "50", "10.0.0","e
 </div>
 
 <script>
-  function getDates(date){ if (date == null){return "";} return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate(); }
+  function getDates(date){ if (date == null || date == ""){return "";} date = new Date(date); return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate(); }
   <%if (user != null) {%>
   function backjson() {
     var bk = {"code":"<%=user.code%>","othername":"<%-user.othername%>","othermobile":"<%-user.othermobile%>", "vin": "<%-user.vin%>", "mileage": "<%-user.mileage%>", "customer": "<%-user.customer%>","imp_at":"<%-user.imp_at%>","reser_at":"<%-user.reser_at%>","create_at":"<%-user.create_at%>","thir":[<%-user.thir%>],"tenoff": <%-user.tenoff%>,"changed": <%-user.changed%>,"cartype":<%-user.cartype%>,"lot":"","dealer":"<%-dealer%>","dealer_id":"<%-dealer_id%>"};
-    bk.imp_at = getDates(new Date(bk.imp_at));
-    bk.reser_at = getDates(new Date(bk.reser_at));
-    bk.create_at = getDates(new Date(bk.create_at));
+    bk.imp_at = getDates(bk.imp_at);
+    bk.reser_at = getDates(bk.reser_at);
+    bk.create_at = getDates(bk.create_at);
     return JSON.stringify(bk);
   }
   <%}%>
