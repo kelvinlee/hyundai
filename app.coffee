@@ -14,7 +14,7 @@ fs = require 'fs'
 
 if (cluster.isMaster)
 	# cpuCount = require('os').cpus().length
-	cpuCount = 1
+	cpuCount = require('os').cpus().length
 	for i in [0..cpuCount]
 		cluster.fork()
 	cluster.on 'exit', (worker)->

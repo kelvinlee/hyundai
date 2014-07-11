@@ -14,7 +14,7 @@ routes = require('./routes');
 fs = require('fs');
 
 if (cluster.isMaster) {
-  cpuCount = 1;
+  cpuCount = require('os').cpus().length;
   for (i = _i = 0; 0 <= cpuCount ? _i <= cpuCount : _i >= cpuCount; i = 0 <= cpuCount ? ++_i : --_i) {
     cluster.fork();
   }
