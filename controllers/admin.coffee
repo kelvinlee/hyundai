@@ -41,8 +41,8 @@ exports.first = (req,res,next)->
 	res.redirect "/admin/in"
 exports.before = (req,res,next)->
 	# check login.
-	# res.locals.openmenu = true
-	res.locals.openmenu = false
+	res.locals.openmenu = true
+	# res.locals.openmenu = false
 
 	if req.cookies.login isnt "in"
 		return res.redirect "/dealer"

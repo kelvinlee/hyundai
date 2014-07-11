@@ -47,7 +47,7 @@ exports.first = function(req, res, next) {
 };
 
 exports.before = function(req, res, next) {
-  res.locals.openmenu = false;
+  res.locals.openmenu = true;
   if (req.cookies.login !== "in") {
     return res.redirect("/dealer");
   }
