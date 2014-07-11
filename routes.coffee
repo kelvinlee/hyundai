@@ -9,10 +9,10 @@ admin = require './controllers/admin'
 # note = require './controllers/note'
 
 module.exports = (app)->
-  app.get '/', home.index
-  app.get '/success', home.success
-  app.get '/backcode', home.backcode
-  app.post "/regs",home.post
+  # app.get '/', home.index
+  # app.get '/success', home.success
+  # app.get '/backcode', home.backcode
+  # app.post "/regs",home.post
   
 
   # 管理后台
