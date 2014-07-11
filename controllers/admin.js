@@ -400,17 +400,20 @@ exports.nineid = function(req, res, next) {
 };
 
 exports.dealerinfo = function(req, res, next) {
+  var code;
   console.log(req.query.code);
   if (req.query.code === "9999999") {
     return res.redirect("/admin/dealer/nine");
   }
-  return User.getUserByCode(req.query.code, req.cookies.user, function(err, user) {
+  code = req.query.code.toLowerCase();
+  console.log(code);
+  return User.getUserByCode(code, req.cookies.user, function(err, user) {
     if (user != null) {
       return Dealer.getbyid(user.dealer, function(err, dealer) {
         return Lots.getById(user.lot, function(err, lot) {
           return res.render("admin/info", {
             user: user,
-            code: req.query.code,
+            code: code,
             lot: lot,
             dealer_id: req.cookies.user,
             dealer: req.cookies.dealer,
