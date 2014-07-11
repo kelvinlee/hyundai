@@ -22,29 +22,29 @@ module.exports = (app)->
   # app.get '/super/page',admin.super_page
   # app.get '/download',admin.downloadxml
   
-  # app.get '/dealer',admin.in
-  # # app.get '/dealer/in',admin.in
+  app.get '/dealer',admin.in
+  # app.get '/dealer/in',admin.in
 
-  # app.get '/admin/*',admin.before
-  # app.get '/admin/index',admin.index
+  app.get '/admin/*',admin.before
+  app.get '/admin/index',admin.index
   
-  # app.get '/admin/next',admin.next
-  # app.get '/admin/dealer',admin.dealer
-  # app.post '/admin/dealer',admin.dealerpage
-  # app.post '/admin/dealer/check',admin.dealercheck
-  # app.get '/admin/password',admin.changepassword
-  # app.get '/admin/out',admin.out
-  # app.post '/admin/password',admin.pocp
+  app.get '/admin/next',admin.next
+  app.get '/admin/dealer',admin.dealer
+  app.post '/admin/dealer',admin.dealerpage
+  app.post '/admin/dealer/check',admin.dealercheck
+  app.get '/admin/password',admin.changepassword
+  app.get '/admin/out',admin.out
+  app.post '/admin/password',admin.pocp
 
-  # app.post '/admin/dealer/reser/:user_id',admin.dealerreser
-  # app.get '/admin/dealer/active',admin.dealeractive
-  # app.get '/admin/dealer/info',admin.dealerinfo
-  # app.get '/admin/dealer/nine',admin.nine
-  # app.get '/admin/dealer/nine/:id',admin.nineid
-  # app.post '/admin/dealer/nine',admin.ninepost
-  # app.post '/admin/dealer/infopost',admin.dealerinfopost
+  app.post '/admin/dealer/reser/:user_id',admin.dealerreser
+  app.get '/admin/dealer/active',admin.dealeractive
+  app.get '/admin/dealer/info',admin.dealerinfo
+  app.get '/admin/dealer/nine',admin.nine
+  app.get '/admin/dealer/nine/:id',admin.nineid
+  app.post '/admin/dealer/nine',admin.ninepost
+  app.post '/admin/dealer/infopost',admin.dealerinfopost
 
-  # app.post '/admin/in',admin.inpost
+  app.post '/admin/in',admin.inpost
 
 
   # app.get '/admin/download',admin.download

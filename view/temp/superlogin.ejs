@@ -1,0 +1,67 @@
+<% include header %>
+<div id="cl-wrapper" class="login-container">
+  <div class="middle-login">
+    <div class="block-flat">
+      <div class="header">
+        <h3 class="text-center">北京现代 - 超级帐号
+        </h3>
+      </div>
+      <div>
+        <form id="login" method="post" action="/super" style="margin-bottom: 0px !important;">
+          <div class="content">
+            <h4 class="title">登录信息</h4>
+            <div class="form-group hide">
+              <div class="col-sm-12">
+                <select name="usertype" class="form-control">
+                  <option value="1">经销商</option>
+                  <option value="2">客服</option>
+                  <option value="3">管理员</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-gourp">
+              <div class="col-sm-12">
+                <div class="input-group"><span class="input-group-addon">用户名</span>
+                  <input type="text" id="username" name="username" placeholder="用户名" class="form-control"/>
+                </div>
+              </div>
+            </div>
+            <div class="form-gourp">
+              <div class="col-sm-12">
+                <div class="input-group"><span class="input-group-addon">密　码</span>
+                  <input type="password" id="password" name="password" placeholder="密码" class="form-control"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="foot">
+            <button data-dismiss="modal" name="submit" type="button" class="btn btn-primary">登录</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="text-center out-links"><a href="#">&copy; 2014 北京现代感恩置换活动 - 管理后台</a></div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('[name=submit]').click(function() {
+      return $.ajax({
+        url: $("#login").attr('action'),
+        dataType: "json",
+        type: "POST",
+        data: $("#login").serializeArray(),
+        success: function(msg) {
+          if (msg.recode === 200) {
+            return window.location.href = "/super/index";
+          } else {
+            return alert(msg.reason);
+          }
+        }
+      });
+    });
+  });
+</script>
+
+<% include footer %>

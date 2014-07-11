@@ -56,10 +56,12 @@ exports.in = (req,res,next)->
 	# if req.cookies.login? and req.cookies.login is "in" and req.cookies.user?
 	# 	return res.redirect "/admin/index"
 	# console.log req.cookies.user
-	res.render "admin/in",{name:req.cookies.user}
+	# res.render "admin/in",{name:req.cookies.user}
+	res.render "temp/in.ejs",{name:req.cookies.user}
 exports.index = (req,res,next)->
 
-	res.render "admin/index"
+	# res.render "admin/index"
+	res.render "temp/index.ejs"
 exports.inpost = (req,res,next)->
 	# 登录
 	re = new helper.recode()
@@ -104,7 +106,8 @@ exports.inpost = (req,res,next)->
 exports.out = (req,res,next)->
 	console.log "out"
 	res.cookie "login","out"
-	res.render "admin/out"
+	# res.render "admin/out"
+	res.render "temp/out.ejs"
 
 exports.next = (req,res,next)->
 	# 分发登录
@@ -123,7 +126,9 @@ exports.dealer = (req,res,next)->
 		type = req.query.type
 		# console.log startime,endtime,type
 		# if startime
-		res.render "admin/dealer",{list:[],startime:startime,endtime:endtime,selectype:type}
+
+		res.render "temp/dealer.ejs",{list:[],startime:startime,endtime:endtime,selectype:type}
+		# res.render "admin/dealer",{list:[],startime:startime,endtime:endtime,selectype:type}
 		return ""
 		if startime? and endtime? and type?
 			User.GetUserByTime req.cookies.user,startime,endtime,type,(err,resutls)->
@@ -153,9 +158,9 @@ exports.dealerpage = (req,res,next)->
 	console.log req.body
 	pageSize = req.body.iDisplayLength
 	pageStar = req.body.iDisplayStart
-	startime = req.body.startime
-	endtime = req.body.endtime
-	type = req.body.type
+	startime = req.query.startime
+	endtime = req.query.endtime
+	type = req.query.type
 	search = req.body.sSearch
 
 	# console.log pageStar,pageSize
@@ -219,7 +224,8 @@ exports.dealerreser = (req,res,next)->
 
 exports.dealeractive = (req,res,next)->
 
-	res.render "admin/active"
+	# res.render "admin/active"
+	res.render "temp/active.ejs"
 
 exports.nine = (req,res,next)->
 
@@ -293,24 +299,25 @@ exports.dealerinfo = (req,res,next)->
 	# console.log code
 
 	
-	# User.getUserByCode code,req.cookies.user,(err,user)->
-	# 	if user?
-	# 		Dealer.getbyid user.dealer,(err,dealer)->
-	# 			getLot user.lot,(lot)-> 
-	# 				res.render "temp/info.ejs",{user:user,code:code,lot:lot,dealer_id:req.cookies.user,dealer:req.cookies.dealer,dl:dealer}
-	# 				console.log (new Date().getTime()-t.getTime())/1000 
-	# 	else
-	# 		res.render "temp/info.ejs",{user:null}
-	# return ""
 	User.getUserByCode code,req.cookies.user,(err,user)->
-		# console.log resutls
 		if user?
 			Dealer.getbyid user.dealer,(err,dealer)->
-				getLot user.lot,(lot)->
-					res.render "admin/info",{user:user,code:code,lot:lot,dealer_id:req.cookies.user,dealer:req.cookies.dealer,dl:dealer}
-					console.log (new Date().getTime()-t.getTime())/1000
+				getLot user.lot,(lot)-> 
+					res.render "temp/info.ejs",{user:user,code:code,lot:lot,dealer_id:req.cookies.user,dealer:req.cookies.dealer,dl:dealer}
+					console.log (new Date().getTime()-t.getTime())/1000 
 		else
-			res.render "admin/info",{user:null}
+			res.render "temp/info.ejs",{user:null}
+			console.log (new Date().getTime()-t.getTime())/1000
+	return ""
+	# User.getUserByCode code,req.cookies.user,(err,user)->
+	# 	# console.log resutls
+	# 	if user?
+	# 		Dealer.getbyid user.dealer,(err,dealer)->
+	# 			getLot user.lot,(lot)->
+	# 				res.render "admin/info",{user:user,code:code,lot:lot,dealer_id:req.cookies.user,dealer:req.cookies.dealer,dl:dealer}
+	# 				console.log (new Date().getTime()-t.getTime())/1000
+	# 	else
+	# 		res.render "admin/info",{user:null}
 
 
 exports.dealerinfopost = (req,res,next)->
@@ -377,7 +384,10 @@ exports.dealerinfopost = (req,res,next)->
 
 
 exports.changepassword = (req,res,next)->
-	res.render "admin/changepassword"
+
+	# res.render "admin/changepassword"
+	res.render "temp/changepassword.ejs"
+
 exports.pocp = (req,res,next)->
 	re = new helper.recode()
 
@@ -535,7 +545,10 @@ exports.downloadxml = (req,res,next)->
 
 
 exports.superlogin = (req,res,next)->
-	res.render "admin/superlogin"
+
+	# res.render "admin/superlogin"
+	res.render "temp/superlogin.ejs"
+
 exports.superloginpost = (req,res,next)->
 	re = new helper.recode()
 	if req.body.username is "admin" and req.body.password is "759432"

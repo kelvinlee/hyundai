@@ -1,0 +1,323 @@
+<% include header %>
+<link rel="stylesheet" type="text/css" href="/js/jquery.nanoscroller/nanoscroller.css"/>
+<link rel="stylesheet" type="text/css" href="/js/jquery.easypiechart/jquery.easy-pie-chart.css"/>
+<link rel="stylesheet" type="text/css" href="/js/bootstrap.switch/bootstrap-switch.css"/>
+<link rel="stylesheet" type="text/css" href="/js/bootstrap.datetimepicker/css/bootstrap-datetimepicker.min.css"/>
+<link rel="stylesheet" type="text/css" href="/js/bootstrap.datetimepicker/datepicker.css"/>
+<link rel="stylesheet" type="text/css" href="/js/jquery.select2/select2.css"/>
+<link rel="stylesheet" type="text/css" href="/js/bootstrap.slider/css/slider.css"/>
+<link rel="stylesheet" type="text/css" href="/js/jquery.datatables/bootstrap-adapter/css/datatables.css"/>
+
+
+<div id="head-nav" class="print-hide navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="fa fa-gear"></span></button>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul style="width:100%" class="nav navbar-nav">
+        <li class="active"><a href="/admin/dealer">客户查询</a></li>
+        <li><a href="/admin/dealer/active">活动实施 </a></li>
+        <li><a href="/admin/password">修改密码</a></li>
+        <li style="float:right;"><a href="/admin/out">退出</a></li>
+        <li style="float:right;"><a href="/admin/index">返回</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id="cl-wrapper" class="print-hide">
+  <div id="pcont" style="margin:0px;" class="container-fluid">
+    <div class="page-head">
+      <h2>客户查询</h2>
+      <ol class="breadcrumb">
+        <li><a href="/admin/dealer">经销商管理</a></li>
+        <li class="active">客户列表</li>
+      </ol>
+    </div>
+    <div class="cl-mcont">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block-flat">
+            <div class="header">
+              <h3>客户列表</h3>
+            </div>
+            <div class="content">
+              <div class="table-responsive">
+                <div class="table-ctrl">
+                  <select name="type" style="width:140px;display:inline-block;" class="form-control">
+                    <option value="1">注册时间</option>
+                    <option value="2">预约日期</option>
+                    <option value="3">实施时间</option>
+                  </select>
+                  <layout>  从  </layout>
+                  <input type="text" size="16" name="startime" style="width:140px;display:inline-block;" class="form-control datepicker"/>
+                  <layout>  到  </layout>
+                  <input type="text" size="16" name="endtime" style="width:140px;display:inline-block;" class="form-control datepicker"/>
+                  <button type="button" onclick="searchdate()" class="btn btn-primary">查询</button><a href="/admin/dealer" class="btn btn-default">重置</a>
+                  <button type="button" onclick="printtable()" class="btn btn-primary">打印</button>
+                </div>
+                <table id="datatable" class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th class="sorting_desc">时间</th>
+                      <th>姓名</th>
+                      <th>手机</th>
+                      <th>车型</th>
+                      <th>预约日期</th>
+                      <th>实施时间</th>
+                      <th>是否置换</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="/js/jquery.nanoscroller/jquery.nanoscroller.js"></script>
+<script type="text/javascript" src="/js/jquery.sparkline/jquery.sparkline.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easypiechart/jquery.easy-pie-chart.js"></script>
+<script type="text/javascript" src="/js/behaviour/general.js"></script>
+<script src="/js/jquery.ui/jquery-ui.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/jquery.nestable/jquery.nestable.js"></script>
+<script type="text/javascript" src="/js/bootstrap.switch/bootstrap-switch.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/js/jquery.select2/select2.min.js" type="text/javascript"></script>
+<script src="/js/bootstrap.slider/js/bootstrap-slider.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/jquery.gritter/js/jquery.gritter.min.js"></script>
+<script type="text/javascript" src="/js/jquery.datatables/jquery.datatables.min.js"></script>
+<script type="text/javascript" src="/js/jquery.datatables/bootstrap-adapter/js/datatables.js"></script>
+
+<script src="/js/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/jquery.flot/jquery.flot.js"></script>
+<script type="text/javascript" src="/js/jquery.flot/jquery.flot.pie.js"></script>
+<script type="text/javascript" src="/js/jquery.flot/jquery.flot.resize.js"></script>
+<script type="text/javascript" src="/js/jquery.flot/jquery.flot.labels.js"></script>
+<script type="text/javascript" src="/js/bootstrap.datetimepicker/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="/js/bootstrap.datetimepicker/bootstrap-datepicker.zh-CN.js"></script>
+
+<script>
+  $.fn.dataTable.pipeline = function ( opts ) {
+    // Configuration options
+    var conf = $.extend( {
+    pages: 5,     // number of pages to cache
+    url: '',      // script url
+    data: null,   // function or object with parameters to send to the server
+    // matching how `ajax.data` works in DataTables
+    method: 'GET' // Ajax HTTP method
+    }, opts );
+
+    // Private variables for storing the cache
+    var cacheLower = -1;
+    var cacheUpper = null;
+    var cacheLastRequest = null;
+    var cacheLastJson = null;
+
+    return function ( request, drawCallback, settings ) {
+    var ajax          = false;
+    var requestStart  = request.start;
+    var drawStart     = request.start;
+    var requestLength = request.length;
+    var requestEnd    = requestStart + requestLength;
+
+    if ( settings.clearCache ) {
+    // API requested that the cache be cleared
+    ajax = true;
+    settings.clearCache = false;
+    }
+    else if ( cacheLower < 0 || requestStart < cacheLower || requestEnd > cacheUpper ) {
+    // outside cached data - need to make a request
+    ajax = true;
+    }
+    else if ( JSON.stringify( request.order )   !== JSON.stringify( cacheLastRequest.order ) ||
+    JSON.stringify( request.columns ) !== JSON.stringify( cacheLastRequest.columns ) ||
+    JSON.stringify( request.search )  !== JSON.stringify( cacheLastRequest.search )
+    ) {
+    // properties changed (ordering, columns, searching)
+    ajax = true;
+    }
+
+    // Store the request for checking next time around
+    cacheLastRequest = $.extend( true, {}, request );
+
+    if ( ajax ) {
+    // Need data from the server
+    if ( requestStart < cacheLower ) {
+    requestStart = requestStart - (requestLength*(conf.pages-1));
+
+    if ( requestStart < 0 ) {
+    requestStart = 0;
+    }
+    }
+
+    cacheLower = requestStart;
+    cacheUpper = requestStart + (requestLength * conf.pages);
+
+    request.start = requestStart;
+    request.length = requestLength*conf.pages;
+
+    // Provide the same `data` options as DataTables.
+    if ( $.isFunction ( conf.data ) ) {
+    // As a function it is executed with the data object as an arg
+    // for manipulation. If an object is returned, it is used as the
+    // data object to submit
+    var d = conf.data( request );
+    if ( d ) {
+    $.extend( request, d );
+    }
+    }
+    else if ( $.isPlainObject( conf.data ) ) {
+    // As an object, the data given extends the default
+    $.extend( request, conf.data );
+    }
+
+    settings.jqXHR = $.ajax( {
+    "type":     conf.method,
+    "url":      conf.url,
+    "data":     request,
+    "dataType": "json",
+    "cache":    false,
+    "success":  function ( json ) {
+    cacheLastJson = $.extend(true, {}, json);
+
+    if ( cacheLower != drawStart ) {
+    json.data.splice( 0, drawStart-cacheLower );
+    }
+    json.data.splice( requestLength, json.data.length );
+
+    drawCallback( json );
+    }
+    } );
+    }
+    else {
+    json = $.extend( true, {}, cacheLastJson );
+    json.draw = request.draw; // Update the echo for each response
+    json.data.splice( 0, requestStart-cacheLower );
+    json.data.splice( requestLength, json.data.length );
+
+    drawCallback(json);
+    }
+    }
+    };
+    //- $.fn.dataTable.Api.register( 'clearPipeline()', function () {
+    //-   return this.iterator( 'table', function ( settings ) {
+    //-     settings.clearCache = true;
+    //-   });
+    //- });
+    $(document).ready(function(){
+    //initialize the javascript
+      App.init();
+      //- App.dataTables();
+      
+      var newtable = $("#datatable").dataTable({
+        aLengthMenu:[[10, 25, 50, 100],[10, 25, 50, 100]],
+        "bProcessing": true,  
+        "bServerSide": true, 
+        "aaSorting" : [
+          [ 0, "desc" ]
+        ],
+        "fnServerData": fnDataTablesPipeline  
+      });
+      $("[aria-controls]").attr("placeholder","查询手机号");
+      //- newtable.fnSort([[0,'desc']]);
+    });
+    function fnDataTablesPipeline(sUrl, aoData, fnCallback) {
+      //- console.log(aoData);
+      var newurl = sUrl;
+      var st = "#{startime}";
+      var et = "#{endtime}";
+      var type = "#{selectype}";
+      if (type != "" && st != "") {
+        //- newurl += "?startime="+startime+"&endtime="+endtime+"&type="+type;
+        aoData.push({name:"startime",value:st});
+        aoData.push({name:"endtime",value:et});
+        aoData.push({name:"type",value:type});
+      }
+      //- console.log(aoData);
+      $.ajax({
+      dataType: "json",
+      type: 'POST',
+      url: newurl,
+      data: aoData,
+      success: callback,
+      cache: false
+      });
+      function callback(data) {
+        fnCallback(data);
+        App.init(); 
+      }
+    }
+    //- function fnCallback(err,data) {
+    //-   console.log(err,data);
+    //- }
+    function searchdate() {
+      if ($("[name=startime]").val() !="" && $("[name=endtime]").val() !="") {
+        //- $("[name=startime]").val()+" 0:0:0"
+        var _s = $("[name=startime]").val()+" 0:0:0";
+        var _e = $("[name=endtime]").val()+" 23:59:59";
+        window.location.href = "/admin/dealer?startime="+decodeURIComponent(_s)+"&endtime="+decodeURIComponent(_e)+"&type="+$("[name=type]").val();
+      }else if($("[name=startime]").val() =="" && $("[name=endtime]").val() ==""){
+        window.location.href = "/admin/dealer?startime=&endtime=&type="+$("[name=type]").val();
+      }else {
+        alert("请选择时间范围后查询.");
+      }
+    }
+    function setTimepost(o) {
+      var val = $(o).parents("tr").find("[name=reser]").val();
+      //- console.log(val);
+      if (val == "") {
+        alert("请选择预约日期");
+        return false;
+      }
+      $.ajax({
+        url:$(o).attr("href"),
+        type: 'POST',
+        data: [{name:"timer",value:val}],
+        dataType: 'json',
+        context: $('body'), 
+        success: function(msg){
+          if (msg.recode == 200){
+            window.location.reload();
+          }else{
+            alert(msg.reason);
+          }
+        }
+      });
+      return false;
+    }
+    function printtable() {
+      $("#printtable").remove();
+      newtable = $("#datatable").clone().attr("id","printtable");
+      newtable.addClass("print-visible");
+      $("body").append(newtable);
+      window.print();
+    }
+    function NewDate(str,hour) { 
+      str = str.split('-');
+      var date = new Date();
+      //- console.log(str);
+      date.setUTCFullYear(str[0], str[1] - 1, str[2]); 
+      hour = hour.split(':');
+      date.setUTCHours(hour[0], hour[1], hour[2], 0); 
+      return date; 
+    }
+    function searchmobile() {
+      $.ajax({
+        url:"/admin/dealer/check",
+        type: 'POST',
+        data: [{name:"mobile",value:$("[name=mobile]").val()}],
+        dataType: 'json',
+        success: function(msg){
+          alert(msg.reason);
+        }
+      });
+    }
+</script>
+<% include footer %>

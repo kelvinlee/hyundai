@@ -1,0 +1,49 @@
+<% include header %>
+
+<div id="head-nav" class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="fa fa-gear"></span></button>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul style="width:100%;" class="nav navbar-nav">
+        <li><a href="/admin/dealer">客户查询</a></li>
+        <li><a href="/admin/dealer/active">活动实施 </a></li>
+        <li><a href="/admin/password">修改密码</a></li>
+        <li style="float:right;"><a href="/admin/out">退出</a></li>
+        <li style="float:right;" class="active"><a href="/admin/index">返回</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div id="cl-wrapper">
+  <div id="pcont" style="margin:0px;" class="container-fluid">
+    <div class="page-head">
+      <h2>首页 </h2>
+    </div>
+    <div class="cl-mcont">
+      <div class="stats_bar"><a href="/admin/dealer" class="butpro butstyle">
+          <div class="sub">
+            <h2> </h2><span>客户查询</span>
+            <div class="stat"></div>
+          </div></a></div>
+      <div class="stats_bar"><a href="/admin/dealer/active" class="butpro butstyle">
+          <div class="sub">
+            <h2> </h2><span>活动实施</span>
+            <div class="stat">   </div>
+          </div></a></div>
+      <div class="stats_bar"><a href="/admin/password" class="butpro butstyle">
+          <div class="sub">
+            <h2> </h2><span>修改密码</span>
+            <div class="stat"> </div>
+          </div></a></div>
+      <div class="stats_bar"><a href="/admin/out" class="butpro butstyle">
+          <div class="sub">
+            <h2> </h2><span>退出</span>
+            <div class="stat">   </div>
+          </div></a></div>
+    </div>
+  </div>
+</div>
+
+<% include footer %>

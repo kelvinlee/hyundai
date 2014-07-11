@@ -64,13 +64,13 @@ exports.before = function(req, res, next) {
 
 exports["in"] = function(req, res, next) {
   defaultDealer();
-  return res.render("admin/in", {
+  return res.render("temp/in.ejs", {
     name: req.cookies.user
   });
 };
 
 exports.index = function(req, res, next) {
-  return res.render("admin/index");
+  return res.render("temp/index.ejs");
 };
 
 exports.inpost = function(req, res, next) {
@@ -125,7 +125,7 @@ exports.inpost = function(req, res, next) {
 exports.out = function(req, res, next) {
   console.log("out");
   res.cookie("login", "out");
-  return res.render("admin/out");
+  return res.render("temp/out.ejs");
 };
 
 exports.next = function(req, res, next) {
@@ -147,7 +147,7 @@ exports.dealer = function(req, res, next) {
     startime = req.query.startime;
     endtime = req.query.endtime;
     type = req.query.type;
-    res.render("admin/dealer", {
+    res.render("temp/dealer.ejs", {
       list: [],
       startime: startime,
       endtime: endtime,
@@ -192,9 +192,9 @@ exports.dealerpage = function(req, res, next) {
   console.log(req.body);
   pageSize = req.body.iDisplayLength;
   pageStar = req.body.iDisplayStart;
-  startime = req.body.startime;
-  endtime = req.body.endtime;
-  type = req.body.type;
+  startime = req.query.startime;
+  endtime = req.query.endtime;
+  type = req.query.type;
   search = req.body.sSearch;
   sortfield = {};
   sortcols = parseInt(req.body.iSortingCols);
@@ -323,7 +323,7 @@ exports.dealerreser = function(req, res, next) {
 };
 
 exports.dealeractive = function(req, res, next) {
-  return res.render("admin/active");
+  return res.render("temp/active.ejs");
 };
 
 exports.nine = function(req, res, next) {
@@ -414,11 +414,11 @@ exports.dealerinfo = function(req, res, next) {
     return res.redirect("/admin/dealer/nine");
   }
   code = req.query.code.toLowerCase();
-  return User.getUserByCode(code, req.cookies.user, function(err, user) {
+  User.getUserByCode(code, req.cookies.user, function(err, user) {
     if (user != null) {
       return Dealer.getbyid(user.dealer, function(err, dealer) {
         return getLot(user.lot, function(lot) {
-          res.render("admin/info", {
+          res.render("temp/info.ejs", {
             user: user,
             code: code,
             lot: lot,
@@ -430,11 +430,13 @@ exports.dealerinfo = function(req, res, next) {
         });
       });
     } else {
-      return res.render("admin/info", {
+      res.render("temp/info.ejs", {
         user: null
       });
+      return console.log((new Date().getTime() - t.getTime()) / 1000);
     }
   });
+  return "";
 };
 
 exports.dealerinfopost = function(req, res, next) {
@@ -508,7 +510,7 @@ exports.dealerinfopost = function(req, res, next) {
 };
 
 exports.changepassword = function(req, res, next) {
-  return res.render("admin/changepassword");
+  return res.render("temp/changepassword.ejs");
 };
 
 exports.pocp = function(req, res, next) {
@@ -672,7 +674,7 @@ exports.downloadxml = function(req, res, next) {
 };
 
 exports.superlogin = function(req, res, next) {
-  return res.render("admin/superlogin");
+  return res.render("temp/superlogin.ejs");
 };
 
 exports.superloginpost = function(req, res, next) {
