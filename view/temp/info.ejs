@@ -236,9 +236,9 @@ swfobject.embedSWF("/swf/print.swf?v=1", "swfContent", "100", "50", "10.0.0","ex
 </div>
 
 
-
 <script>
 	function getDates(date){ if (date == null){return "";} return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate(); }
+	<%if (user != null) {%>
 	function backjson() {
 		var bk = {"code":"<%=user.code%>","othername":"<%-user.othername%>","othermobile":"<%-user.othermobile%>", "vin": "<%-user.vin%>", "mileage": "<%-user.mileage%>", "customer": "<%-user.customer%>","imp_at":"<%-user.imp_at%>","reser_at":"<%-user.reser_at%>","create_at":"<%-user.create_at%>","thir":[<%-user.thir%>],"tenoff": <%-user.tenoff%>,"changed": <%-user.changed%>,"cartype":<%-user.cartype%>,"lot":"<%-lot.lotname%>","dealer":"<%-dl.dealer%>","dealer_id":"<%-dl.dealer_id%>"};
 		bk.imp_at = getDates(new Date(bk.imp_at));
@@ -246,6 +246,7 @@ swfobject.embedSWF("/swf/print.swf?v=1", "swfContent", "100", "50", "10.0.0","ex
 		bk.create_at = getDates(new Date(bk.create_at));
 		return JSON.stringify(bk);
 	}
+	<%}%>
 	$(document).ready(function(){
 		$(".print-btn").click(function(){window.print()});
 		$(".submit").click(function(){
