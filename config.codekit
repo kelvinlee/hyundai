@@ -340,17 +340,6 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 0
 		},
-	"\/model\/mongo\/user.js": {
-		"fileType": 64,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/model\/mongo\/user.js",
-		"outputAbbreviatedPath": "\/model\/mongo\/min\/user-ck.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 1,
-		"syntaxCheckerStyle": 1
-		},
 	"\/model\/mysql\/mysql-class.coffee": {
 		"createSourceMap": 0,
 		"fileType": 32,
@@ -1172,6 +1161,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/public\/js\/jquery.datatables\/bootstrap-adapter\/js\/min\/datatables-ck.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/public\/js\/jquery.datatables\/bootstrap-adapter\/js\/min\/datatables-ck.js",
+		"outputAbbreviatedPath": "\/public\/js\/jquery.datatables\/bootstrap-adapter\/js\/min\/min\/datatables-ck-ck.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/public\/js\/jquery.datatables\/jquery.datatables.min.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -1553,6 +1553,17 @@
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 0
+		},
+	"\/routes.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/routes.js",
+		"outputAbbreviatedPath": "\/min\/routes-ck.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
 		}
 	},
 "hooks": [

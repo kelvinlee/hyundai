@@ -110,16 +110,25 @@ getUserById = (id,callback)->
 exports.getUserById = getUserById
 
 updateInfo = (code,dealer_id,othername,othermobile,vin,mileage,customer,usedby,callback)->
-  getUserByCode code,dealer_id,(err,user)->
-    if user?
-      user.othername = othername
-      user.othermobile = othermobile
-      user.vin = vin
-      user.mileage = mileage
-      user.customer = customer
-      user.imp_at = new Date()
-      user.usedby = usedby
-      user.save callback
+  getUserByCode code,dealer_id,(err,users)->
+    console.log "update2"
+    console.log callback
+    if users?
+      User.update(
+        {mobile:users.mobile},
+        {$set:{othername:othername,othermobile:othermobile,vin:vin,mileage:mileage,customer:customer,imp_at:new Date(),usedby:usedby}},
+        {multi:true}
+        callback
+      )
+      # user.othername = othername
+      # user.othermobile = othermobile
+      # user.vin = vin
+      # user.mileage = mileage
+      # user.customer = customer
+      # user.imp_at = new Date()
+      # user.usedby = usedby
+      # user.save callback
+      # callback null,user
     else
       callback err,{}
 exports.updateInfo = updateInfo

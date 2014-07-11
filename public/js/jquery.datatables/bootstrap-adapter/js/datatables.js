@@ -7,7 +7,7 @@ $.extend( true, $.fn.dataTable.defaults, {
     		"sNext":"下一页",
     		"sInfo":"第 _START_ 行到 _END_ 行共 _TOTAL_ 行",
         "sLengthMenu": "显示 _MENU_ 行",
-        "sSearch": "查询"
+        "sSearch": "查询手机"
     }
 } );
 

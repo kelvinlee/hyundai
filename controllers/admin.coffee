@@ -41,6 +41,7 @@ exports.first = (req,res,next)->
 	res.redirect "/admin/in"
 exports.before = (req,res,next)->
 	# check login.
+	res.locals.openmenu = true
 	if req.cookies.login isnt "in"
 		return res.redirect "/dealer"
 	next()
@@ -335,6 +336,7 @@ exports.dealerinfopost = (req,res,next)->
 				re.reason = "此VIN码在此车型下已经存在,请确认."
 				res.send re
 			else
+				console.log "update1"
 				User.updateInfo code,req.cookies.user,othername,othermobile,vin,mileage,customer,usedby,(err,resutls)->
 					if resutls?
 						console.log resutls

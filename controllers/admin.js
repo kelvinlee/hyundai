@@ -47,6 +47,7 @@ exports.first = function(req, res, next) {
 };
 
 exports.before = function(req, res, next) {
+  res.locals.openmenu = true;
   if (req.cookies.login !== "in") {
     return res.redirect("/dealer");
   }
@@ -465,6 +466,7 @@ exports.dealerinfopost = function(req, res, next) {
         re.reason = "此VIN码在此车型下已经存在,请确认.";
         return res.send(re);
       } else {
+        console.log("update1");
         return User.updateInfo(code, req.cookies.user, othername, othermobile, vin, mileage, customer, usedby, function(err, resutls) {
           if (resutls != null) {
             console.log(resutls);

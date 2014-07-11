@@ -236,16 +236,25 @@ getUserById = function(id, callback) {
 exports.getUserById = getUserById;
 
 updateInfo = function(code, dealer_id, othername, othermobile, vin, mileage, customer, usedby, callback) {
-  return getUserByCode(code, dealer_id, function(err, user) {
-    if (user != null) {
-      user.othername = othername;
-      user.othermobile = othermobile;
-      user.vin = vin;
-      user.mileage = mileage;
-      user.customer = customer;
-      user.imp_at = new Date();
-      user.usedby = usedby;
-      return user.save(callback);
+  return getUserByCode(code, dealer_id, function(err, users) {
+    console.log("update2");
+    console.log(callback);
+    if (users != null) {
+      return User.update({
+        mobile: users.mobile
+      }, {
+        $set: {
+          othername: othername,
+          othermobile: othermobile,
+          vin: vin,
+          mileage: mileage,
+          customer: customer,
+          imp_at: new Date(),
+          usedby: usedby
+        }
+      }, {
+        multi: true
+      }, callback);
     } else {
       return callback(err, {});
     }
