@@ -9,18 +9,18 @@ admin = require './controllers/admin'
 # note = require './controllers/note'
 
 module.exports = (app)->
-  # app.get '/', home.index
-  # app.get '/success', home.success
-  # app.get '/backcode', home.backcode
-  # app.post "/regs",home.post
+  app.get '/', home.index
+  app.get '/success', home.success
+  app.get '/backcode', home.backcode
+  app.post "/regs",home.post
   
 
   # 管理后台
-  # app.get '/super',admin.superlogin
-  # app.post '/super',admin.superloginpost
-  # app.get '/super/index',admin.super
-  # app.get '/super/page',admin.super_page
-  # app.get '/download',admin.downloadxml
+  app.get '/super',admin.superlogin
+  app.post '/super',admin.superloginpost
+  app.get '/super/index',admin.super
+  app.get '/super/page',admin.super_page
+  app.get '/download',admin.downloadxml
   
   app.get '/dealer',admin.in
   # app.get '/dealer/in',admin.in
