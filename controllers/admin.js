@@ -465,7 +465,6 @@ exports.dealerinfopost = function(req, res, next) {
     re.recode = 201;
     re.reason = "用户名不能为空";
   }
-  console.log(re);
   if (re.recode === 200) {
     ep = new EventProxy.create("user", "uvin", "ouser", function(user, uvin, ouser) {
       var usedby;
@@ -473,6 +472,11 @@ exports.dealerinfopost = function(req, res, next) {
       if (ouser != null) {
         usedby = true;
         console.log("已经实施过的用户.");
+      }
+      if (user == null) {
+        re.recode = 201;
+        re.reason = "实施的用户不存在.";
+        res.send(re);
       }
       if (uvin != null) {
         re.recode = 201;
@@ -491,14 +495,15 @@ exports.dealerinfopost = function(req, res, next) {
         });
       }
     });
+    console.log(code, req.cookies.user);
     User.otherUser(othermobile, function(err, ouser) {
       return ep.emit("ouser", ouser);
     });
     return User.getUserByCode(code, req.cookies.user, function(err, user) {
       var cartype;
-      cartype = user.cartype;
-      ep.emit("user", user);
       console.log("user", user);
+      cartype = user.cartype != null ? user.cartype : "";
+      ep.emit("user", user);
       return User.getUserByCarType(cartype, vin, function(err, uvin) {
         ep.emit("uvin", uvin);
         return console.log("vin", uvin);
@@ -1557,6 +1562,7 @@ defaultDealer = function() {
 cacheLot = {};
 
 getLot = function(id, callback) {
+  id = id + "";
   if (cacheLot[id] != null) {
     return callback(cacheLot[id]);
   } else {

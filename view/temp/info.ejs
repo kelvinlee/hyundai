@@ -1,6 +1,23 @@
 <% include header %>
 <% function getType(n){ if (n == null){return "";} var type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"}]; return type[parseInt(n)-1].name; } %>
 <% function getDates(date){ if (date == null){return "";} return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate(); } %>
+<script src="/js/swfobject.js"></script>
+<script type="text/javascript">
+var flashvars = { 
+	
+};  
+var params = {  
+  menu: "true" ,
+  allowScriptAccess:"always",
+  transparent:"true",
+  wmode:"opaque"
+};  
+var attributes = {  
+  id: "myDynamicContent",  
+  name: "myDynamicContent"  
+};  
+swfobject.embedSWF("/swf/print.swf", "swfContent", "100", "50", "10.0.0","expressInstall.swf", flashvars, params, attributes); </script>
+
 <div id="head-nav" class="print-hide navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -161,13 +178,14 @@
 				        </tbody>
 				      </table>
 				      <div>
-				        <button type="button" class="btn btn-default print-btn">打印</button>
+				        <!-- <button type="button" class="btn btn-default print-btn">打印</button> -->
+				        <div id="swfContent"  align="center"></div>
 				      </div>
 				    </div>
-				    <%}%>
+				    <%}else{%>
 				    <div class="content">
 						  <form name="register" action="/admin/dealer/infopost" method="POST" class="form-horizontal group-border-dashed">
-						    <input type="hidden" name="code" value="code"/>
+						    <input type="hidden" name="code" value="<%=code%>"/>
 						    <input type="hidden" name="dealer" value="<%=user.dealer%>"/>
 						    <div class="form-group">
 						      <label class="col-sm-3 control-label">姓名</label>
@@ -208,6 +226,7 @@
 						    <button type="button" class="btn btn-primary submit">提交</button>
 						  </form>
 						</div>
+						<%}%>
 				  </div>
 				</div>
 		  </div>
@@ -217,5 +236,36 @@
 </div>
 
 
+
+<script>
+	function getDates(date){ if (date == null){return "";} return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate(); }
+	function backjson() {
+		var bk = {"code":"<%=user.code%>","othername":"<%-user.othername%>","othermobile":"<%-user.othermobile%>", "vin": "<%-user.vin%>", "mileage": "<%-user.mileage%>", "customer": "<%-user.customer%>","imp_at":"<%-user.imp_at%>","reser_at":"<%-user.reser_at%>","create_at":"<%-user.create_at%>","thir":[<%-user.thir%>],"tenoff": <%-user.tenoff%>,"changed": <%-user.changed%>,"cartype":<%-user.cartype%>,"lot":"<%-lot.lotname%>","dealer":"<%-dl.dealer%>","dealer_id":"<%-dl.dealer_id%>"};
+		bk.imp_at = getDates(new Date(bk.imp_at));
+		bk.reser_at = getDates(new Date(bk.reser_at));
+		bk.create_at = getDates(new Date(bk.create_at));
+		return bk;
+	}
+	$(document).ready(function(){
+		$(".print-btn").click(function(){window.print()});
+		$(".submit").click(function(){
+			//- alert("sdf");
+			$.ajax({
+				url:$('[name=register]').attr("action"),
+				type: 'POST',
+				data: $('[name=register]').serializeArray(),
+				dataType: 'json',
+				context: $('body'), 
+				success: function(msg){
+					if (msg.recode == 200){
+						window.location.reload();
+					}else{
+						alert(msg.reason);
+					}
+				}
+			});
+		});
+	});
+</script>
 
 <% include footer %>

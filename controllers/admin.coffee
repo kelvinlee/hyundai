@@ -302,7 +302,8 @@ exports.dealerinfo = (req,res,next)->
 	User.getUserByCode code,req.cookies.user,(err,user)->
 		if user?
 			Dealer.getbyid user.dealer,(err,dealer)->
-				getLot user.lot,(lot)-> 
+				getLot user.lot,(lot)->
+
 					res.render "temp/info.ejs",{user:user,code:code,lot:lot,dealer_id:req.cookies.user,dealer:req.cookies.dealer,dl:dealer}
 					console.log (new Date().getTime()-t.getTime())/1000 
 		else
@@ -348,7 +349,7 @@ exports.dealerinfopost = (req,res,next)->
 	if not othername? or othername is ""
 		re.recode = 201
 		re.reason = "用户名不能为空"
-	console.log re
+	# console.log re
 	if re.recode is 200
 		ep = new EventProxy.create "user","uvin","ouser",(user,uvin,ouser)->
 			# console.log "goto save."
@@ -356,6 +357,10 @@ exports.dealerinfopost = (req,res,next)->
 			if ouser?
 				usedby = true
 				console.log "已经实施过的用户."
+			if not user?
+				re.recode = 201
+				re.reason = "实施的用户不存在."
+				res.send re
 			if uvin?
 				re.recode = 201
 				re.reason = "此VIN码在此车型下已经存在,请确认."
@@ -369,12 +374,13 @@ exports.dealerinfopost = (req,res,next)->
 						re.recode = 201
 						re.reason = "随机码非本经销商所有."
 					res.send re
+		console.log code,req.cookies.user
 		User.otherUser othermobile,(err,ouser)->
 			ep.emit "ouser",ouser
 		User.getUserByCode code,req.cookies.user,(err,user)->
-			cartype = user.cartype
-			ep.emit "user",user
 			console.log "user",user
+			cartype = if user.cartype? then user.cartype else ""
+			ep.emit "user",user
 			User.getUserByCarType cartype,vin,(err,uvin)->
 				ep.emit "uvin",uvin
 				console.log "vin",uvin

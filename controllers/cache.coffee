@@ -1,6 +1,7 @@
 cacheLot = {}
 
 getLot = (id,callback)->
+	id = id+""
 	if cacheLot[id]?
 		callback cacheLot[id]
 	else
