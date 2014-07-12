@@ -306,7 +306,7 @@ exports.dealerinfo = (req,res,next)->
 		if user?
 			Dealer.getbyid user.dealer,(err,dealer)->
 				getLot user.lot,(lot)->
-
+					console.log lot
 					res.render "temp/info.ejs",{user:user,code:code,lot:lot,dealer_id:req.cookies.user,dealer:req.cookies.dealer,dl:dealer}
 					console.log (new Date().getTime()-t.getTime())/1000 
 		else

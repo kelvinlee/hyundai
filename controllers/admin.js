@@ -419,6 +419,7 @@ exports.dealerinfo = function(req, res, next) {
     if (user != null) {
       return Dealer.getbyid(user.dealer, function(err, dealer) {
         return getLot(user.lot, function(lot) {
+          console.log(lot);
           res.render("temp/info.ejs", {
             user: user,
             code: code,
