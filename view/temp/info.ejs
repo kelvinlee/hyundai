@@ -57,7 +57,11 @@ swfobject.embedSWF("/swf/print4.swf?v=2", "swfContent", "100", "50", "10.0.0","e
 		    <div class="col-sm-4 col-print-4">
 		      <div class="block-flat">
 		        <div class="header">
+		        	<% if (user.usedby) { %>
 		          <h3>32项检测项目 [已实施]</h3>
+		          <%}else{%>
+		          <h3>32项检测项目</h3>
+							<%}%>
 		        </div>
 		        <div class="content">
 		          <ul style="list-style:none;margin:0px;padding:0px;">
