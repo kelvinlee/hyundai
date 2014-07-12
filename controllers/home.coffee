@@ -256,7 +256,7 @@ exports.post = (req,res,next)->
 											res.cookie "mobile",mobile
 											res.cookie "code",code
 											msgcode = code.split("").join(" ")
-											content = "【北京现代感恩活动验证码#{msgcode}】请妥善保存。7月16日-8月31日凭此码到您选择的经销商处参加此次活动。感谢您的参与。"
+											content = "【北京现代】感恩活动验证码#{msgcode}请妥善保存。7月16日-8月31日凭此码到您选择的经销商处参加此次活动。感谢您的参与。"
 											sendMSG content,mobile
 											re.reason = code
 											res.send re
@@ -294,7 +294,7 @@ exports.backcode = (req,res,next)->
 		if user?
 			code = user.code
 			msgcode = code.split("").join(" ")
-			content = "【北京现代感恩活动验证码#{msgcode}】请妥善保存。7月16日-8月31日凭此码到您选择的经销商处参加此次活动。感谢您的参与。"
+			content = "【北京现代】感恩活动验证码#{msgcode}请妥善保存。7月16日-8月31日凭此码到您选择的经销商处参加此次活动。感谢您的参与。"
 			sendMSG content,mobile
 			res.send re
 		else
