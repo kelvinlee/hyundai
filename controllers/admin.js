@@ -611,7 +611,7 @@ exportCSV = function(startime, endtime, count, type, callback) {
   if (type === "3") {
     type = "imp_at";
   }
-  fields = "create_at,reser_at,code,username,mobile,cartype,thir,lot,tenoff,changed,province,city,dealer";
+  fields = "create_at,reser_at,imp_at,code,username,mobile,cartype,thir,lot,tenoff,changed,province,city,dealer";
   exec = require("child_process").exec;
   _ip = "101.251.239.82";
   return exec(("mongoexport -h " + _ip + " --db hyunday --collection users --csv --fields " + fields + " --query \'{") + type + (":{$gte:new Date(" + startime + "),$lt:new Date(" + endtime + ")}}\' --out " + __dirname + "/../public/down/download.csv"), function(err, stdout, stderr) {
@@ -621,7 +621,7 @@ exportCSV = function(startime, endtime, count, type, callback) {
     return csv.fromPath(__dirname + "/../public/down/download.csv").on("record", function(data) {
       var bk, date;
       if (data[0] === "create_at") {
-        _bklist.push(["时间", "预约时间", "验证码", "姓名", "手机", "车型", "32项", "汽车用品", "保养配件", "是否置换", "省/市", "城市", "店号"]);
+        _bklist.push(["时间", "预约时间", "实施时间", "验证码", "姓名", "手机", "车型", "32项", "汽车用品", "保养配件", "是否置换", "省/市", "城市", "店号"]);
         return data;
       }
       bk = [];
@@ -632,17 +632,21 @@ exportCSV = function(startime, endtime, count, type, callback) {
         date = new Date(data[1]);
         data[1] = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
       }
-      data[3] = data[3].replace("\t", "");
-      data[3] = data[3].replace("	", "");
-      data[3] = data[3].replace("	", "");
-      data[3] = data[3].replace(/\s/g, "");
+      if (data[2] !== null && data[2] !== "") {
+        date = new Date(data[2]);
+        data[2] = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+      }
+      data[4] = data[4].replace("\t", "");
+      data[4] = data[4].replace("	", "");
+      data[4] = data[4].replace("	", "");
       data[4] = data[4].replace(/\s/g, "");
-      data[5] = getType(data[5]);
-      data[6] = [eval(data[6])];
-      data[6] = (data[6] + "").split(",").length;
-      data[7] = getlots(data[7]);
-      data[8] = gettf(data[8]);
+      data[5] = data[5].replace(/\s/g, "");
+      data[6] = getType(data[6]);
+      data[7] = [eval(data[7])];
+      data[7] = (data[7] + "").split(",").length;
+      data[8] = getlots(data[8]);
       data[9] = gettf(data[9]);
+      data[10] = gettf(data[10]);
       return _bklist.push(data);
     }).on("end", function() {
       var now, ws;
