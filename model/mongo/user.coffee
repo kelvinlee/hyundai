@@ -105,6 +105,9 @@ getUserByCode = (code,dealer,callback)->
   User.findOne {code:code,dealer:dealer},callback
 exports.getUserByCode = getUserByCode
 
+exports.getByCode = (code,callback)->
+  User.findOne {code:code},callback
+
 getUserById = (id,callback)->
   User.findById id,callback
 exports.getUserById = getUserById

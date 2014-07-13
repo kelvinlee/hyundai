@@ -13,6 +13,11 @@ block content_here
 	-function getcode(code) { var reg = /(\w{1})(\w{6})/; code = code.replace(reg,"d$2"); return new Date(parseInt(code,32)*100); }
 	div#head-nav.print-hide.navbar.navbar-default.navbar-fixed-top
 		div.container-fluid
+			ul.nav.navbar-nav(style="width:100%")
+				li.active
+					a(href='/super/index') 首页
+				li
+					a(href='/super/active') 活动实施
 	div#loading(style="display:none;position:fixed;width:100%;height:100%;background:url('/img/backcode-bg.png') repeat center center;") 
 		div(style="position:absolute;top:40%;width:100%;height30px;font-size:20px;color:#fff;text-align:center;") 加载中...
 

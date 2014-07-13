@@ -655,7 +655,50 @@ exports.super = (req,res,next)->
 		ep.emit "tenoff",results
 		# console.log "tenoff used:",((new Date().getTime() - _s.getTime())/1000)+"s"
 
+exports.super_active = (req,res,next)->
+	res.render "temp/super_active.ejs"
 
+exports.super_info = (req,res,next)->
+	# code = req.query.code
+	# User.getByCode code,(err,user)->
+		# res.render "temp/super_info.ejs",{user:user}
+	t = new Date()
+
+	code = req.query.code.toLowerCase()
+	# console.log code
+	User.getByCode code,(err,user)->
+		if user?
+			Dealer.getbyid user.dealer,(err,dealer)->
+				getLot user.lot,(lot)->
+					console.log lot
+					res.render "temp/super_info.ejs",{user:user,code:code,lot:lot,dealer_id:req.cookies.user,dealer:req.cookies.dealer,dl:dealer}
+					console.log (new Date().getTime()-t.getTime())/1000 
+		else
+			res.render "temp/super_info.ejs",{user:null}
+			console.log (new Date().getTime()-t.getTime())/1000
+
+exports.super_info_post = (req,res,next)->
+	othername = req.body.othername.replace(/\s/g,"")
+	othermobile = req.body.othermobile
+	vin = req.body.vin
+	mileage = req.body.mileage
+	customer = req.body.customer
+
+	dealer = req.body.dealer
+	code = req.body.code
+	dealer_id = req.body.dealer_id
+	usedby = true
+	re = new helper.recode()
+
+	User.updateInfo code,dealer_id,othername,othermobile,vin,mileage,customer,usedby,(err,resutls)->
+		if resutls?
+			console.log resutls
+		else
+			re.recode = 201
+			re.reason = "随机码非本经销商所有."
+		res.send re
+	# User.updateInfo 
+	
 # 
 getList = (count,used)->
 	list = []

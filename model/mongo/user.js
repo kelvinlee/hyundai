@@ -229,6 +229,12 @@ getUserByCode = function(code, dealer, callback) {
 
 exports.getUserByCode = getUserByCode;
 
+exports.getByCode = function(code, callback) {
+  return User.findOne({
+    code: code
+  }, callback);
+};
+
 getUserById = function(id, callback) {
   return User.findById(id, callback);
 };

@@ -790,6 +790,62 @@ exports["super"] = function(req, res, next) {
   });
 };
 
+exports.super_active = function(req, res, next) {
+  return res.render("temp/super_active.ejs");
+};
+
+exports.super_info = function(req, res, next) {
+  var code, t;
+  t = new Date();
+  code = req.query.code.toLowerCase();
+  return User.getByCode(code, function(err, user) {
+    if (user != null) {
+      return Dealer.getbyid(user.dealer, function(err, dealer) {
+        return getLot(user.lot, function(lot) {
+          console.log(lot);
+          res.render("temp/super_info.ejs", {
+            user: user,
+            code: code,
+            lot: lot,
+            dealer_id: req.cookies.user,
+            dealer: req.cookies.dealer,
+            dl: dealer
+          });
+          return console.log((new Date().getTime() - t.getTime()) / 1000);
+        });
+      });
+    } else {
+      res.render("temp/super_info.ejs", {
+        user: null
+      });
+      return console.log((new Date().getTime() - t.getTime()) / 1000);
+    }
+  });
+};
+
+exports.super_info_post = function(req, res, next) {
+  var code, customer, dealer, dealer_id, mileage, othermobile, othername, re, usedby, vin;
+  othername = req.body.othername.replace(/\s/g, "");
+  othermobile = req.body.othermobile;
+  vin = req.body.vin;
+  mileage = req.body.mileage;
+  customer = req.body.customer;
+  dealer = req.body.dealer;
+  code = req.body.code;
+  dealer_id = req.body.dealer_id;
+  usedby = true;
+  re = new helper.recode();
+  return User.updateInfo(code, dealer_id, othername, othermobile, vin, mileage, customer, usedby, function(err, resutls) {
+    if (resutls != null) {
+      console.log(resutls);
+    } else {
+      re.recode = 201;
+      re.reason = "随机码非本经销商所有.";
+    }
+    return res.send(re);
+  });
+};
+
 getList = function(count, used) {
   var a, b, d, list, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _len5, _m, _n;
   list = [];
