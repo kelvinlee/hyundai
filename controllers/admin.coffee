@@ -235,7 +235,7 @@ exports.nine = (req,res,next)->
 exports.ninepost = (req,res,next)->
 	re = new helper.recode()
 
-	othername = req.body.othername
+	othername = req.body.othername.replace(/\s/g,"")
 	othermobile = req.body.othermobile
 	thir = req.body.thir 
 	cartype = req.body.cartype
@@ -347,12 +347,16 @@ exports.dealerinfopost = (req,res,next)->
 
 	# console.log othername,othermobile,vin,mileage,customer
 	
-	
-	
+	check = /\d{6}$/
+	# check8 = /\d{8}$/
+
 	if not customer? or customer is ""
 		re.recode = 201
 		re.reason = "客户代表必须填写"
 	if not vin? or vin is "" or vin.length isnt 6
+		re.recode = 201
+		re.reason = "VIN码格式不正确"
+	if not check.test vin
 		re.recode = 201
 		re.reason = "VIN码格式不正确"
 	if not othermobile? or othermobile is "" or othermobile.length isnt 11
@@ -361,6 +365,13 @@ exports.dealerinfopost = (req,res,next)->
 	if not othername? or othername is ""
 		re.recode = 201
 		re.reason = "用户名不能为空"
+	if parseInt(mileage) > 10000000
+		re.recode = 201
+		re.reason = "行驶里程过长"
+	if mileage is "" or parseInt(mileage) < 0
+		re.recode = 201
+		re.reason = "行驶里程不能为空"
+		
 	# console.log re
 	if re.recode is 200
 		ep = new EventProxy.create "user","uvin","ouser",(user,uvin,ouser)->

@@ -337,7 +337,7 @@ exports.nine = function(req, res, next) {
 exports.ninepost = function(req, res, next) {
   var cartype, check, code, customer, dealer, mileage, othermobile, othername, re, thir, vin;
   re = new helper.recode();
-  othername = req.body.othername;
+  othername = req.body.othername.replace(/\s/g, "");
   othermobile = req.body.othermobile;
   thir = req.body.thir;
   cartype = req.body.cartype;
@@ -451,7 +451,7 @@ exports.dealerinfo = function(req, res, next) {
 };
 
 exports.dealerinfopost = function(req, res, next) {
-  var code, customer, dealer, ep, mileage, othermobile, othername, re, vin;
+  var check, code, customer, dealer, ep, mileage, othermobile, othername, re, vin;
   re = new helper.recode();
   othername = req.body.othername.replace(/\s/g, "");
   othermobile = req.body.othermobile;
@@ -460,11 +460,16 @@ exports.dealerinfopost = function(req, res, next) {
   customer = req.body.customer;
   dealer = req.body.dealer;
   code = req.body.code;
+  check = /\d{6}$/;
   if ((customer == null) || customer === "") {
     re.recode = 201;
     re.reason = "客户代表必须填写";
   }
   if ((vin == null) || vin === "" || vin.length !== 6) {
+    re.recode = 201;
+    re.reason = "VIN码格式不正确";
+  }
+  if (!check.test(vin)) {
     re.recode = 201;
     re.reason = "VIN码格式不正确";
   }
@@ -475,6 +480,14 @@ exports.dealerinfopost = function(req, res, next) {
   if ((othername == null) || othername === "") {
     re.recode = 201;
     re.reason = "用户名不能为空";
+  }
+  if (parseInt(mileage) > 10000000) {
+    re.recode = 201;
+    re.reason = "行驶里程过长";
+  }
+  if (mileage === "" || parseInt(mileage) < 0) {
+    re.recode = 201;
+    re.reason = "行驶里程不能为空";
   }
   if (re.recode === 200) {
     ep = new EventProxy.create("user", "uvin", "ouser", function(user, uvin, ouser) {
