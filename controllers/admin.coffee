@@ -336,7 +336,7 @@ exports.dealerinfo = (req,res,next)->
 exports.dealerinfopost = (req,res,next)->
 	re = new helper.recode()
 
-	othername = req.body.othername
+	othername = req.body.othername.replace(/\s/g,"")
 	othermobile = req.body.othermobile
 	vin = req.body.vin
 	mileage = req.body.mileage

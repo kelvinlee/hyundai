@@ -453,7 +453,7 @@ exports.dealerinfo = function(req, res, next) {
 exports.dealerinfopost = function(req, res, next) {
   var code, customer, dealer, ep, mileage, othermobile, othername, re, vin;
   re = new helper.recode();
-  othername = req.body.othername;
+  othername = req.body.othername.replace(/\s/g, "");
   othermobile = req.body.othermobile;
   vin = req.body.vin;
   mileage = req.body.mileage;
