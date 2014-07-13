@@ -247,11 +247,16 @@ exports.ninepost = (req,res,next)->
 	dealer = req.cookies.user
 	code = "9999999"
 
+	check = /\d{6}$/
+	# check8 = /\d{8}$/
 
 	if not customer? or customer is ""
 		re.recode = 201
 		re.reason = "客户代表必须填写"
 	if not vin? or vin is "" or vin.length isnt 6
+		re.recode = 201
+		re.reason = "VIN码格式不正确"
+	if not check.test vin
 		re.recode = 201
 		re.reason = "VIN码格式不正确"
 	if not othermobile? or othermobile is "" or othermobile.length isnt 11
@@ -263,6 +268,10 @@ exports.ninepost = (req,res,next)->
 	if parseInt(mileage) > 10000000
 		re.recode = 201
 		re.reason = "行驶里程过长"
+	if mileage is "" or parseInt(mileage) < 0
+		re.recode = 201
+		re.reason = "行驶里程不能为空"
+
 	if re.recode isnt 200
 		res.send re
 		return false
@@ -491,6 +500,7 @@ exportCSV = (startime,endtime,count,type,callback)->
 			data[4] = data[4].replace "	",""
 			data[4] = data[4].replace(/\s/g,"")
 			data[5] = data[5].replace(/\s/g,"")
+			data[14] = data[14].replace(/\s/g,"")
 			data[6] = getType data[6]
 			data[7] = [eval(data[7])]
 			data[7] = (data[7]+"").split(",").length

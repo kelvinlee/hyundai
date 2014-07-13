@@ -335,7 +335,7 @@ exports.nine = function(req, res, next) {
 };
 
 exports.ninepost = function(req, res, next) {
-  var cartype, code, customer, dealer, mileage, othermobile, othername, re, thir, vin;
+  var cartype, check, code, customer, dealer, mileage, othermobile, othername, re, thir, vin;
   re = new helper.recode();
   othername = req.body.othername;
   othermobile = req.body.othermobile;
@@ -346,11 +346,16 @@ exports.ninepost = function(req, res, next) {
   customer = req.body.customer;
   dealer = req.cookies.user;
   code = "9999999";
+  check = /\d{6}$/;
   if ((customer == null) || customer === "") {
     re.recode = 201;
     re.reason = "客户代表必须填写";
   }
   if ((vin == null) || vin === "" || vin.length !== 6) {
+    re.recode = 201;
+    re.reason = "VIN码格式不正确";
+  }
+  if (!check.test(vin)) {
     re.recode = 201;
     re.reason = "VIN码格式不正确";
   }
@@ -365,6 +370,10 @@ exports.ninepost = function(req, res, next) {
   if (parseInt(mileage) > 10000000) {
     re.recode = 201;
     re.reason = "行驶里程过长";
+  }
+  if (mileage === "" || parseInt(mileage) < 0) {
+    re.recode = 201;
+    re.reason = "行驶里程不能为空";
   }
   if (re.recode !== 200) {
     res.send(re);
@@ -641,6 +650,7 @@ exportCSV = function(startime, endtime, count, type, callback) {
       data[4] = data[4].replace("	", "");
       data[4] = data[4].replace(/\s/g, "");
       data[5] = data[5].replace(/\s/g, "");
+      data[14] = data[14].replace(/\s/g, "");
       data[6] = getType(data[6]);
       data[7] = [eval(data[7])];
       data[7] = (data[7] + "").split(",").length;
