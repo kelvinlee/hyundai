@@ -611,7 +611,7 @@ exportCSV = function(startime, endtime, count, type, callback) {
   if (type === "3") {
     type = "imp_at";
   }
-  fields = "create_at,reser_at,imp_at,code,username,mobile,cartype,thir,lot,tenoff,changed,province,city,dealer";
+  fields = "create_at,reser_at,imp_at,code,username,mobile,cartype,thir,lot,tenoff,changed,province,city,dealer,othername,othermobile,vin,mileage,customer";
   exec = require("child_process").exec;
   _ip = "101.251.239.82";
   return exec(("mongoexport -h " + _ip + " --db hyunday --collection users --csv --fields " + fields + " --query \'{") + type + (":{$gte:new Date(" + startime + "),$lt:new Date(" + endtime + ")}}\' --out " + __dirname + "/../public/down/download.csv"), function(err, stdout, stderr) {
@@ -621,7 +621,7 @@ exportCSV = function(startime, endtime, count, type, callback) {
     return csv.fromPath(__dirname + "/../public/down/download.csv").on("record", function(data) {
       var bk, date;
       if (data[0] === "create_at") {
-        _bklist.push(["时间", "预约时间", "实施时间", "验证码", "姓名", "手机", "车型", "32项", "汽车用品", "保养配件", "是否置换", "省/市", "城市", "店号"]);
+        _bklist.push(["时间", "预约时间", "实施时间", "验证码", "姓名", "手机", "车型", "32项", "汽车用品", "保养配件", "是否置换", "省/市", "城市", "店号", "到店人", "到店人手机号", "车架号", "行驶里程", "客服代表"]);
         return data;
       }
       bk = [];

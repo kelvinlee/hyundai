@@ -461,7 +461,7 @@ exportCSV = (startime,endtime,count,type,callback)->
 	type = "imp_at" if type is "3"
 
 
-	fields = "create_at,reser_at,imp_at,code,username,mobile,cartype,thir,lot,tenoff,changed,province,city,dealer"
+	fields = "create_at,reser_at,imp_at,code,username,mobile,cartype,thir,lot,tenoff,changed,province,city,dealer,othername,othermobile,vin,mileage,customer"
 	exec = require("child_process").exec
 	# 127.0.0.1
 	_ip = "101.251.239.82"
@@ -473,7 +473,7 @@ exportCSV = (startime,endtime,count,type,callback)->
 		.fromPath(__dirname+"/../public/down/download.csv")
 		.on "record", (data)->
 			if data[0] is "create_at"
-				_bklist.push ["时间","预约时间","实施时间","验证码","姓名","手机","车型","32项","汽车用品","保养配件","是否置换","省/市","城市","店号"]
+				_bklist.push ["时间","预约时间","实施时间","验证码","姓名","手机","车型","32项","汽车用品","保养配件","是否置换","省/市","城市","店号","到店人","到店人手机号","车架号","行驶里程","客服代表"]
 				return data 
 			bk = []
 			date = new Date data[0]+"" 
