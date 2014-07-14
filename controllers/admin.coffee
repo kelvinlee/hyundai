@@ -698,6 +698,22 @@ exports.super_info_post = (req,res,next)->
 			re.reason = "随机码非本经销商所有."
 		res.send re
 	# User.updateInfo 
+
+exports.super_dealer = (req,res,next)->
+	res.render "temp/super_dealer.ejs"
+exports.super_dealer_post = (req,res,next)->
+	dealer_id = req.body.code.toUpperCase()
+	re = new helper.recode()
+
+	Dealer.getbyid dealer_id,(err,dealer)->
+		if dealer?
+			dealer.password = "000000"
+			dealer.save()
+			res.send re
+		else
+			re.recode = 201
+			re.reason = "经销商不存在"
+			res.send re
 	
 # 
 getList = (count,used)->

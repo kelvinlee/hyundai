@@ -846,6 +846,27 @@ exports.super_info_post = function(req, res, next) {
   });
 };
 
+exports.super_dealer = function(req, res, next) {
+  return res.render("temp/super_dealer.ejs");
+};
+
+exports.super_dealer_post = function(req, res, next) {
+  var dealer_id, re;
+  dealer_id = req.body.code.toUpperCase();
+  re = new helper.recode();
+  return Dealer.getbyid(dealer_id, function(err, dealer) {
+    if (dealer != null) {
+      dealer.password = "000000";
+      dealer.save();
+      return res.send(re);
+    } else {
+      re.recode = 201;
+      re.reason = "经销商不存在";
+      return res.send(re);
+    }
+  });
+};
+
 getList = function(count, used) {
   var a, b, d, list, _i, _j, _k, _l, _len, _len1, _len2, _len3, _len4, _len5, _m, _n;
   list = [];

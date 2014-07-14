@@ -8,8 +8,8 @@
     <div class="navbar-collapse collapse">
       <ul style="width:100%" class="nav navbar-nav">
         <li><a href="/super/index">首页</a></li>
-        <li class="active"><a href="/super/active">活动实施</a></li>
-        <li><a href="/super/dealer">经销商密码重置</a></li>
+        <li><a href="/super/active">活动实施</a></li>
+        <li class="active"><a href="/super/dealer">经销商密码重置</a></li>
       </ul>
     </div>
   </div>
@@ -17,10 +17,10 @@
 <div id="cl-wrapper">
   <div id="pcont" style="margin:0px;" class="container-fluid">
     <div class="page-head">
-      <h2>活动实施</h2>
+      <h2>经销商密码重置</h2>
       <ol class="breadcrumb">
         <li><a href="/super/index">首页</a></li>
-        <li class="active">活动实施</li>
+        <li class="active">经销商密码重置</li>
       </ol>
     </div>
     <div class="cl-mcont">
@@ -28,18 +28,18 @@
         <div style="width:33%;float:none;margin:0 auto;" class="col-md-12">
           <div class="block-flat">
             <div class="header">
-              <h3>活动实施</h3>
+              <h3>经销商密码重置</h3>
             </div>
             <div class="content">
-              <form action="/admin/dealer/info" class="form-horizontal group-border-dashed">
+              <form name="register" action="/super/dealer" class="form-horizontal group-border-dashed">
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">验证码</label>
+                  <label class="col-sm-4 control-label">经销商编码</label>
                   <div class="col-sm-6">
                     <input type="text" name="code" class="form-control"/>
                   </div>
                 </div>
                 <div style="text-align:center;">
-                  <button type="button" class="btn btn-primary">查询</button>
+                  <button type="button" class="btn btn-primary">重置密码</button>
                 </div>
               </form>
             </div>
@@ -54,10 +54,26 @@
 <script>
   $(document).ready(function(){
     $("[type=button]").click(function(){
-      if ($("[name=code]").val() == "" || $("[name=code]").val().length != 7) {
-        return alert("验证码格式不正确");
+      if ($("[name=code]").val() == "") {
+        return alert("经销商编码不能为空");
       }
-      window.location.href = "/super/info?code="+$("[name=code]").val();
+      if (confirm("是否确定要将 <"+$("[name=code]").val()+"> 的密码重置为 000000 ?")) {
+        // window.location.href = "/super/info?code="+$("[name=code]").val();
+        $.ajax({
+          url:$('[name=register]').attr("action"),
+          type: 'POST',
+          data: $('[name=register]').serializeArray(),
+          dataType: 'json',
+          success: function(msg){
+            if (msg.recode == 200){
+              alert("提交成功,已重置");
+              window.location.reload();
+            }else{
+              alert(msg.reason);
+            }
+          }
+        });
+      }
     });
   }); 
 </script>
