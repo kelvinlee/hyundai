@@ -224,6 +224,9 @@ exports.post = function(req, res, next) {
   city = req.body.city;
   dealer = req.body.dealer;
   thir = req.body.thir;
+  re.recode = 202;
+  re.reason = "活动已经结束,无法注册了.";
+  return res.send(re);
   check = /^[1][3-8]\d{9}$/;
   if (!check.test(mobile)) {
     re.recode = 201;

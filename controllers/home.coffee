@@ -154,7 +154,9 @@ exports.post = (req,res,next)->
 	# dealer_id = req.body.dealer_id
 	thir = req.body.thir
 
-
+	re.recode = 202
+	re.reason = "活动已经结束,无法注册了."
+	return res.send re
 
 
 	# console.log "post: ",req.body

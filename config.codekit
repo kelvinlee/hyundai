@@ -63,6 +63,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 0
 		},
+	"\/controllers\/admin.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/controllers\/admin.js",
+		"outputAbbreviatedPath": "\/controllers\/min\/admin-ck.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/controllers\/cache.coffee": {
 		"createSourceMap": 0,
 		"fileType": 32,
@@ -777,6 +788,17 @@
 		"initialSize": 87845,
 		"inputAbbreviatedPath": "\/public\/img\/mobi-banner.jpg",
 		"outputAbbreviatedPath": "\/public\/img\/mobi-banner.jpg",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/public\/img\/over.jpg": {
+		"fileType": 16384,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 13327,
+		"inputAbbreviatedPath": "\/public\/img\/over.jpg",
+		"outputAbbreviatedPath": "\/public\/img\/over.jpg",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
