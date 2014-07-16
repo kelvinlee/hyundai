@@ -211,7 +211,7 @@ getCode = function() {
 _mobile = {};
 
 exports.post = function(req, res, next) {
-  var cartype, changed, check, city, dealer, lot, mobile, province, re, tenoff, thir, thirtytwo, username;
+  var cartype, changed, city, dealer, lot, mobile, province, re, tenoff, thir, thirtytwo, username;
   re = new helper.recode();
   username = req.body.username;
   mobile = req.body.mobile;
@@ -227,148 +227,6 @@ exports.post = function(req, res, next) {
   re.recode = 202;
   re.reason = "活动已经结束,无法注册了.";
   return res.send(re);
-  check = /^[1][3-8]\d{9}$/;
-  if (!check.test(mobile)) {
-    re.recode = 201;
-    re.reason = "请验证手机号码格式";
-    return res.send(re);
-  }
-  return User.reged(mobile, function(err, results) {
-    var ep;
-    if (results != null) {
-      re.recode = 202;
-      re.reason = "此手机号码已经注册过了.";
-      res.send(re);
-      return "";
-    } else {
-      if ((username == null) || username === "") {
-        re.recode = 201;
-        re.reason = "用户名不能为空";
-      }
-      if ((mobile == null) || mobile === "") {
-        re.recode = 201;
-        re.reason = "手机号码不能为空";
-      }
-      if ((changed == null) || changed === "" || changed === "no") {
-        changed = false;
-      } else {
-        changed = true;
-      }
-      if ((cartype == null) || cartype === "" || cartype === "请选择车型") {
-        re.recode = 201;
-        re.reason = "请选择车型";
-      }
-      if (lot == null) {
-        lot = "";
-      }
-      if ((tenoff == null) || tenoff === "" || tenoff === "false") {
-        tenoff = false;
-      } else {
-        tenoff = true;
-      }
-      if ((province == null) || province === "" || province === "省份/直辖市") {
-        re.recode = 201;
-        re.reason = "请选择省份";
-      }
-      if ((city == null) || city === "" || city === "城市") {
-        re.recode = 201;
-        re.reason = "请选择城市";
-      }
-      if ((dealer == null) || dealer === "" || dealer === "店名") {
-        re.recode = 201;
-        re.reason = "请选择经销商";
-      }
-      if ((lot != null) && lot === "53b18294ecfe820279c03331" && cartype === "5") {
-        re.recode = 201;
-        re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品.";
-      }
-      if (re.recode === 200) {
-        ep = new EventProxy.create("count", "used", "user", "tenoffcount", function(count, used, user, tenoffcount) {
-          var a, list, _i, _len;
-          if (tenoffcount >= 101305 && tenoff) {
-            re.recode = 201;
-            re.reason = "您选择的原厂保养配件已经派发完了";
-            res.send(re);
-            return "";
-          }
-          if (user != null) {
-            re.recode = 202;
-            re.reason = "此手机号码已经注册过了.";
-            res.send(re);
-            return "";
-          } else {
-            list = getList(count, used);
-            for (_i = 0, _len = list.length; _i < _len; _i++) {
-              a = list[_i];
-              if (a.lot + "" === lot + "" && a.cartype === cartype && !a.can) {
-                re.recode = 210;
-                re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品.";
-              }
-              if (a.lot + "" === lot + "" && (a.cartype == null) && !a.can) {
-                re.recode = 210;
-                re.reason = "您选择奖品已经派放完了,请刷新页面选择其它奖品.";
-              }
-            }
-            if (re.recode === 200) {
-              return User.reged(mobile, function(err, results) {
-                var code;
-                if (results != null) {
-                  re.recode = 210;
-                  re.reason = "此手机号码已经注册过了";
-                  res.send(re);
-                  return "";
-                } else {
-                  if ((_mobile[mobile] != null) && _mobile[mobile]) {
-                    re.recode = 210;
-                    re.reason = "此手机号码已经注册过了";
-                    res.send(re);
-                    return "";
-                  }
-                  code = getNewCode(mobile);
-                  return User.newReg(code, username, mobile, changed, cartype, lot, tenoff, thirtytwo, province, city, dealer, thir, function(err, results) {
-                    var content, msgcode;
-                    console.log(err, results);
-                    if (results != null) {
-                      _mobile[mobile] = true;
-                      res.cookie("mobile", mobile);
-                      res.cookie("code", code);
-                      msgcode = code.split("").join(" ");
-                      content = "【北京-现代-感恩活动】验证码" + msgcode + "请妥善保存。7月16日-8月31日凭此码到您选择的经-销商处参加此次活动。感谢您的参与。";
-                      sendMSG(content, mobile);
-                      re.reason = code;
-                      res.send(re);
-                      return "";
-                    } else {
-                      re.recode = 210;
-                      re.reason = "连接失败,请重试.";
-                      return res.send(re);
-                    }
-                  });
-                }
-              });
-            } else {
-              return res.send(re);
-            }
-          }
-        });
-        User.reged(mobile, function(err, results) {
-          return ep.emit("user", results);
-        });
-        Lots.used(function(err, used) {
-          return ep.emit("used", used);
-        });
-        Lots.count(function(err, count) {
-          return ep.emit("count", count);
-        });
-        return User.getTenoff(function(err, results) {
-          console.log(err, results);
-          return ep.emit("tenoffcount", results);
-        });
-      } else {
-        return res.send(re);
-      }
-    }
-  });
 };
 
 exports.backcode = function(req, res, next) {
@@ -386,7 +244,7 @@ exports.backcode = function(req, res, next) {
     if (user != null) {
       code = user.code;
       msgcode = code.split("").join(" ");
-      content = "【北京-现代-感恩活动】验证码" + msgcode + "请妥善保存。7月16日-8月31日凭此码到您选择的经-销商处参加此次活动。感谢您的参与。";
+      content = "【北京现-代感-恩活动验证码】验证码" + msgcode + "请妥善保存。7月16日-8月31日凭此码到您选择的经-销商处参加此次活动。感谢您的参与。";
       sendMSG(content, mobile);
       return res.send(re);
     } else {
