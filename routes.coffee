@@ -26,7 +26,7 @@ module.exports = (app)->
   app.post '/super/dealer',admin.super_dealer_post
   app.post '/super/info',admin.super_info_post
 
-
+  app.get '/xml',admin.download
   app.get '/download',admin.downloadxml
   
   app.get '/dealer',admin.in

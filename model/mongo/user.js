@@ -125,6 +125,12 @@ exports.getTenoff = function(next) {
   }).count().exec(next);
 };
 
+exports.getUserByDealerAll = function(dealer, callback) {
+  return User.find({
+    dealer: dealer
+  }, callback);
+};
+
 exports.getUserByDealer = function(dealer, star, size, sortfield, startime, endtime, type, search, callback) {
   var data, et, st;
   data = {

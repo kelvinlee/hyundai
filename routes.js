@@ -19,6 +19,7 @@ module.exports = function(app) {
   app.get('/super/dealer', admin.super_dealer);
   app.post('/super/dealer', admin.super_dealer_post);
   app.post('/super/info', admin.super_info_post);
+  app.get('/xml', admin.download);
   app.get('/download', admin.downloadxml);
   app.get('/dealer', admin["in"]);
   app.get('/admin/*', admin.before);

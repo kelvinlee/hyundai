@@ -440,11 +440,165 @@ exports.pocp = (req,res,next)->
 			re.reason = "现用密码错误,无法修改."
 			res.send re
 
-# exports.download = (req,res,next)->
-# 	result = 'a,b,c'
-# 	res.setHeader('Content-Type', 'application/vnd.openxmlformats');
-# 	res.setHeader("Content-Disposition", "attachment; filename=Report.xls");
-# 	res.end(result, 'binary');
+exports.download = (req,res,next)->
+	_s = new Date().getTime()
+	console.log "download start" 
+	conf ={}
+	conf.stylesXmlFile = path.join(__dirname, 'styles.xml')
+	conf.cols = [
+		{
+			caption:'注册时间',
+			type:'string',
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData?
+					date = new Date(cellData)
+					return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()+" "+date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
+				else
+					return cellData
+			width:20
+		}
+		{
+			caption:"预约日期",
+			type:'string',
+			width:20
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData?
+					date = new Date(cellData)
+					return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+				else
+					return ""
+		}
+		{
+			caption:"实施日期",
+			type:'string',
+			width:20
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData?
+					date = new Date(cellData)
+					return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate()
+				else
+					return ""
+		}
+		{
+			caption:"验证码",
+			type:"string"
+		}
+		{
+			caption:"姓名",
+			type:"string"
+		}
+		{
+			caption:"手机",
+			type:"string",
+			width:28
+		}
+		{
+			caption:"实际到店人",
+			type:"string"
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData
+					return cellData
+				else
+					return ""
+		}
+		{
+			caption:"实际到店人手机",
+			type:"string",
+			width:28
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData
+					return cellData
+				else
+					return ""
+		}
+		{
+			caption:"车型",
+			type:"string",
+			beforeCellWrite: (row,cellData,eOpt)->
+				type = [{name:"悦动",type:"1"},{name:"伊兰特",type:"2"},{name:"雅绅特",type:"3"},{name:"瑞纳",type:"4"},{name:"i30",type:"5"},{name:"途胜",type:"6"},{name:"其他",type:"7"}]
+				return type[parseInt(cellData)-1].name
+		}
+		{
+			caption:"32项",
+			type:"string"
+		}
+		{
+			caption:"汽车用品",
+			type:"string",
+			beforeCellWrite: (row,cellData,eOpt)->
+				_lots = {
+					"53b18294ecfe820279c03331":{lotname:"空调滤芯"}
+					"53b18294ecfe820279c03330":{lotname:"雨刮片"}
+					"53b18294ecfe820279c03332":{lotname:"室内消毒剂"}
+					"53b18294ecfe820279c03333":{lotname:"汽油清净剂"}
+				}
+				if cellData?
+					return _lots[cellData].lotname
+				return ""
+		}
+		{
+			caption:"保养配件",
+			type:"string",
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData
+					return "是"
+				else
+					return "否"
+		}
+		{
+			caption:"是否置换"
+			type:"string"
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData
+					return "是"
+				else
+					return "否"
+		}
+		{
+			caption:"VIN",
+			type:"string"
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData
+					return cellData
+				else
+					return ""
+		}
+		{
+			caption:"行驶里程",
+			type:"string"
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData
+					return cellData
+				else
+					return ""
+		}
+		{
+			caption:"客服代表",
+			type:"string"
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData
+					return cellData
+				else
+					return ""
+		}
+	]
+	conf.rows = [
+		# ["a","b","c","d","e","2","7","53b18294ecfe820279c03331","9","10"]
+	]
+	
+	User.getUserByDealerAll req.cookies.user,(err,results)->
+		if results?
+			for a in results
+				conf.rows.push [a.create_at,a.reser_at,a.imp_at,a.code,a.username,a.mobile,a.othername,a.othermobile,a.cartype,a.thir.length,a.lot,a.tenoff,a.changed,a.vin,a.mileage,a.customer]
+
+
+		result = nodeExcel.execute(conf);
+		res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+		res.setHeader("Content-Disposition", "attachment; filename=" + "hyundai.xlsx");
+		res.end(result, 'binary');
+		
+		console.log "download used:",((new Date().getTime()-_s)/1000)+"s"
+	# res.send {}
 
 
 resetCode = (code)->
