@@ -479,10 +479,10 @@ exports.download = (req,res,next)->
 				else
 					return ""
 		}
-		{
-			caption:"验证码",
-			type:"string"
-		}
+		# {
+		# 	caption:"验证码",
+		# 	type:"string"
+		# }
 		{
 			caption:"姓名",
 			type:"string"
@@ -588,8 +588,9 @@ exports.download = (req,res,next)->
 	
 	User.getUserByDealerAll req.cookies.user,(err,results)->
 		if results?
+			# ,a.code
 			for a in results
-				conf.rows.push [a.create_at,a.reser_at,a.imp_at,a.code,a.username,a.mobile,a.othername,a.othermobile,a.cartype,a.thir.length,a.lot,a.tenoff,a.changed,a.vin,a.mileage,a.customer]
+				conf.rows.push [a.create_at,a.reser_at,a.imp_at,a.username,a.mobile,a.othername,a.othermobile,a.cartype,a.thir.length,a.lot,a.tenoff,a.changed,a.vin,a.mileage,a.customer]
 
 
 		result = nodeExcel.execute(conf);

@@ -614,9 +614,6 @@ exports.download = function(req, res, next) {
         }
       }
     }, {
-      caption: "验证码",
-      type: "string"
-    }, {
       caption: "姓名",
       type: "string"
     }, {
@@ -760,7 +757,7 @@ exports.download = function(req, res, next) {
     if (results != null) {
       for (_i = 0, _len = results.length; _i < _len; _i++) {
         a = results[_i];
-        conf.rows.push([a.create_at, a.reser_at, a.imp_at, a.code, a.username, a.mobile, a.othername, a.othermobile, a.cartype, a.thir.length, a.lot, a.tenoff, a.changed, a.vin, a.mileage, a.customer]);
+        conf.rows.push([a.create_at, a.reser_at, a.imp_at, a.username, a.mobile, a.othername, a.othermobile, a.cartype, a.thir.length, a.lot, a.tenoff, a.changed, a.vin, a.mileage, a.customer]);
       }
     }
     result = nodeExcel.execute(conf);
