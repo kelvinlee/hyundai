@@ -673,53 +673,6 @@ exports.download = function(req, res, next) {
         return type[parseInt(cellData) - 1].name;
       }
     }, {
-      caption: "32项",
-      type: "string"
-    }, {
-      caption: "汽车用品",
-      type: "string",
-      beforeCellWrite: function(row, cellData, eOpt) {
-        var _lots;
-        _lots = {
-          "53b18294ecfe820279c03331": {
-            lotname: "空调滤芯"
-          },
-          "53b18294ecfe820279c03330": {
-            lotname: "雨刮片"
-          },
-          "53b18294ecfe820279c03332": {
-            lotname: "室内消毒剂"
-          },
-          "53b18294ecfe820279c03333": {
-            lotname: "汽油清净剂"
-          }
-        };
-        if (cellData != null) {
-          return _lots[cellData].lotname;
-        }
-        return "";
-      }
-    }, {
-      caption: "保养配件",
-      type: "string",
-      beforeCellWrite: function(row, cellData, eOpt) {
-        if (cellData) {
-          return "是";
-        } else {
-          return "否";
-        }
-      }
-    }, {
-      caption: "是否置换",
-      type: "string",
-      beforeCellWrite: function(row, cellData, eOpt) {
-        if (cellData) {
-          return "是";
-        } else {
-          return "否";
-        }
-      }
-    }, {
       caption: "VIN",
       type: "string",
       beforeCellWrite: function(row, cellData, eOpt) {
@@ -757,7 +710,7 @@ exports.download = function(req, res, next) {
     if (results != null) {
       for (_i = 0, _len = results.length; _i < _len; _i++) {
         a = results[_i];
-        conf.rows.push([a.create_at, a.reser_at, a.imp_at, a.username, a.mobile, a.othername, a.othermobile, a.cartype, a.thir.length, a.lot, a.tenoff, a.changed, a.vin, a.mileage, a.customer]);
+        conf.rows.push([a.create_at, a.reser_at, a.imp_at, a.username, a.mobile, a.othername, a.othermobile, a.cartype, a.vin, a.mileage, a.customer]);
       }
     }
     result = nodeExcel.execute(conf);
