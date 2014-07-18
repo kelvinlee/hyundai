@@ -75,7 +75,7 @@ block content_here
 						
 						input.form-control(type="text",size="16",name="mobile",style="width:140px;display:inline-block;")
 						button.btn.btn-primary(type="button",onclick="searchmobile()") 查询手机号
-
+						span#searchcode(style="display:inline-block;") 
 				div.table-responsive
 					br
 					p 注册总用户量: #{userscount}
@@ -249,10 +249,14 @@ block js_here
 				data: [{name:"mobile",value:$("[name=mobile]").val()}],
 				dataType: 'json',
 				success: function(msg){
-					alert("用户的验证码:"+msg.reason);
+					//- alert("用户的验证码:"+msg.reason);
 					if (msg.recode == 200) {
-						window.location.href = "/super/info?code="+msg.reason
+						//- window.location.href = "/super/info?code="+msg.reason
+						$("#searchcode").html(msg.reason);
+					}else{
+						alert("没有查询到此用户");
 					}
+
 				}
 			});
 		}
