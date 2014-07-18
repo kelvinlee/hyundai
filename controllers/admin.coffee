@@ -153,6 +153,17 @@ exports.dealercheck = (req,res,next)->
 		else
 			re.reason = "用户不存在"
 		res.send re
+exports.supercheck = (req,res,next)->
+	mobile = req.body.mobile
+	console.log mobile
+	re = new helper.recode()
+	User.getUserByMobile mobile,(err,user)->
+		if user?
+			re.reason = user.code
+		else
+			re.recode = 201
+			re.reason = "用户不存在"
+		res.send re
 
 exports.dealerpage = (req,res,next)->
 	console.log req.body
@@ -545,15 +556,15 @@ exports.download = (req,res,next)->
 		# 		else
 		# 			return "否"
 		# }
-		# {
-		# 	caption:"是否置换"
-		# 	type:"string"
-		# 	beforeCellWrite: (row,cellData,eOpt)->
-		# 		if cellData
-		# 			return "是"
-		# 		else
-		# 			return "否"
-		# }
+		{
+			caption:"是否置换"
+			type:"string"
+			beforeCellWrite: (row,cellData,eOpt)->
+				if cellData
+					return "是"
+				else
+					return "否"
+		}
 		{
 			caption:"VIN",
 			type:"string"
@@ -590,7 +601,7 @@ exports.download = (req,res,next)->
 		if results?
 			# ,a.code,a.thir.length,a.lot,a.tenoff,a.changed
 			for a in results
-				conf.rows.push [a.create_at,a.reser_at,a.imp_at,a.username,a.mobile,a.othername,a.othermobile,a.cartype,a.vin,a.mileage,a.customer]
+				conf.rows.push [a.create_at,a.reser_at,a.imp_at,a.username,a.mobile,a.othername,a.othermobile,a.cartype,a.changed,a.vin,a.mileage,a.customer]
 
 
 		result = nodeExcel.execute(conf);

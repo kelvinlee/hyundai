@@ -72,6 +72,10 @@ block content_here
 						//- -else
 						//- 	a.btn.btn-primary(href="/download",target="_blank") 导出
 						//- a.btn.btn-primary(download="hyundai.xls",href="#",onclick="return ExcellentExport.excel(this, 'datatable', 'Sheet1');") 导出
+						
+						input.form-control(type="text",size="16",name="mobile",style="width:140px;display:inline-block;")
+						button.btn.btn-primary(type="button",onclick="searchmobile()") 查询手机号
+
 				div.table-responsive
 					br
 					p 注册总用户量: #{userscount}
@@ -237,4 +241,18 @@ block js_here
 			hour = hour.split(':');
 			date.setUTCHours(hour[0], hour[1], hour[2], 0); 
 			return date; 
+		}
+		function searchmobile() {
+			$.ajax({
+				url:"/admin/super/check",
+				type: 'POST',
+				data: [{name:"mobile",value:$("[name=mobile]").val()}],
+				dataType: 'json',
+				success: function(msg){
+					alert("用户的验证码:"+msg.reason);
+					if (msg.recode == 200) {
+						window.location.href = "/super/info?code="+msg.reason
+					}
+				}
+			});
 		}

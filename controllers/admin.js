@@ -187,6 +187,22 @@ exports.dealercheck = function(req, res, next) {
   });
 };
 
+exports.supercheck = function(req, res, next) {
+  var mobile, re;
+  mobile = req.body.mobile;
+  console.log(mobile);
+  re = new helper.recode();
+  return User.getUserByMobile(mobile, function(err, user) {
+    if (user != null) {
+      re.reason = user.code;
+    } else {
+      re.recode = 201;
+      re.reason = "用户不存在";
+    }
+    return res.send(re);
+  });
+};
+
 exports.dealerpage = function(req, res, next) {
   var ad, endtime, i, pageSize, pageStar, search, sortcols, sortfield, startime, t, type, _i;
   console.log(req.body);
@@ -673,6 +689,16 @@ exports.download = function(req, res, next) {
         return type[parseInt(cellData) - 1].name;
       }
     }, {
+      caption: "是否置换",
+      type: "string",
+      beforeCellWrite: function(row, cellData, eOpt) {
+        if (cellData) {
+          return "是";
+        } else {
+          return "否";
+        }
+      }
+    }, {
       caption: "VIN",
       type: "string",
       beforeCellWrite: function(row, cellData, eOpt) {
@@ -710,7 +736,7 @@ exports.download = function(req, res, next) {
     if (results != null) {
       for (_i = 0, _len = results.length; _i < _len; _i++) {
         a = results[_i];
-        conf.rows.push([a.create_at, a.reser_at, a.imp_at, a.username, a.mobile, a.othername, a.othermobile, a.cartype, a.vin, a.mileage, a.customer]);
+        conf.rows.push([a.create_at, a.reser_at, a.imp_at, a.username, a.mobile, a.othername, a.othermobile, a.cartype, a.changed, a.vin, a.mileage, a.customer]);
       }
     }
     result = nodeExcel.execute(conf);

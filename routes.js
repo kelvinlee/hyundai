@@ -28,6 +28,7 @@ module.exports = function(app) {
   app.get('/admin/dealer', admin.dealer);
   app.post('/admin/dealer', admin.dealerpage);
   app.post('/admin/dealer/check', admin.dealercheck);
+  app.post('/admin/super/check', admin.supercheck);
   app.get('/admin/password', admin.changepassword);
   app.get('/admin/out', admin.out);
   app.post('/admin/password', admin.pocp);

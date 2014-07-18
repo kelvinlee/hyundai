@@ -107,6 +107,10 @@ swfobject.embedSWF("/swf/print4.swf?v=2", "swfContent", "100", "50", "10.0.0","e
 					  <div class="content">
 					    <table class="no-border">
 					      <tbody class="no-border-y">
+					      	<tr>
+					          <td>验证码</td>
+					          <td><%= user.code%></td>
+					        </tr>
 					        <tr>
 					          <td>姓名</td>
 					          <td><%= user.username%></td>
