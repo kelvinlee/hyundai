@@ -297,7 +297,7 @@ exports.backcode = (req,res,next)->
 			code = user.code
 			msgcode = code.split("").join(" ")
 			# content = "【北京现-代感-恩活动验证码】验证码#{msgcode}请妥善保存。7月16日-8月31日凭此码到您选择的经-销商处参加此次活动。感谢您的参与。"
-			content = "【北京现-代感-恩活动验证码】#{msgcode}。7月16日-8月31日凭此码到您选择的经销商处参加此次活动。感谢您的参与。"
+			content = "【北－京－现－代】验证码:#{msgcode}。7月16日-8月31日凭此码到您选择的经销商处参加此次活动。感谢参与。"
 			sendMSG content,mobile
 			res.send re
 		else
